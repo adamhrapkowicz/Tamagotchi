@@ -1,14 +1,11 @@
 ﻿namespace Tamagotchi
 {
-    internal class Dragon
+    public class Dragon
     {
-        public Dragon()
-        {
-
-        }
-
-        public bool IsAlive { get; internal set; }
-        public int Feedometer { get; internal set; }
-        public int Happiness { get; internal set; }
+        public string Name { get; set; } = string.Empty;
+        public int Age { get; set; } = 0;
+        public bool IsAlive { get; set; } = true;
+        public int Feedometer { get; set; } = 3;
+        public int Happiness { get; set; } = 5;
     }
 }

@@ -5,15 +5,23 @@
         static void Main(string[] args)
         {
             var dragon = new Dragon();
-            dragon.IsAlive = true;
-            dragon.Happiness = 5;
-            dragon.Feedometer = 1;
+            Console.WriteLine($"Your dragon has just been born! Please name it!");
+            var inputName = Console.ReadLine();
+            if (inputName != null)
+            {
+                dragon.Name = inputName;
+            }
+            else
+            {
+                dragon.Happiness -= 1;
+            }
+            
             while (dragon.IsAlive)
             {
-                if (dragon.Happiness == 0 || dragon.Feedometer == 0)
-                {
-                    dragon.IsAlive = false;
-                }
+                //if (dragon.Happiness == 0 || dragon.Feedometer == 0)
+                //{
+                //    dragon.IsAlive = false;
+                //}
                 //Console.WriteLine("To check age press a, to check feedometer press f, to check if it is happy press h");
                 Console.WriteLine("To feed press 1, to pet press 2");
                 var usersAction = Console.ReadLine().ToString();
