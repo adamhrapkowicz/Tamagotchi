@@ -12,7 +12,7 @@
         {
             Console.WriteLine($"Your dragon has just been born! Please name it!");
             var inputName = Console.ReadLine();
-            if (inputName != null)
+            if (inputName != null && inputName != "")
             {
                 Name = inputName;
             }
