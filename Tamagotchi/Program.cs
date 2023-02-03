@@ -18,6 +18,7 @@
             
             while (dragon.IsAlive)
             {
+                Console.WriteLine($"Value of happiness is {dragon.Happiness} and value of feedometer is {dragon.Feedometer}");
                 //if (dragon.Happiness == 0 || dragon.Feedometer == 0)
                 //{
                 //    dragon.IsAlive = false;
