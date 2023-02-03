@@ -5,16 +5,7 @@
         static void Main(string[] args)
         {
             var dragon = new Dragon();
-            Console.WriteLine($"Your dragon has just been born! Please name it!");
-            var inputName = Console.ReadLine();
-            if (inputName != null)
-            {
-                dragon.Name = inputName;
-            }
-            else
-            {
-                dragon.Happiness -= 1;
-            }
+            dragon.BirthOfTheDragon();
             
             while (dragon.IsAlive)
             {
