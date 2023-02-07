@@ -14,7 +14,7 @@ namespace Tamagotchi
 
         public void ScheduleDecreaseFeedometerAndHappinessTimer()
         {
-            _timer = new System.Timers.Timer(10000);
+            _timer = new System.Timers.Timer(6000);
             _timer.Elapsed += new ElapsedEventHandler(DecreaseFedometerAndHappiness);
             _timer.Start();
         }
@@ -29,7 +29,7 @@ namespace Tamagotchi
 
         public void LetUserFeedAndPetDragon()
         {
-            while (_dragon.IsAlive)
+            while (_dragon.IsAlive && _dragon.Happiness != 0 && _dragon.Feedometer != 0)
             {
                 Console.WriteLine($"Value of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
 
@@ -65,8 +65,11 @@ namespace Tamagotchi
 
                 ScheduleDecreaseFeedometerAndHappinessTimer();
             }
+            else
+            {
 
-            _dragon.IsAlive = false;
+                _dragon.IsAlive = false;
+            }
         }
     }
 }
