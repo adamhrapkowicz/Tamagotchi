@@ -2,16 +2,16 @@
 {
     public class LifeCycle
     {
-        public static void RunLifeCycle(Dragon dragon)
+        public static async Task RunLifeCycle(Dragon dragon)
         {
-            Thread letUserFeedAndPetDragonThread = new Thread(LetUserFeedAndPetDragon(dragon));
-            Thread decreaseFeedometerAndHappinessThread = new Thread(DecreaseFedometerAndHappiness(dragon));
-            letUserFeedAndPetDragonThread.Start();
-            decreaseFeedometerAndHappinessThread.Start();
+            var letUserFeedAndPetDragonThread = Task.Run(() => LetUserFeedAndPetDragon(dragon));
+            var decreaseFeedometerAndHappinessThread = Task.Run(() => DecreaseFedometerAndHappiness(dragon));
+
+            await Task.WhenAll(decreaseFeedometerAndHappinessThread, letUserFeedAndPetDragonThread);
         }
 
        
-        public static ParameterizedThreadStart LetUserFeedAndPetDragon(Dragon dragon)
+        public static void LetUserFeedAndPetDragon(Dragon dragon)
         {
             while (true)
             {
@@ -41,7 +41,7 @@
             }
         }
 
-        public static ParameterizedThreadStart DecreaseFedometerAndHappiness(Dragon dragon)
+        public static void DecreaseFedometerAndHappiness(Dragon dragon)
         {
             while (true)
             {

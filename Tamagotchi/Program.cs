@@ -2,13 +2,13 @@
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             Dragon dragon = new();
 
             dragon.BirthOfTheDragon();
 
-            LifeCycle.RunLifeCycle(dragon);
+            await LifeCycle.RunLifeCycle(dragon);
 
         }
     }
