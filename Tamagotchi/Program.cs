@@ -8,7 +8,9 @@
 
             dragon.BirthOfTheDragon();
 
-            await LifeCycle.RunLifeCycle(dragon);
+            var lifeCycle = new LifeCycle(dragon);
+
+            await lifeCycle.RunLifeCycle();
 
             dragon.DeathOfTheDragon();
 

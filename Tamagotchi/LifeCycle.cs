@@ -2,31 +2,38 @@
 {
     public class LifeCycle
     {
-        public static async Task RunLifeCycle(Dragon dragon)
+        private readonly Dragon _dragon;
+
+        public LifeCycle(Dragon dragon)
         {
-            var letUserFeedAndPetDragonThread = Task.Run(() => LetUserFeedAndPetDragon(dragon));
-            var decreaseFeedometerAndHappinessThread = Task.Run(() => DecreaseFedometerAndHappiness(dragon));
+            _dragon = dragon;
+        }
+
+        public async Task RunLifeCycle(n)
+        {
+            var letUserFeedAndPetDragonThread = Task.Run(() => LetUserFeedAndPetDragon());
+            var decreaseFeedometerAndHappinessThread = Task.Run(() => DecreaseFedometerAndHappiness());
 
             await Task.WhenAll(decreaseFeedometerAndHappinessThread, letUserFeedAndPetDragonThread);
         }
 
 
-        public static void LetUserFeedAndPetDragon(Dragon dragon)
+        public void LetUserFeedAndPetDragon()
         {
-            while (dragon.IsAlive)
+            while (_dragon.IsAlive)
             {
-                Console.WriteLine($"Value of happiness is {dragon.Happiness} and value of feedometer is {dragon.Feedometer}.");
+                Console.WriteLine($"Value of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
 
                 Console.WriteLine("To feed press 1, to pet press 2.");
                 var userAction = Console.ReadLine();
                 if (userAction == "1")
                 {
-                    dragon.Feedometer++;
+                    _dragon.Feedometer++;
                     Console.WriteLine($"That was yummy!");
                 }
                 else if (userAction == "2")
                 {
-                    dragon.Happiness++;
+                    _dragon.Happiness++;
                     Console.WriteLine($"I love you!");
                 }
                 else
@@ -36,17 +43,17 @@
             }
         }
 
-        public static void DecreaseFedometerAndHappiness(Dragon dragon)
+        public void DecreaseFedometerAndHappiness()
         {
-            while (dragon.Feedometer != 0 && dragon.Happiness != 0)
+            while (_dragon.Feedometer != 0 && _dragon.Happiness != 0)
             {
-                dragon.Feedometer--;
-                dragon.Happiness--;
-                Console.WriteLine($"Value2 of happiness is {dragon.Happiness} and value of feedometer is {dragon.Feedometer}.");
+                _dragon.Feedometer--;
+                _dragon.Happiness--;
+                Console.WriteLine($"Value2 of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
                 Thread.Sleep(6000);
             }
 
-            dragon.IsAlive = false;
+            _dragon.IsAlive = false;
         }
     }
 }
