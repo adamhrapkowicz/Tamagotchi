@@ -1,22 +1,31 @@
-﻿namespace Tamagotchi
+﻿using System.Timers;
+
+namespace Tamagotchi
 {
     public class LifeCycle
     {
         private readonly Dragon _dragon;
+        static System.Timers.Timer _timer;
 
         public LifeCycle(Dragon dragon)
         {
             _dragon = dragon;
         }
 
-        public async Task RunLifeCycle(n)
+        public void ScheduleDecreaseFeedometerAndHappinessTimer()
         {
-            var letUserFeedAndPetDragonThread = Task.Run(() => LetUserFeedAndPetDragon());
-            var decreaseFeedometerAndHappinessThread = Task.Run(() => DecreaseFedometerAndHappiness());
-
-            await Task.WhenAll(decreaseFeedometerAndHappinessThread, letUserFeedAndPetDragonThread);
+            _timer = new System.Timers.Timer(10000);
+            _timer.Elapsed += new ElapsedEventHandler(DecreaseFedometerAndHappiness);
+            _timer.Start();
         }
 
+        public async Task RunLifeCycle()
+        {
+            var letUserFeedAndPetDragonTask = Task.Run(() => LetUserFeedAndPetDragon());
+            var decreaseFeedometerAndHappinessTask = Task.Run(() => ScheduleDecreaseFeedometerAndHappinessTimer());
+
+            await Task.WhenAll(decreaseFeedometerAndHappinessTask, letUserFeedAndPetDragonTask);
+        }
 
         public void LetUserFeedAndPetDragon()
         {
@@ -26,6 +35,7 @@
 
                 Console.WriteLine("To feed press 1, to pet press 2.");
                 var userAction = Console.ReadLine();
+
                 if (userAction == "1")
                 {
                     _dragon.Feedometer++;
@@ -43,14 +53,17 @@
             }
         }
 
-        public void DecreaseFedometerAndHappiness()
+        public void DecreaseFedometerAndHappiness(object sender, ElapsedEventArgs e)
         {
-            while (_dragon.Feedometer != 0 && _dragon.Happiness != 0)
+            _timer.Stop();
+
+            if (_dragon.Feedometer != 0 && _dragon.Happiness != 0)
             {
                 _dragon.Feedometer--;
                 _dragon.Happiness--;
                 Console.WriteLine($"Value2 of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
-                Thread.Sleep(6000);
+
+                ScheduleDecreaseFeedometerAndHappinessTimer();
             }
 
             _dragon.IsAlive = false;
