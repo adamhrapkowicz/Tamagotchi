@@ -10,6 +10,8 @@
 
             await LifeCycle.RunLifeCycle(dragon);
 
+            dragon.DeathOfTheDragon();
+
         }
     }
 }
