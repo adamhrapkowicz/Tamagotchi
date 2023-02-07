@@ -21,5 +21,10 @@
                 Happiness -= 1;
             }
         }
+
+        public void DeathOfTheDragon() 
+        {
+            Console.WriteLine($"{Name} has just died!");
+        }
     }
 }

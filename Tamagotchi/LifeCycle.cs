@@ -10,7 +10,7 @@
             await Task.WhenAll(decreaseFeedometerAndHappinessThread, letUserFeedAndPetDragonThread);
         }
 
-       
+
         public static void LetUserFeedAndPetDragon(Dragon dragon)
         {
             while (true)
@@ -18,7 +18,7 @@
                 while (dragon.IsAlive)
                 {
                     Console.WriteLine($"Value of happiness is {dragon.Happiness} and value of feedometer is {dragon.Feedometer}.");
-                    
+
                     Console.WriteLine("To feed press 1, to pet press 2.");
                     var userAction = Console.ReadLine();
                     if (userAction == "1")
@@ -36,7 +36,7 @@
                         Console.WriteLine($"You pressed the wrong button. Your dragon didn't get fed and wasn't petted.");
                     }
                 }
-               
+                break;
 
             }
         }
@@ -48,7 +48,15 @@
                 dragon.Feedometer--;
                 dragon.Happiness--;
                 Console.WriteLine($"Value2 of happiness is {dragon.Happiness} and value of feedometer is {dragon.Feedometer}.");
-                Thread.Sleep(6000);
+                if (dragon.Feedometer == 0 || dragon.Happiness == 0)
+                {
+                    dragon.IsAlive = false;
+                    break;
+                }
+                else
+                {
+                    Thread.Sleep(6000);
+                }
             }
         }
     }
