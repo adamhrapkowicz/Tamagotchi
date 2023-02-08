@@ -23,7 +23,7 @@ namespace Tamagotchi
 
         public void ScheduleDisplayStatusTimer()
         {
-            _timer2 = new System.Timers.Timer(3000);
+            _timer2 = new System.Timers.Timer(5000);
             _timer2.Elapsed += new ElapsedEventHandler(DisplayStatus);
             _timer2.Start();
         }
@@ -33,6 +33,7 @@ namespace Tamagotchi
             Console.Clear();
             Console.WriteLine("To feed press 1, to pet press 2.");
             Console.WriteLine($"Value of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
+            Console.SetCursorPosition(0, 15);
 
             if (! _dragon.IsAlive)
             {
@@ -44,9 +45,7 @@ namespace Tamagotchi
         {
             while (_dragon.IsAlive)
             {
-                //Console.WriteLine("To feed press 1, to pet press 2.");
-                //Console.WriteLine($"Value of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
-
+                Console.SetCursorPosition(0, 15);
                 var userAction = Console.ReadLine();
 
                 if (userAction == "1")
@@ -78,7 +77,7 @@ namespace Tamagotchi
             _dragon.Feedometer--;
             _dragon.Happiness--;
 
-            Console.WriteLine($"Value2 of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
+            //Console.WriteLine($"Value2 of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
 
             if (_dragon.Feedometer == 0 || _dragon.Happiness == 0)
             {
