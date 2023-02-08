@@ -5,7 +5,7 @@ namespace Tamagotchi
     public class LifeCycle
     {
         private readonly Dragon _dragon;
-        static System.Timers.Timer _timer;
+        static System.Timers.Timer _timer, _timer2;
 
         public LifeCycle(Dragon dragon)
         {
@@ -16,16 +16,36 @@ namespace Tamagotchi
         {
             var letUserFeedAndPetDragonTask = Task.Run(() => LetUserFeedAndPetDragon());
             var decreaseFeedometerAndHappinessTask = Task.Run(() => ScheduleDecreaseFeedometerAndHappinessTimer());
+            var displayStatusTask = Task.Run(() => ScheduleDisplayStatusTimer());
 
-            await Task.WhenAll(decreaseFeedometerAndHappinessTask, letUserFeedAndPetDragonTask);
+            await Task.WhenAll(decreaseFeedometerAndHappinessTask, letUserFeedAndPetDragonTask, displayStatusTask);
+        }
+
+        public void ScheduleDisplayStatusTimer()
+        {
+            _timer2 = new System.Timers.Timer(3000);
+            _timer2.Elapsed += new ElapsedEventHandler(DisplayStatus);
+            _timer2.Start();
+        }
+
+        private void DisplayStatus(object? sender, ElapsedEventArgs e)
+        {
+            Console.Clear();
+            Console.WriteLine("To feed press 1, to pet press 2.");
+            Console.WriteLine($"Value of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
+
+            if (! _dragon.IsAlive)
+            {
+                _timer2.Stop();
+            }
         }
 
         public void LetUserFeedAndPetDragon()
         {
             while (_dragon.IsAlive)
             {
-                Console.WriteLine("To feed press 1, to pet press 2.");
-                Console.WriteLine($"Value of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
+                //Console.WriteLine("To feed press 1, to pet press 2.");
+                //Console.WriteLine($"Value of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
 
                 var userAction = Console.ReadLine();
 
