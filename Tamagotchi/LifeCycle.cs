@@ -12,13 +12,6 @@ namespace Tamagotchi
             _dragon = dragon;
         }
 
-        public void ScheduleDecreaseFeedometerAndHappinessTimer()
-        {
-            _timer = new System.Timers.Timer(6000);
-            _timer.Elapsed += new ElapsedEventHandler(DecreaseFedometerAndHappiness);
-            _timer.Start();
-        }
-
         public async Task RunLifeCycle()
         {
             var letUserFeedAndPetDragonTask = Task.Run(() => LetUserFeedAndPetDragon());
@@ -31,9 +24,8 @@ namespace Tamagotchi
         {
             while (_dragon.IsAlive)
             {
-                Console.WriteLine($"Value of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
-
                 Console.WriteLine("To feed press 1, to pet press 2.");
+                Console.WriteLine($"Value of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
 
                 var userAction = Console.ReadLine();
 
@@ -54,21 +46,24 @@ namespace Tamagotchi
             }
         }
 
+        public void ScheduleDecreaseFeedometerAndHappinessTimer()
+        {
+            _timer = new System.Timers.Timer(6000);
+            _timer.Elapsed += new ElapsedEventHandler(DecreaseFedometerAndHappiness);
+            _timer.Start();
+        }
+
         public void DecreaseFedometerAndHappiness(object sender, ElapsedEventArgs e)
         {
-            _timer.Stop();
-
             _dragon.Feedometer--;
             _dragon.Happiness--;
+
             Console.WriteLine($"Value2 of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
 
-            if (_dragon.Feedometer != 0 && _dragon.Happiness != 0)
-            {
-                ScheduleDecreaseFeedometerAndHappinessTimer();
-            }
-            else
+            if (_dragon.Feedometer == 0 || _dragon.Happiness == 0)
             {
                 _dragon.IsAlive = false;
+                _timer.Stop();
             }
         }
     }
