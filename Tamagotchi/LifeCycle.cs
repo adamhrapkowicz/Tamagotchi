@@ -34,7 +34,7 @@ namespace Tamagotchi
             Console.ForegroundColor = ConsoleColor.Green;
 
             Console.WriteLine("To feed press 1, to pet press 2.");
-            Console.WriteLine($"Value of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
+            Console.WriteLine($"Value of Happiness is {_dragon.Happiness} and value of Feedometer is {_dragon.Feedometer}.");
             
             Console.ResetColor();
             Console.SetCursorPosition(0, 15);
@@ -78,6 +78,7 @@ namespace Tamagotchi
 
         public void DecreaseFedometerAndHappiness(object sender, ElapsedEventArgs e)
         {
+            
             _dragon.Feedometer--;
             _dragon.Happiness--;
 
