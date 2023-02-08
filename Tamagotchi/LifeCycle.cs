@@ -16,19 +16,19 @@ namespace Tamagotchi
         {
             var letUserFeedAndPetDragonTask = Task.Run(() => LetUserFeedAndPetDragon());
             var decreaseFeedometerAndHappinessTask = Task.Run(() => ScheduleDecreaseFeedometerAndHappinessTimer());
-            var displayStatusTask = Task.Run(() => ScheduleDisplayStatusTimer());
+            var displayStatusOfFeedometerAndHappinessTask = Task.Run(() => ScheduleDisplayStatusOfFedometerAndHappinessTimer());
 
-            await Task.WhenAll(decreaseFeedometerAndHappinessTask, letUserFeedAndPetDragonTask, displayStatusTask);
+            await Task.WhenAll(decreaseFeedometerAndHappinessTask, letUserFeedAndPetDragonTask, displayStatusOfFeedometerAndHappinessTask);
         }
 
-        public void ScheduleDisplayStatusTimer()
+        public void ScheduleDisplayStatusOfFedometerAndHappinessTimer()
         {
             _timer2 = new System.Timers.Timer(5000);
-            _timer2.Elapsed += new ElapsedEventHandler(DisplayStatus);
+            _timer2.Elapsed += new ElapsedEventHandler(DisplayStatusOfFeedometerAndHappiness);
             _timer2.Start();
         }
 
-        private void DisplayStatus(object? sender, ElapsedEventArgs e)
+        private void DisplayStatusOfFeedometerAndHappiness(object? sender, ElapsedEventArgs e)
         {
             Console.Clear();
             Console.WriteLine("To feed press 1, to pet press 2.");
@@ -76,8 +76,6 @@ namespace Tamagotchi
         {
             _dragon.Feedometer--;
             _dragon.Happiness--;
-
-            //Console.WriteLine($"Value2 of happiness is {_dragon.Happiness} and value of feedometer is {_dragon.Feedometer}.");
 
             if (_dragon.Feedometer == 0 || _dragon.Happiness == 0)
             {
