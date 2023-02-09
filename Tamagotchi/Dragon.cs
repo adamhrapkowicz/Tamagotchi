@@ -26,7 +26,7 @@
 
         public bool IsAlive { get; set; } = true;
         
-        public int Feedometer { get; set; } = 33;
+        public int Feedometer { get; set; } = 10;
         
         public int Happiness { get; set; } = 50;
 

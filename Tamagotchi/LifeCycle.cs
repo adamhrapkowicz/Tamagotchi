@@ -24,7 +24,7 @@ namespace Tamagotchi
 
             await Task.WhenAll(decreaseFeedometerAndHappinessTask, letUserFeedAndPetDragonTask, displayStatusOfFeedometerAndHappinessTask);
 
-            DeclareDeathOfTheDragon();
+            //DeclareDeathOfTheDragon();
         }
 
         public void DeclareBirthOfTheDragon()
@@ -63,10 +63,10 @@ namespace Tamagotchi
 
             _consoleManager.WriteGameStatus(_dragon);
             
-            if (!_dragon.IsAlive)
-            {
-                _statusTimer.Stop();
-            }
+            //if (!_dragon.IsAlive)
+            //{
+            //    _statusTimer.Stop();
+            //}
         }
 
         public void LetUserFeedAndPetDragon()
@@ -76,8 +76,8 @@ namespace Tamagotchi
                 var careInstructionsFromUser = _consoleManager.GetCareInstructionsFromUser();
                 var dragonsmessage = "";
 
-                if (!_dragon.IsAlive)
-                    return;
+                //if (!_dragon.IsAlive)
+                //    return;
 
                 if (careInstructionsFromUser == "1")
                 {
@@ -92,6 +92,7 @@ namespace Tamagotchi
 
                     dragonsmessage = "I love you!";
                 }
+
                 _consoleManager.DragonsMessage(dragonsmessage);
             }
         }
@@ -111,7 +112,8 @@ namespace Tamagotchi
             if (_dragon.Feedometer <= 0 || _dragon.Happiness <= 0)
             {
                 _dragon.IsAlive = false;
-                _lifeTimer.Stop();
+
+                //_lifeTimer.Stop();
             }
         }
     }
