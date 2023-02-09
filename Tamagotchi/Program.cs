@@ -4,16 +4,9 @@
     {
         static async Task Main(string[] args)
         {
-            Dragon dragon = new();
-
-            dragon.BirthOfTheDragon();
-
-            var lifeCycle = new LifeCycle(dragon);
+            var lifeCycle = new LifeCycle();
 
             await lifeCycle.RunLifeCycle();
-
-            dragon.DeathOfTheDragon();
-
         }
     }
 }

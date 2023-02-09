@@ -5,43 +5,67 @@ namespace Tamagotchi
     public class LifeCycle
     {
         private readonly Dragon _dragon;
-        static System.Timers.Timer _timer, _timer2;
+        static System.Timers.Timer _statusTimer = new System.Timers.Timer(300);
+        static System.Timers.Timer _lifeTimer = new System.Timers.Timer(700);
+        IConsoleManager _consoleManager = new ConsoleManager();
 
-        public LifeCycle(Dragon dragon)
+        public LifeCycle()
         {
-            _dragon = dragon;
+            _dragon = new Dragon();
         }
 
         public async Task RunLifeCycle()
         {
+            DeclareBirthOfTheDragon();
+
             var letUserFeedAndPetDragonTask = Task.Run(() => LetUserFeedAndPetDragon());
             var decreaseFeedometerAndHappinessTask = Task.Run(() => ScheduleDecreaseFeedometerAndHappinessTimer());
             var displayStatusOfFeedometerAndHappinessTask = Task.Run(() => ScheduleDisplayStatusOfFedometerAndHappinessTimer());
 
             await Task.WhenAll(decreaseFeedometerAndHappinessTask, letUserFeedAndPetDragonTask, displayStatusOfFeedometerAndHappinessTask);
+
+            DeclareDeathOfTheDragon();
+        }
+
+        public void DeclareBirthOfTheDragon()
+        {
+            string? inputName = _consoleManager.GetDragonNameFromUser();
+
+            if (inputName != null && inputName != "")
+            {
+                _dragon.Name = inputName;
+            }
+            else
+            {
+                _dragon.Happiness -= 1;
+            }
+        }
+
+        public void DeclareDeathOfTheDragon()
+        {
+            _consoleManager.PrintDeclarationOfDeath(_dragon);
+            _statusTimer.Stop();
         }
 
         public void ScheduleDisplayStatusOfFedometerAndHappinessTimer()
         {
-            _timer2 = new System.Timers.Timer(5000);
-            _timer2.Elapsed += new ElapsedEventHandler(DisplayStatusOfFeedometerAndHappiness);
-            _timer2.Start();
+            _statusTimer.Elapsed += new ElapsedEventHandler(DisplayStatusOfFeedometerAndHappiness);
+            _statusTimer.Start();
         }
 
         private void DisplayStatusOfFeedometerAndHappiness(object? sender, ElapsedEventArgs e)
         {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Green;
-
-            Console.WriteLine("To feed press 1, to pet press 2.");
-            Console.WriteLine($"Value of Happiness is {_dragon.Happiness} and value of Feedometer is {_dragon.Feedometer}.");
-            
-            Console.ResetColor();
-            Console.SetCursorPosition(0, 15);
-
-            if (! _dragon.IsAlive)
+            if (!_dragon.IsAlive)
             {
-                _timer2.Stop();
+                DeclareDeathOfTheDragon();
+                return;
+            }
+
+            _consoleManager.WriteGameStatus(_dragon);
+            
+            if (!_dragon.IsAlive)
+            {
+                _statusTimer.Stop();
             }
         }
 
@@ -49,43 +73,45 @@ namespace Tamagotchi
         {
             while (_dragon.IsAlive)
             {
-                Console.SetCursorPosition(0, 15);
-                var userAction = Console.ReadLine();
+                var careInstructionsFromUser = _consoleManager.GetCareInstructionsFromUser();
+                var dragonsmessage = "";
 
-                if (userAction == "1")
+                if (!_dragon.IsAlive)
+                    return;
+
+                if (careInstructionsFromUser == "1")
                 {
-                    _dragon.Feedometer++;
-                    Console.WriteLine($"That was yummy!");
+                    _dragon.Feedometer += 50;
+
+                    dragonsmessage = "That was yummy!";
+
                 }
-                else if (userAction == "2")
+                else if (careInstructionsFromUser == "2")
                 {
-                    _dragon.Happiness++;
-                    Console.WriteLine($"I love you!");
+                    _dragon.Happiness += 50;
+
+                    dragonsmessage = "I love you!";
                 }
-                else
-                {
-                    Console.WriteLine($"You pressed the wrong button. Your dragon didn't get fed and wasn't petted.");
-                }
+                _consoleManager.DragonsMessage(dragonsmessage);
             }
         }
 
         public void ScheduleDecreaseFeedometerAndHappinessTimer()
         {
-            _timer = new System.Timers.Timer(6000);
-            _timer.Elapsed += new ElapsedEventHandler(DecreaseFedometerAndHappiness);
-            _timer.Start();
+            _lifeTimer.Elapsed += new ElapsedEventHandler(DecreaseFedometerAndHappiness);
+            _lifeTimer.Start();
         }
 
         public void DecreaseFedometerAndHappiness(object sender, ElapsedEventArgs e)
         {
-            
+            _dragon.Age += 0.1;
             _dragon.Feedometer--;
             _dragon.Happiness--;
 
-            if (_dragon.Feedometer == 0 || _dragon.Happiness == 0)
+            if (_dragon.Feedometer <= 0 || _dragon.Happiness <= 0)
             {
                 _dragon.IsAlive = false;
-                _timer.Stop();
+                _lifeTimer.Stop();
             }
         }
     }

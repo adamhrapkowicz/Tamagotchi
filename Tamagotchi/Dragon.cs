@@ -4,46 +4,36 @@
     {
         public string Name { get; set; } = string.Empty;
         
-        public int Age { get; set; } = 0;
-        
+        public double Age { get; set; }
+
+        public AgeGroup AgeGroup
+        {
+            get
+            {
+                if (Age <= 10)
+                    return AgeGroup.Baby;
+
+                else if (Age <= 20)
+                    return AgeGroup.Teen;
+
+                else if (Age <= 60)
+                    return AgeGroup.Adult;
+
+                else
+                    return AgeGroup.Senior;
+            }
+        }
+
         public bool IsAlive { get; set; } = true;
         
-        public int Feedometer { get; set; } = 3;
+        public int Feedometer { get; set; } = 33;
         
-        public int Happiness { get; set; } = 5;
+        public int Happiness { get; set; } = 50;
 
-        public void BirthOfTheDragon()
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
+        public int LifeIntervalTime { get; set; }
 
-            Console.WriteLine($"Your dragon has just been born! Please name it!");
+        public int FeedingIncrement { get; set; }
 
-            Console.ResetColor();
-        
-            var inputName = Console.ReadLine();
-            
-            if (inputName != null && inputName != "")
-            {
-                Name = inputName;
-            }
-            else
-            {
-                Happiness -= 1;
-            }
-
-            Console.ForegroundColor = ConsoleColor.Green;
-
-            Console.WriteLine("To feed press 1, to pet press 2.");
-            Console.WriteLine($"Value of Happiness is {Happiness} and value of Feedometer is {Feedometer}.");
-
-            Console.ResetColor();
-        }
-
-        public void DeathOfTheDragon() 
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-
-            Console.WriteLine($"{Name} has just died!");
-        }
+        public int PettingIncrement { get; set; }
     }
 }
