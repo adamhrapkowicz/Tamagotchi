@@ -10,8 +10,11 @@
         {
             get
             {
-                if (Age <= 10)
+                if (Age <= 2)
                     return AgeGroup.Baby;
+
+                else if (Age <= 10)
+                    return AgeGroup.Child;
 
                 else if (Age <= 20)
                     return AgeGroup.Teen;
@@ -32,8 +35,8 @@
 
         public int LifeIntervalTime { get; set; }
 
-        public int FeedingIncrement { get; set; }
+        //public int FeedingIncrement { get; set; }
 
-        public int PettingIncrement { get; set; }
+        //public int PettingIncrement { get; set; }
     }
 }
