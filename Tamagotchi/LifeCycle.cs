@@ -5,8 +5,8 @@ namespace Tamagotchi
     public class LifeCycle
     {
         private readonly Dragon _dragon;
-        static readonly System.Timers.Timer _statusTimer = new(300);
-        static readonly System.Timers.Timer _lifeTimer = new(700);
+        static readonly System.Timers.Timer _gameStatusTimer = new(300);
+        static readonly System.Timers.Timer _lifeProgressTimer = new(700);
         readonly IConsoleManager _consoleManager = new ConsoleManager();
         readonly ILifeCycleManager _lifeCycleManager = new LifeCycleManager();
 
@@ -19,11 +19,11 @@ namespace Tamagotchi
         {
             DeclareBirthOfTheDragon();
 
-            var letUserFeedAndPetDragonTask = Task.Run(() => LetUserFeedAndPetDragon());
-            var decreaseFeedometerAndHappinessTask = Task.Run(() => ScheduleDecreaseFeedometerAndHappinessTimer());
-            var displayStatusOfFeedometerAndHappinessTask = Task.Run(() => ScheduleDisplayStatusOfFedometerAndHappinessTimer());
+            var letUserCareForDragonTask = Task.Run(() => LetUserCareForDragon());
+            var progressLifeTask = Task.Run(() => ScheduleLifeProgressTimer());
+            var displayGameStatusTask = Task.Run(() => ScheduleGameStatusTimer());
 
-            await Task.WhenAll(decreaseFeedometerAndHappinessTask, letUserFeedAndPetDragonTask, displayStatusOfFeedometerAndHappinessTask);
+            await Task.WhenAll(progressLifeTask, letUserCareForDragonTask, displayGameStatusTask);
         }
 
         public void DeclareBirthOfTheDragon()
@@ -42,17 +42,17 @@ namespace Tamagotchi
 
         public void DeclareDeathOfTheDragon()
         {
-            _consoleManager.PrintDeclarationOfDeath(_dragon);
-            _statusTimer.Stop();
+            _consoleManager.WriteDeclarationOfDeath(_dragon);
+            _gameStatusTimer.Stop();
         }
 
-        public void ScheduleDisplayStatusOfFedometerAndHappinessTimer()
+        public void ScheduleGameStatusTimer()
         {
-            _statusTimer.Elapsed += new ElapsedEventHandler(DisplayStatusOfFeedometerAndHappiness);
-            _statusTimer.Start();
+            _gameStatusTimer.Elapsed += new ElapsedEventHandler(DisplayGameStatus);
+            _gameStatusTimer.Start();
         }
 
-        private void DisplayStatusOfFeedometerAndHappiness(object? sender, ElapsedEventArgs e)
+        private void DisplayGameStatus(object? sender, ElapsedEventArgs e)
         {
             if (!_dragon.IsAlive)
             {
@@ -63,7 +63,7 @@ namespace Tamagotchi
             _consoleManager.WriteGameStatus(_dragon);
         }
 
-        public void LetUserFeedAndPetDragon()
+        public void LetUserCareForDragon()
         {
             while (_dragon.IsAlive)
             {
@@ -72,16 +72,11 @@ namespace Tamagotchi
 
                 if (careInstructionsFromUser == "1")
                 {
-                    _dragon.Feedometer += 50;
-
-                    dragonsmessage = "That was yummy!";
-
+                    dragonsmessage = _lifeCycleManager.IncreaseFeedometer(_dragon);
                 }
                 else if (careInstructionsFromUser == "2")
                 {
-                    _dragon.Happiness += 50;
-
-                    dragonsmessage = "I love you!";
+                    dragonsmessage = _lifeCycleManager.IncreaseHappiness(_dragon);
                 }
                 else
                 {
@@ -92,15 +87,15 @@ namespace Tamagotchi
             }
         }
 
-        public void ScheduleDecreaseFeedometerAndHappinessTimer()
+        public void ScheduleLifeProgressTimer()
         {
-            _lifeTimer.Elapsed += new ElapsedEventHandler(DecreaseFedometerAndHappiness);
-            _lifeTimer.Start();
+            _lifeProgressTimer.Elapsed += new ElapsedEventHandler(ProgressLife);
+            _lifeProgressTimer.Start();
         }
 
-        public void DecreaseFedometerAndHappiness(object sender, ElapsedEventArgs e)
+        public void ProgressLife(object sender, ElapsedEventArgs e)
         {
-            _lifeCycleManager.ProgressLife(_dragon);
+            _lifeCycleManager.ProgressLifeSettings(_dragon);
 
             if (_dragon.Feedometer <= 0 || _dragon.Happiness <= 0)
             {

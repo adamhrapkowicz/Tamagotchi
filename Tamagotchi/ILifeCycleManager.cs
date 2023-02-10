@@ -2,6 +2,8 @@
 {
     internal interface ILifeCycleManager
     {
-        void ProgressLife(Dragon dragon);
+        string IncreaseFeedometer(Dragon dragon);
+        string IncreaseHappiness(Dragon dragon);
+        void ProgressLifeSettings(Dragon dragon);
     }
 }

@@ -50,7 +50,7 @@
             Console.WriteLine(dragonsmessage);
         }
 
-        public void PrintDeclarationOfDeath(Dragon dragon)
+        public void WriteDeclarationOfDeath(Dragon dragon)
         {
             Console.Clear();
 

@@ -8,7 +8,7 @@
         
         string? GetDragonNameFromUser();
         
-        void PrintDeclarationOfDeath(Dragon dragon);
+        void WriteDeclarationOfDeath(Dragon dragon);
         
         void WriteGameStatus(Dragon dragon);
     }

@@ -8,7 +8,25 @@ namespace Tamagotchi
 {
     internal class LifeCycleManager : ILifeCycleManager
     {
-        public void ProgressLife(Dragon dragon)
+        public string IncreaseFeedometer(Dragon dragon)
+        {
+            dragon.Feedometer += 50;
+
+            var dragonsmessage = "That was yummy!";
+
+            return dragonsmessage;
+        }
+
+        public string IncreaseHappiness(Dragon dragon)
+        {
+            dragon.Happiness += 50;
+
+            var dragonsmessage = "I love you!";
+            
+            return dragonsmessage;
+        }
+
+        public void ProgressLifeSettings(Dragon dragon)
         {
             dragon.Age += 0.1;
             dragon.Feedometer--;
