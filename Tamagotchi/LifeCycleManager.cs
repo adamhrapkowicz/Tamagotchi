@@ -2,20 +2,35 @@
 {
     internal class LifeCycleManager : ILifeCycleManager
     {
+        public string dragonsmessage = string.Empty;
         public string IncreaseFeedometer(Dragon dragon)
         {
-            dragon.Feedometer += CareLevelManager(dragon)[0];
+            if (dragon.Feedometer < CareLevelManager(dragon)[4])
+            {
+                dragon.Feedometer += CareLevelManager(dragon)[0];
 
-            var dragonsmessage = "That was yummy!";
+                dragonsmessage = "That was yummy!";
+
+                return dragonsmessage;
+            }
+
+            dragonsmessage = "I'm not hungry!";
 
             return dragonsmessage;
         }
 
         public string IncreaseHappiness(Dragon dragon)
         {
-            dragon.Happiness += CareLevelManager(dragon)[1];
+            if (dragon.Happiness < CareLevelManager(dragon)[5])
+            {
+                dragon.Happiness += CareLevelManager(dragon)[1];
 
-            var dragonsmessage = "I love you!";
+                dragonsmessage = "I love you!";
+
+                return dragonsmessage;
+            }
+
+            dragonsmessage = "Leave me alone!!!";
 
             return dragonsmessage;
         }
@@ -31,7 +46,7 @@
         {
             var ageGroup = dragon.AgeGroup.ToString();
 
-            int feedometerIncrement, happinessIncrement, hungerIncrement, sadnessIncrement;
+            int feedometerIncrement, happinessIncrement, hungerIncrement, sadnessIncrement, maxFeedometerForAgeGroup, maxHappinessForAgeGroup;
 
             switch (ageGroup)
             {
@@ -40,6 +55,8 @@
                     happinessIncrement = 15;
                     hungerIncrement  = 3;
                     sadnessIncrement = 4;
+                    maxFeedometerForAgeGroup = 30;
+                    maxHappinessForAgeGroup = 200;
                     break;
 
                 case "Child":
@@ -47,6 +64,8 @@
                     happinessIncrement = 20;
                     hungerIncrement  = 2;
                     sadnessIncrement = 3;
+                    maxFeedometerForAgeGroup = 80;
+                    maxHappinessForAgeGroup = 150;
                     break;
 
                 case "Teen":
@@ -54,6 +73,8 @@
                     happinessIncrement = 35;
                     hungerIncrement  = 5;
                     sadnessIncrement = 1;
+                    maxFeedometerForAgeGroup = 150;
+                    maxHappinessForAgeGroup = 50;
                     break;
 
                 case "Adult":
@@ -61,6 +82,8 @@
                     happinessIncrement = 25;
                     hungerIncrement  = 2;
                     sadnessIncrement = 2;
+                    maxFeedometerForAgeGroup = 100;
+                    maxHappinessForAgeGroup = 100;
                     break;
 
                 case "Senior":
@@ -68,6 +91,8 @@
                     happinessIncrement = 30;
                     hungerIncrement  = 1;
                     sadnessIncrement = 1;
+                    maxFeedometerForAgeGroup = 90;
+                    maxHappinessForAgeGroup = 100;
                     break;
 
                 default:
@@ -75,11 +100,13 @@
                     happinessIncrement = 15;
                     hungerIncrement  = 1;
                     sadnessIncrement = 1;
+                    maxFeedometerForAgeGroup = 100;
+                    maxHappinessForAgeGroup = 100;
                     break;
 
             }
 
-            return new[] { feedometerIncrement, happinessIncrement, hungerIncrement, sadnessIncrement };
+            return new[] { feedometerIncrement, happinessIncrement, hungerIncrement, sadnessIncrement, maxFeedometerForAgeGroup, maxHappinessForAgeGroup };
         }
     }
 }
