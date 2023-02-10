@@ -8,6 +8,7 @@ namespace Tamagotchi
         static readonly System.Timers.Timer _statusTimer = new(300);
         static readonly System.Timers.Timer _lifeTimer = new(700);
         readonly IConsoleManager _consoleManager = new ConsoleManager();
+        readonly ILifeCycleManager _lifeCycleManager = new LifeCycleManager();
 
         public LifeCycle()
         {
@@ -99,9 +100,7 @@ namespace Tamagotchi
 
         public void DecreaseFedometerAndHappiness(object sender, ElapsedEventArgs e)
         {
-            _dragon.Age += 0.1;
-            _dragon.Feedometer--;
-            _dragon.Happiness--;
+            _lifeCycleManager.ProgressLife(_dragon);
 
             if (_dragon.Feedometer <= 0 || _dragon.Happiness <= 0)
             {
