@@ -17,6 +17,7 @@
 
         public void WriteGameStatus(Dragon dragon)
         {
+            Console.CursorVisible = false;
             Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.Green;
 
@@ -25,13 +26,15 @@
             Console.WriteLine("To feed press 1, to pet press 2.");
 
             Console.ResetColor();
+            Console.CursorVisible = true;
             Console.SetCursorPosition(0, 3);
         }
         
         public string GetCareInstructionsFromUser()
         {
             Console.SetCursorPosition(0, 3);
-
+            Console.WriteLine("                                                                           ");
+            
             var careInstructionsFromUser = Console.ReadLine();
 
             Console.WriteLine("                                                                           ");

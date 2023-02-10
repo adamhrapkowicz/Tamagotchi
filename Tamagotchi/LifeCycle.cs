@@ -5,9 +5,9 @@ namespace Tamagotchi
     public class LifeCycle
     {
         private readonly Dragon _dragon;
-        static System.Timers.Timer _statusTimer = new System.Timers.Timer(300);
-        static System.Timers.Timer _lifeTimer = new System.Timers.Timer(700);
-        IConsoleManager _consoleManager = new ConsoleManager();
+        static readonly System.Timers.Timer _statusTimer = new(300);
+        static readonly System.Timers.Timer _lifeTimer = new(700);
+        readonly IConsoleManager _consoleManager = new ConsoleManager();
 
         public LifeCycle()
         {
@@ -23,8 +23,6 @@ namespace Tamagotchi
             var displayStatusOfFeedometerAndHappinessTask = Task.Run(() => ScheduleDisplayStatusOfFedometerAndHappinessTimer());
 
             await Task.WhenAll(decreaseFeedometerAndHappinessTask, letUserFeedAndPetDragonTask, displayStatusOfFeedometerAndHappinessTask);
-
-            //DeclareDeathOfTheDragon();
         }
 
         public void DeclareBirthOfTheDragon()
@@ -62,11 +60,6 @@ namespace Tamagotchi
             }
 
             _consoleManager.WriteGameStatus(_dragon);
-            
-            //if (!_dragon.IsAlive)
-            //{
-            //    _statusTimer.Stop();
-            //}
         }
 
         public void LetUserFeedAndPetDragon()
@@ -74,10 +67,7 @@ namespace Tamagotchi
             while (_dragon.IsAlive)
             {
                 var careInstructionsFromUser = _consoleManager.GetCareInstructionsFromUser();
-                var dragonsmessage = "";
-
-                //if (!_dragon.IsAlive)
-                //    return;
+                string? dragonsmessage;
 
                 if (careInstructionsFromUser == "1")
                 {
@@ -91,6 +81,10 @@ namespace Tamagotchi
                     _dragon.Happiness += 50;
 
                     dragonsmessage = "I love you!";
+                }
+                else
+                {
+                    dragonsmessage = "Where is my snack? Do you still love me?";
                 }
 
                 _consoleManager.DragonsMessage(dragonsmessage);
@@ -112,8 +106,6 @@ namespace Tamagotchi
             if (_dragon.Feedometer <= 0 || _dragon.Happiness <= 0)
             {
                 _dragon.IsAlive = false;
-
-                //_lifeTimer.Stop();
             }
         }
     }
