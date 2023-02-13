@@ -13,5 +13,7 @@
         Dictionary<string, int> SetInitialDragonsValues();
 
         Dictionary<string, double> GameOverValues();
+        
+        Dictionary<string, double> TimersIntervals();
     }
 }

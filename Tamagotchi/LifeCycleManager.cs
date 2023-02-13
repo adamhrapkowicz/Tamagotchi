@@ -19,6 +19,15 @@
                 { "maxAge", maxAge} };
         }
 
+        public Dictionary<string, double> TimersIntervals()
+        {
+            var gameStatusTimerInterval = 300;
+            var lifeProgressTimerInterval = 700;
+
+            return new Dictionary<string, double> { 
+                { "GameStatusTimerInterval", gameStatusTimerInterval }, { "LifeProgressTimerInterval", lifeProgressTimerInterval } };
+        }
+
         public string dragonsMessage = string.Empty;
 
         public string IncreaseFeedometer(Dragon dragon)

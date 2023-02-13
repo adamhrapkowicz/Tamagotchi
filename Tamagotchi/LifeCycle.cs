@@ -5,8 +5,8 @@ namespace Tamagotchi
     public class LifeCycle
     {
         private readonly Dragon _dragon;
-        static readonly System.Timers.Timer _gameStatusTimer = new(300);
-        static readonly System.Timers.Timer _lifeProgressTimer = new(700);
+        static readonly System.Timers.Timer _gameStatusTimer = new();
+        static readonly System.Timers.Timer _lifeProgressTimer = new();
         readonly IConsoleManager _consoleManager = new ConsoleManager();
         readonly ILifeCycleManager _lifeCycleManager = new LifeCycleManager();
 
@@ -49,6 +49,7 @@ namespace Tamagotchi
 
         public void ScheduleGameStatusTimer()
         {
+            _gameStatusTimer.Interval = _lifeCycleManager.TimersIntervals()["GameStatusTimerInterval"];
             _gameStatusTimer.Elapsed += new ElapsedEventHandler(DisplayGameStatus);
             _gameStatusTimer.Start();
         }
@@ -92,6 +93,7 @@ namespace Tamagotchi
 
         public void ScheduleLifeProgressTimer()
         {
+            _lifeProgressTimer.Interval = _lifeCycleManager.TimersIntervals()["LifeProgressTimerInterval"]; 
             _lifeProgressTimer.Elapsed += new ElapsedEventHandler(ProgressLife);
             _lifeProgressTimer.Start();
         }
