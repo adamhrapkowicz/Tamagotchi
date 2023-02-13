@@ -49,7 +49,7 @@ namespace Tamagotchi
 
         public void ScheduleGameStatusTimer()
         {
-            _gameStatusTimer.Interval = _lifeCycleManager.TimersIntervals()["GameStatusTimerInterval"];
+            _gameStatusTimer.Interval = _lifeCycleManager.SetTimersIntervals()["GameStatusTimerInterval"];
             _gameStatusTimer.Elapsed += new ElapsedEventHandler(DisplayGameStatus);
             _gameStatusTimer.Start();
         }
@@ -93,7 +93,7 @@ namespace Tamagotchi
 
         public void ScheduleLifeProgressTimer()
         {
-            _lifeProgressTimer.Interval = _lifeCycleManager.TimersIntervals()["LifeProgressTimerInterval"]; 
+            _lifeProgressTimer.Interval = _lifeCycleManager.SetTimersIntervals()["LifeProgressTimerInterval"]; 
             _lifeProgressTimer.Elapsed += new ElapsedEventHandler(ProgressLife);
             _lifeProgressTimer.Start();
         }
@@ -102,9 +102,9 @@ namespace Tamagotchi
         {
             _lifeCycleManager.ProgressLifeSettings(_dragon);
 
-            if (_dragon.Feedometer <= _lifeCycleManager.GameOverValues()["minValueOfFeedometer"]
-                || _dragon.Happiness <= _lifeCycleManager.GameOverValues()["minValueOfHappiness"]
-                || _dragon.Age >= _lifeCycleManager.GameOverValues()["maxAge"])
+            if (_dragon.Feedometer <= _lifeCycleManager.SetGameOverValues()["minValueOfFeedometer"]
+                || _dragon.Happiness <= _lifeCycleManager.SetGameOverValues()["minValueOfHappiness"]
+                || _dragon.Age >= _lifeCycleManager.SetGameOverValues()["maxAge"])
             {
                 _dragon.IsAlive = false;
                 _lifeProgressTimer.Dispose();

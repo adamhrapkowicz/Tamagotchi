@@ -7,7 +7,7 @@
             return new Dictionary<string, int> { { "Feedometer", 10 }, { "Happiness", 50 } };
         }
 
-        public Dictionary<string, double> GameOverValues()
+        public Dictionary<string, double> SetGameOverValues()
         {
             int minValueOfFeedometer = 0;
             int minValueOfHappiness = 0;
@@ -19,7 +19,7 @@
                 { "maxAge", maxAge} };
         }
 
-        public Dictionary<string, double> TimersIntervals()
+        public Dictionary<string, double> SetTimersIntervals()
         {
             var gameStatusTimerInterval = 300;
             var lifeProgressTimerInterval = 700;
@@ -32,9 +32,9 @@
 
         public string IncreaseFeedometer(Dragon dragon)
         {
-            if (dragon.Feedometer < CareLevelManager(dragon)["maxFeedometerForAgeGroup"])
+            if (dragon.Feedometer < SetCareLevelsForAgeGroups(dragon)["maxFeedometerForAgeGroup"])
             {
-                dragon.Feedometer += CareLevelManager(dragon)["feedometerIncrement"];
+                dragon.Feedometer += SetCareLevelsForAgeGroups(dragon)["feedometerIncrement"];
 
                 dragonsMessage = "That was yummy!";
 
@@ -48,9 +48,9 @@
 
         public string IncreaseHappiness(Dragon dragon)
         {
-            if (dragon.Happiness < CareLevelManager(dragon)["maxHappinessForAgeGroup"])
+            if (dragon.Happiness < SetCareLevelsForAgeGroups(dragon)["maxHappinessForAgeGroup"])
             {
-                dragon.Happiness += CareLevelManager(dragon)["happinessIncrement"];
+                dragon.Happiness += SetCareLevelsForAgeGroups(dragon)["happinessIncrement"];
 
                 dragonsMessage = "I love you!";
 
@@ -65,17 +65,17 @@
         public void ProgressLifeSettings(Dragon dragon)
         {
             dragon.Age += 0.1;
-            dragon.Feedometer -= CareLevelManager(dragon)["hungerIncrement"];
+            dragon.Feedometer -= SetCareLevelsForAgeGroups(dragon)["hungerIncrement"];
 
             if (dragon.Name == null && dragon.Name == "")
             {
-                dragon.Happiness -= CareLevelManager(dragon)["sadnessIncrement"] * 2;
+                dragon.Happiness -= SetCareLevelsForAgeGroups(dragon)["sadnessIncrement"] * 2;
             }
 
-            dragon.Happiness -= CareLevelManager(dragon)["sadnessIncrement"];
+            dragon.Happiness -= SetCareLevelsForAgeGroups(dragon)["sadnessIncrement"];
         }
 
-        public Dictionary<string, int> CareLevelManager(Dragon dragon)
+        public Dictionary<string, int> SetCareLevelsForAgeGroups(Dragon dragon)
         {
             var ageGroup = dragon.AgeGroup.ToString();
 

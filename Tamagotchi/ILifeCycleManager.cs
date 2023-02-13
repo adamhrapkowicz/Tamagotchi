@@ -8,12 +8,12 @@
 
         void ProgressLifeSettings(Dragon dragon);
 
-        Dictionary<string, int> CareLevelManager(Dragon dragon);
+        Dictionary<string, int> SetCareLevelsForAgeGroups(Dragon dragon);
 
         Dictionary<string, int> SetInitialDragonsValues();
 
-        Dictionary<string, double> GameOverValues();
+        Dictionary<string, double> SetGameOverValues();
         
-        Dictionary<string, double> TimersIntervals();
+        Dictionary<string, double> SetTimersIntervals();
     }
 }
