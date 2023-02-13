@@ -39,6 +39,12 @@
         {
             dragon.Age += 0.1;
             dragon.Feedometer -= CareLevelManager(dragon)[2];
+
+            if (dragon.Name == null && dragon.Name == "")
+            {
+                dragon.Happiness -= CareLevelManager(dragon)[3] * 2;
+            }
+
             dragon.Happiness -= CareLevelManager(dragon)[3];
         }
 

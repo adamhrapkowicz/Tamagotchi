@@ -34,10 +34,6 @@ namespace Tamagotchi
             {
                 _dragon.Name = inputName;
             }
-            else
-            {
-                _dragon.Happiness -= 1;
-            }
         }
 
         public void DeclareDeathOfTheDragon()
