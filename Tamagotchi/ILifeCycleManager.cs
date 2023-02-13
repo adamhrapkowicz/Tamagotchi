@@ -8,7 +8,7 @@
         
         void ProgressLifeSettings(Dragon dragon);
         
-        int[] CareLevelManager(Dragon dragon);
+        Dictionary<string, int> CareLevelManager(Dragon dragon);
 
         Dictionary <string, int> SetInitialDragonsValues();
     }

@@ -11,9 +11,9 @@
 
         public string IncreaseFeedometer(Dragon dragon)
         {
-            if (dragon.Feedometer < CareLevelManager(dragon)[4])
+            if (dragon.Feedometer < CareLevelManager(dragon)["maxFeedometerForAgeGroup"])
             {
-                dragon.Feedometer += CareLevelManager(dragon)[0];
+                dragon.Feedometer += CareLevelManager(dragon)["feedometerIncrement"];
 
                 dragonsmessage = "That was yummy!";
 
@@ -27,9 +27,9 @@
 
         public string IncreaseHappiness(Dragon dragon)
         {
-            if (dragon.Happiness < CareLevelManager(dragon)[5])
+            if (dragon.Happiness < CareLevelManager(dragon)["maxHappinessForAgeGroup"])
             {
-                dragon.Happiness += CareLevelManager(dragon)[1];
+                dragon.Happiness += CareLevelManager(dragon)["happinessIncrement"];
 
                 dragonsmessage = "I love you!";
 
@@ -44,17 +44,17 @@
         public void ProgressLifeSettings(Dragon dragon)
         {
             dragon.Age += 0.1;
-            dragon.Feedometer -= CareLevelManager(dragon)[2];
+            dragon.Feedometer -= CareLevelManager(dragon)["hungerIncrement"];
 
             if (dragon.Name == null && dragon.Name == "")
             {
-                dragon.Happiness -= CareLevelManager(dragon)[3] * 2;
+                dragon.Happiness -= CareLevelManager(dragon)["sadnessIncrement"] * 2;
             }
 
-            dragon.Happiness -= CareLevelManager(dragon)[3];
+            dragon.Happiness -= CareLevelManager(dragon)["sadnessIncrement"];
         }
 
-        public int[] CareLevelManager(Dragon dragon)
+        public Dictionary<string, int> CareLevelManager(Dragon dragon)
         {
             var ageGroup = dragon.AgeGroup.ToString();
 
@@ -118,7 +118,14 @@
 
             }
 
-            return new[] { feedometerIncrement, happinessIncrement, hungerIncrement, sadnessIncrement, maxFeedometerForAgeGroup, maxHappinessForAgeGroup };
+            return new Dictionary<string, int> {
+                { "feedometerIncrement", feedometerIncrement },
+                { "happinessIncrement", happinessIncrement },
+                { "hungerIncrement", hungerIncrement },
+                { "sadnessIncrement", sadnessIncrement },
+                { "maxFeedometerForAgeGroup", maxFeedometerForAgeGroup },
+                { "maxHappinessForAgeGroup", maxHappinessForAgeGroup }
+            };
         }
     }
 }
