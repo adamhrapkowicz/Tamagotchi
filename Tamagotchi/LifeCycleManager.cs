@@ -7,7 +7,19 @@
             return new Dictionary<string, int> { { "Feedometer", 10 }, { "Happiness", 50 } };
         }
 
-        public string dragonsmessage = string.Empty;
+        public Dictionary<string, double> GameOverValues()
+        {
+            int minValueOfFeedometer = 0;
+            int minValueOfHappiness = 0;
+            double maxAge = 99.90;
+
+            return new Dictionary<string, double> {
+                { "minValueOfFeedometer", minValueOfFeedometer },
+                { "minValueOfHappiness", minValueOfHappiness },
+                { "maxAge", maxAge} };
+        }
+
+        public string dragonsMessage = string.Empty;
 
         public string IncreaseFeedometer(Dragon dragon)
         {
@@ -15,14 +27,14 @@
             {
                 dragon.Feedometer += CareLevelManager(dragon)["feedometerIncrement"];
 
-                dragonsmessage = "That was yummy!";
+                dragonsMessage = "That was yummy!";
 
-                return dragonsmessage;
+                return dragonsMessage;
             }
 
-            dragonsmessage = "I'm not hungry!";
+            dragonsMessage = "I'm not hungry!";
 
-            return dragonsmessage;
+            return dragonsMessage;
         }
 
         public string IncreaseHappiness(Dragon dragon)
@@ -31,14 +43,14 @@
             {
                 dragon.Happiness += CareLevelManager(dragon)["happinessIncrement"];
 
-                dragonsmessage = "I love you!";
+                dragonsMessage = "I love you!";
 
-                return dragonsmessage;
+                return dragonsMessage;
             }
 
-            dragonsmessage = "Leave me alone!!!";
+            dragonsMessage = "Leave me alone!!!";
 
-            return dragonsmessage;
+            return dragonsMessage;
         }
 
         public void ProgressLifeSettings(Dragon dragon)

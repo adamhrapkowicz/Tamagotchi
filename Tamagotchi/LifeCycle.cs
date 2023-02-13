@@ -28,6 +28,8 @@ namespace Tamagotchi
             var displayGameStatusTask = Task.Run(() => ScheduleGameStatusTimer());
 
             await Task.WhenAll(progressLifeTask, letUserCareForDragonTask, displayGameStatusTask);
+
+            DeclareDeathOfTheDragon();
         }
 
         public void DeclareBirthOfTheDragon()
@@ -43,7 +45,6 @@ namespace Tamagotchi
         public void DeclareDeathOfTheDragon()
         {
             _consoleManager.WriteDeclarationOfDeath(_dragon);
-            _gameStatusTimer.Stop();
         }
 
         public void ScheduleGameStatusTimer()
@@ -57,6 +58,8 @@ namespace Tamagotchi
             if (!_dragon.IsAlive)
             {
                 DeclareDeathOfTheDragon();
+                _gameStatusTimer.Stop();
+                _gameStatusTimer.Dispose();
                 return;
             }
 
@@ -68,22 +71,22 @@ namespace Tamagotchi
             while (_dragon.IsAlive)
             {
                 var careInstructionsFromUser = _consoleManager.GetCareInstructionsFromUser();
-                string? dragonsmessage;
+                string? dragonsMessage;
 
                 if (careInstructionsFromUser == "1")
                 {
-                    dragonsmessage = _lifeCycleManager.IncreaseFeedometer(_dragon);
+                    dragonsMessage = _lifeCycleManager.IncreaseFeedometer(_dragon);
                 }
                 else if (careInstructionsFromUser == "2")
                 {
-                    dragonsmessage = _lifeCycleManager.IncreaseHappiness(_dragon);
+                    dragonsMessage = _lifeCycleManager.IncreaseHappiness(_dragon);
                 }
                 else
                 {
-                    dragonsmessage = "Where is my snack? Do you still love me?";
+                    dragonsMessage = "Where is my snack? Do you still love me?";
                 }
 
-                _consoleManager.DragonsMessage(dragonsmessage);
+                _consoleManager.DragonsMessage(dragonsMessage);
             }
         }
 
@@ -97,9 +100,12 @@ namespace Tamagotchi
         {
             _lifeCycleManager.ProgressLifeSettings(_dragon);
 
-            if (_dragon.Feedometer <= 0 || _dragon.Happiness <= 0)
+            if (_dragon.Feedometer <= _lifeCycleManager.GameOverValues()["minValueOfFeedometer"]
+                || _dragon.Happiness <= _lifeCycleManager.GameOverValues()["minValueOfHappiness"]
+                || _dragon.Age >= _lifeCycleManager.GameOverValues()["maxAge"])
             {
                 _dragon.IsAlive = false;
+                _lifeProgressTimer.Dispose();
             }
         }
     }

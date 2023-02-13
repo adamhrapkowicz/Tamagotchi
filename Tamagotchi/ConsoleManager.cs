@@ -45,9 +45,9 @@
             return careInstructionsFromUser;
         }
 
-        public void DragonsMessage(string dragonsmessage)
+        public void DragonsMessage(string dragonsMessage)
         {
-            Console.WriteLine(dragonsmessage);
+            Console.WriteLine(dragonsMessage);
         }
 
         public void WriteDeclarationOfDeath(Dragon dragon)
