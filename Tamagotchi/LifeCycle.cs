@@ -12,7 +12,11 @@ namespace Tamagotchi
 
         public LifeCycle()
         {
-            _dragon = new Dragon();
+            _dragon = new Dragon()
+            {
+                Feedometer = _lifeCycleManager.SetInitialDragonsValues()["Feedometer"],
+                Happiness = _lifeCycleManager.SetInitialDragonsValues()["Happiness"],
+            };
         }
 
         public async Task RunLifeCycle()

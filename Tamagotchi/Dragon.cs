@@ -29,14 +29,8 @@
 
         public bool IsAlive { get; set; } = true;
         
-        public int Feedometer { get; set; } = 10;
+        public int Feedometer { get; set; }
         
-        public int Happiness { get; set; } = 50;
-
-        public int LifeIntervalTime { get; set; }
-
-        //public int FeedingIncrement { get; set; }
-
-        //public int PettingIncrement { get; set; }
+        public int Happiness { get; set; } 
     }
 }

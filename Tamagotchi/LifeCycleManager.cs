@@ -2,7 +2,13 @@
 {
     internal class LifeCycleManager : ILifeCycleManager
     {
+        public Dictionary<string, int> SetInitialDragonsValues()
+        {
+            return new Dictionary<string, int> { { "Feedometer", 10 }, { "Happiness", 50 } };
+        }
+
         public string dragonsmessage = string.Empty;
+
         public string IncreaseFeedometer(Dragon dragon)
         {
             if (dragon.Feedometer < CareLevelManager(dragon)[4])
