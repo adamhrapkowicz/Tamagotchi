@@ -21,7 +21,7 @@
             Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.Green;
 
-            Console.WriteLine($"Age: {dragon.Age:N2}            Happiness: {dragon.Happiness:D3}           Feedometer: {dragon.Feedometer:D3}");
+            Console.WriteLine($"Age: {dragon.Age:N2}            Happiness: {dragon.Happiness:D3}           Feedometer: {dragon.Feedometer:D3}      {dragon.AgeGroup} ");
             Console.SetCursorPosition(0, 2);
             Console.WriteLine("To feed press 1, to pet press 2.");
 
@@ -29,12 +29,12 @@
             Console.CursorVisible = true;
             Console.SetCursorPosition(0, 3);
         }
-        
+
         public string GetCareInstructionsFromUser()
         {
             Console.SetCursorPosition(0, 3);
             Console.WriteLine("                                                                           ");
-            
+
             var careInstructionsFromUser = Console.ReadLine();
 
             Console.WriteLine("                                                                           ");
