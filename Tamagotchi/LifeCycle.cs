@@ -87,7 +87,7 @@ namespace Tamagotchi
                     dragonsMessage = "Where is my snack? Do you still love me?";
                 }
 
-                _consoleManager.DragonsMessage(dragonsMessage);
+                _consoleManager.WriteDragonsMessage(dragonsMessage);
             }
         }
 

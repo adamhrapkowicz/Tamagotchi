@@ -2,7 +2,7 @@
 {
     internal interface IConsoleManager
     {
-        void DragonsMessage(string dragonsMessage);
+        void WriteDragonsMessage(string dragonsMessage);
 
         string GetCareInstructionsFromUser();
         
