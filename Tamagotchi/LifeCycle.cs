@@ -28,8 +28,6 @@ namespace Tamagotchi
             var displayGameStatusTask = Task.Run(() => ScheduleGameStatusTimer());
 
             await Task.WhenAll(progressLifeTask, letUserCareForDragonTask, displayGameStatusTask);
-
-            DeclareDeathOfTheDragon();
         }
 
         public void DeclareBirthOfTheDragon()
@@ -45,6 +43,7 @@ namespace Tamagotchi
         public void DeclareDeathOfTheDragon()
         {
             _consoleManager.WriteDeclarationOfDeath(_dragon);
+            Environment.Exit(0);
         }
 
         public void ScheduleGameStatusTimer()
@@ -58,10 +57,8 @@ namespace Tamagotchi
         {
             if (!_dragon.IsAlive)
             {
-                DeclareDeathOfTheDragon();
-                _gameStatusTimer.Stop();
                 _gameStatusTimer.Dispose();
-                return;
+                DeclareDeathOfTheDragon();
             }
 
             _consoleManager.WriteGameStatus(_dragon);
