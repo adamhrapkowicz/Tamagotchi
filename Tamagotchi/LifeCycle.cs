@@ -1,33 +1,79 @@
-﻿using System.Timers;
+﻿using Microsoft.Extensions.Hosting;
+using System.Timers;
 
 namespace Tamagotchi
 {
-    public class LifeCycle
+    public class LifeCycle : IHostedService
     {
         private readonly Dragon _dragon;
+        private readonly IHostApplicationLifetime _hostApplicationLifetime;
+        private Task? _applicationTask;
         static readonly System.Timers.Timer _gameStatusTimer = new();
         static readonly System.Timers.Timer _lifeProgressTimer = new();
         readonly IConsoleManager _consoleManager = new ConsoleManager();
         readonly ILifeCycleManager _lifeCycleManager = new LifeCycleManager();
+        private int? _exitCode;
 
-        public LifeCycle()
+        public LifeCycle(IHostApplicationLifetime hostApplicationLifetime)
         {
             _dragon = new Dragon()
             {
                 Feedometer = _lifeCycleManager.SetInitialDragonsValues()["Feedometer"],
                 Happiness = _lifeCycleManager.SetInitialDragonsValues()["Happiness"],
             };
+
+            _hostApplicationLifetime = hostApplicationLifetime;
         }
 
-        public async Task RunLifeCycle()
+        public Task StartAsync(CancellationToken cancellationToken)
         {
-            DeclareBirthOfTheDragon();
+            CancellationTokenSource? _cancellationTokenSource = null;
 
-            var letUserCareForDragonTask = Task.Run(() => LetUserCareForDragon());
-            var progressLifeTask = Task.Run(() => ScheduleLifeProgressTimer());
-            var displayGameStatusTask = Task.Run(() => ScheduleGameStatusTimer());
+            _hostApplicationLifetime.ApplicationStarted.Register(() =>
+            {
+                _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+                _applicationTask = Task.Run(async () =>
+                {
+                    try
+                    {
+                        DeclareBirthOfTheDragon();
 
-            await Task.WhenAll(progressLifeTask, letUserCareForDragonTask, displayGameStatusTask);
+                        var letUserCareForDragonTask = Task.Run(() => LetUserCareForDragon());
+                        var progressLifeTask = Task.Run(() => ScheduleLifeProgressTimer());
+                        var displayGameStatusTask = Task.Run(() => ScheduleGameStatusTimer());
+
+                        await Task.WhenAll(progressLifeTask, letUserCareForDragonTask, displayGameStatusTask);
+
+                        _exitCode = 0;
+                    }
+                    catch (TaskCanceledException)
+                    {
+
+                    }
+                    catch (Exception ex)
+                    {
+                        _exitCode = 1;
+                    }
+                    finally
+                    {
+                        _hostApplicationLifetime.StopApplication();
+                    }
+                }, cancellationToken);
+            });
+
+            _hostApplicationLifetime.ApplicationStopping.Register(() =>
+            {
+                _cancellationTokenSource?.Cancel();
+            });
+
+            return Task.CompletedTask;
+        }
+
+        public async Task StopAsync(CancellationToken cancellationToken)
+        {
+            if (_applicationTask != null) { await _applicationTask; }
+
+            Environment.ExitCode = _exitCode.GetValueOrDefault(-1);
         }
 
         public void DeclareBirthOfTheDragon()
@@ -90,7 +136,7 @@ namespace Tamagotchi
 
         public void ScheduleLifeProgressTimer()
         {
-            _lifeProgressTimer.Interval = _lifeCycleManager.SetTimersIntervals()["LifeProgressTimerInterval"]; 
+            _lifeProgressTimer.Interval = _lifeCycleManager.SetTimersIntervals()["LifeProgressTimerInterval"];
             _lifeProgressTimer.Elapsed += new ElapsedEventHandler(ProgressLife);
             _lifeProgressTimer.Start();
         }
