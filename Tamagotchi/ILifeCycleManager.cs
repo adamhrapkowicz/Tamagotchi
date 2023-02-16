@@ -1,6 +1,6 @@
 ﻿namespace Tamagotchi
 {
-    internal interface ILifeCycleManager
+    public interface ILifeCycleManager
     {
         string IncreaseFeedometer(Dragon dragon);
 

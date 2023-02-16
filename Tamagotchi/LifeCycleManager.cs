@@ -1,10 +1,18 @@
-﻿namespace Tamagotchi
+﻿using Microsoft.Extensions.Options;
+
+namespace Tamagotchi
 {
     internal class LifeCycleManager : ILifeCycleManager
     {
+        private readonly IOptions<GameSettings> _gameSettings;
+
+        public LifeCycleManager(IOptions<GameSettings> gameSettings)
+        {
+            _gameSettings = gameSettings;
+        }
         public Dictionary<string, int> SetInitialDragonsValues()
         {
-            return new Dictionary<string, int> { { "Feedometer", 10 }, { "Happiness", 50 } };
+            return new Dictionary<string, int> { { "Feedometer", _gameSettings.Value.Feedometer }, { "Happiness", 50 } };
         }
 
         public Dictionary<string, double> SetGameOverValues()

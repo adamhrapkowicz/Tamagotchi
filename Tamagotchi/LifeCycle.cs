@@ -11,11 +11,13 @@ namespace Tamagotchi
         static readonly System.Timers.Timer _gameStatusTimer = new();
         static readonly System.Timers.Timer _lifeProgressTimer = new();
         readonly IConsoleManager _consoleManager = new ConsoleManager();
-        readonly ILifeCycleManager _lifeCycleManager = new LifeCycleManager();
+        private readonly ILifeCycleManager _lifeCycleManager;
         private int? _exitCode;
 
-        public LifeCycle(IHostApplicationLifetime hostApplicationLifetime)
+        public LifeCycle(IHostApplicationLifetime hostApplicationLifetime, ILifeCycleManager lifeCycleManager)
         {
+            _lifeCycleManager = lifeCycleManager;
+
             _dragon = new Dragon()
             {
                 Feedometer = _lifeCycleManager.SetInitialDragonsValues()["Feedometer"],

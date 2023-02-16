@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Reflection;
 
 namespace Tamagotchi
 {
@@ -8,9 +9,12 @@ namespace Tamagotchi
         static async Task Main(string[] args)
         {
             await Host.CreateDefaultBuilder(args)
+                .UseContentRoot(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddHostedService<LifeCycle>();
+                    services.AddScoped<ILifeCycleManager, LifeCycleManager>();
+                    services.AddOptions<GameSettings>().Bind(hostContext.Configuration.GetSection("GameSettings"));
                 })
                 .RunConsoleAsync();
         }
