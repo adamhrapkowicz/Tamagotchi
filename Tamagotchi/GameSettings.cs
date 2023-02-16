@@ -10,5 +10,17 @@ namespace Tamagotchi
     {
         public int Feedometer { get; set; } 
 
+        public int Happiness { get; set; }
+
+        public int MinValueOfFeedometer { get; set; }
+        
+        public int MinValueOfHappiness { get; set; }
+        
+        public double MaxAge { get; set; }
+
+        public double GameStatusTimerInterval { get; set; }
+        
+        public double LifeProgressTimerInterval { get; set; }
+
     }
 }

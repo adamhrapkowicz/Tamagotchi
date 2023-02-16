@@ -5,38 +5,35 @@ namespace Tamagotchi
     internal class LifeCycleManager : ILifeCycleManager
     {
         private readonly IOptions<GameSettings> _gameSettings;
+        public string dragonsMessage = string.Empty;
 
         public LifeCycleManager(IOptions<GameSettings> gameSettings)
         {
             _gameSettings = gameSettings;
         }
+
         public Dictionary<string, int> SetInitialDragonsValues()
         {
-            return new Dictionary<string, int> { { "Feedometer", _gameSettings.Value.Feedometer }, { "Happiness", 50 } };
+            return new Dictionary<string, int> { 
+                { "Feedometer", _gameSettings.Value.Feedometer }, 
+                { "Happiness", _gameSettings.Value.Happiness } };
         }
 
         public Dictionary<string, double> SetGameOverValues()
         {
-            int minValueOfFeedometer = 0;
-            int minValueOfHappiness = 0;
-            double maxAge = 99.90;
-
             return new Dictionary<string, double> {
-                { "minValueOfFeedometer", minValueOfFeedometer },
-                { "minValueOfHappiness", minValueOfHappiness },
-                { "maxAge", maxAge} };
+                { "minValueOfFeedometer", _gameSettings.Value.MinValueOfFeedometer },
+                { "minValueOfHappiness", _gameSettings.Value.MinValueOfHappiness },
+                { "maxAge", _gameSettings.Value.MaxAge} };
         }
 
         public Dictionary<string, double> SetTimersIntervals()
         {
-            var gameStatusTimerInterval = 300;
-            var lifeProgressTimerInterval = 700;
-
             return new Dictionary<string, double> { 
-                { "GameStatusTimerInterval", gameStatusTimerInterval }, { "LifeProgressTimerInterval", lifeProgressTimerInterval } };
+                { "GameStatusTimerInterval", _gameSettings.Value.GameStatusTimerInterval }, 
+                { "LifeProgressTimerInterval", _gameSettings.Value.LifeProgressTimerInterval } };
         }
 
-        public string dragonsMessage = string.Empty;
 
         public string IncreaseFeedometer(Dragon dragon)
         {
