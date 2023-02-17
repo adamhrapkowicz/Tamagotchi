@@ -4,26 +4,26 @@ namespace Tamagotchi
 {
     internal class LifeCycleManager : ILifeCycleManager
     {
-        private readonly IOptions<GameSettings> _gameSettings;
+        private readonly GameSettings _gameSettings;
         public string dragonsMessage = string.Empty;
 
         public LifeCycleManager(IOptions<GameSettings> gameSettings)
         {
-            _gameSettings = gameSettings;
+            _gameSettings = gameSettings.Value;
         }
 
         public AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon)
         {
-            var ageGroup = dragon.AgeGroup.ToString();
+            var ageGroup = dragon.AgeGroup;
 
             AgeGroupSettings gameSettingsForAgeGroup = ageGroup switch
             {
-                "Baby" => _gameSettings.Value.BabySettings,
-                "Child" => _gameSettings.Value.ChildSettings,
-                "Teen" => _gameSettings.Value.TeenSettings,
-                "Adult" => _gameSettings.Value.AdultSettings,
-                "Senior" => _gameSettings.Value.SeniorSettings,
-                _ => _gameSettings.Value.SeniorSettings,
+                AgeGroup.Baby => _gameSettings.BabySettings,
+                AgeGroup.Child => _gameSettings.ChildSettings,
+                AgeGroup.Teen => _gameSettings.TeenSettings,
+                AgeGroup.Adult => _gameSettings.AdultSettings,
+                AgeGroup.Senior => _gameSettings.SeniorSettings,
+                _ => _gameSettings.SeniorSettings,
             };
             return gameSettingsForAgeGroup;
         }
@@ -62,12 +62,12 @@ namespace Tamagotchi
 
         public void ProgressLifeSettings(Dragon dragon)
         {
-            dragon.Age += _gameSettings.Value.AgeIncrement;
+            dragon.Age += _gameSettings.AgeIncrement;
             dragon.Feedometer -= SetCareLevelsForAgeGroups(dragon).HungerIncrement;
 
             if (dragon.Name == null && dragon.Name == "")
             {
-                dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement * _gameSettings.Value.NameNeglectPenalty;
+                dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement * _gameSettings.NameNeglectPenalty;
             }
 
             dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement;

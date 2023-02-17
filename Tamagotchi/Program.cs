@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Reflection;
 
@@ -14,6 +15,7 @@ namespace Tamagotchi
                 {
                     services.AddHostedService<LifeCycle>();
                     services.AddScoped<ILifeCycleManager, LifeCycleManager>();
+                    services.AddScoped<IConsoleManager, ConsoleManager>();
                     services.AddOptions<GameSettings>().Bind(hostContext.Configuration.GetSection("GameSettings"));
                 })
                 .RunConsoleAsync();

@@ -1,0 +1,5 @@
+﻿If someone else want's to use the game from a website:
+
+Maintain context - From request to request with an identifier we want to persist (save) the data (the session)
+PAS - status, feed, pet, start new game with new dragon
+

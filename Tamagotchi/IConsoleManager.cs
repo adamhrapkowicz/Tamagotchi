@@ -1,6 +1,6 @@
 ﻿namespace Tamagotchi
 {
-    internal interface IConsoleManager
+    public interface IConsoleManager
     {
         void WriteDragonsMessage(string dragonsMessage);
 
