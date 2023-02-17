@@ -56,7 +56,7 @@ namespace Tamagotchi
                     {
 
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         _exitCode = 1;
                     }
@@ -147,7 +147,7 @@ namespace Tamagotchi
             _lifeProgressTimer.Start();
         }
 
-        public void ProgressLife(object sender, ElapsedEventArgs e)
+        public void ProgressLife(object? sender, ElapsedEventArgs e)
         {
             _lifeCycleManager.ProgressLifeSettings(_dragon);
 

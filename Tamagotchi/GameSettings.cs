@@ -16,6 +16,10 @@
 
         public double LifeProgressTimerInterval { get; set; }
 
+        public double AgeIncrement { get; set; }
+
+        public int NameNeglectPenalty { get; set; }
+
         public AgeGroupSettings BabySettings { get; set; } = default!;
 
         public AgeGroupSettings ChildSettings { get; set; } = default!;
@@ -41,6 +45,4 @@
 
         public int MaxHappinessForAgeGroup { get; set; }
     }
-
-
 }

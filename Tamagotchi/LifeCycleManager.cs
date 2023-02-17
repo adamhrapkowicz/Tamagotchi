@@ -15,6 +15,7 @@ namespace Tamagotchi
         public AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon)
         {
             var ageGroup = dragon.AgeGroup.ToString();
+
             AgeGroupSettings gameSettingsForAgeGroup = ageGroup switch
             {
                 "Baby" => _gameSettings.Value.BabySettings,
@@ -61,12 +62,12 @@ namespace Tamagotchi
 
         public void ProgressLifeSettings(Dragon dragon)
         {
-            dragon.Age += 0.1;
+            dragon.Age += _gameSettings.Value.AgeIncrement;
             dragon.Feedometer -= SetCareLevelsForAgeGroups(dragon).HungerIncrement;
 
             if (dragon.Name == null && dragon.Name == "")
             {
-                dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement * 2;
+                dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement * _gameSettings.Value.NameNeglectPenalty;
             }
 
             dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement;
