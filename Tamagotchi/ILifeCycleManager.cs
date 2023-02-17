@@ -9,11 +9,5 @@
         void ProgressLifeSettings(Dragon dragon);
 
         AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon);
-
-        Dictionary<string, int> SetInitialDragonsValues();
-
-        Dictionary<string, double> SetGameOverValues();
-        
-        Dictionary<string, double> SetTimersIntervals();
     }
 }

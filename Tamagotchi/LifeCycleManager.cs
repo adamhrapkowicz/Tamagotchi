@@ -12,29 +12,6 @@ namespace Tamagotchi
             _gameSettings = gameSettings;
         }
 
-        public Dictionary<string, int> SetInitialDragonsValues()
-        {
-            return new Dictionary<string, int> {
-                { "Feedometer", _gameSettings.Value.Feedometer },
-                { "Happiness", _gameSettings.Value.Happiness } 
-            };
-        }
-
-        public Dictionary<string, double> SetGameOverValues()
-        {
-            return new Dictionary<string, double> {
-                { "minValueOfFeedometer", _gameSettings.Value.MinValueOfFeedometer },
-                { "minValueOfHappiness", _gameSettings.Value.MinValueOfHappiness },
-                { "maxAge", _gameSettings.Value.MaxAge} };
-        }
-
-        public Dictionary<string, double> SetTimersIntervals()
-        {
-            return new Dictionary<string, double> {
-                { "GameStatusTimerInterval", _gameSettings.Value.GameStatusTimerInterval },
-                { "LifeProgressTimerInterval", _gameSettings.Value.LifeProgressTimerInterval } };
-        }
-
         public AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon)
         {
             var ageGroup = dragon.AgeGroup.ToString();

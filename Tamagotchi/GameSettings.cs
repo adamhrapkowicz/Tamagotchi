@@ -1,10 +1,10 @@
 ﻿namespace Tamagotchi
 {
-    internal sealed class GameSettings
+    public sealed class GameSettings
     {
-        public int Feedometer { get; set; }
+        public int InitialFeedometer { get; set; }
 
-        public int Happiness { get; set; }
+        public int InitialHappiness { get; set; }
 
         public int MinValueOfFeedometer { get; set; }
 
