@@ -4,7 +4,7 @@
     {
         void WriteDragonsMessage(string dragonsMessage);
 
-        string GetCareInstructionsFromUser();
+        string? GetCareInstructionsFromUser();
         
         string? GetDragonNameFromUser();
         

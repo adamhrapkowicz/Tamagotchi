@@ -30,7 +30,7 @@
             Console.SetCursorPosition(0, 3);
         }
 
-        public string GetCareInstructionsFromUser()
+        public string? GetCareInstructionsFromUser()
         {
             Console.SetCursorPosition(0, 3);
             Console.WriteLine("                                                                           ");

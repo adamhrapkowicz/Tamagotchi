@@ -14,9 +14,10 @@ namespace Tamagotchi
 
         public Dictionary<string, int> SetInitialDragonsValues()
         {
-            return new Dictionary<string, int> { 
-                { "Feedometer", _gameSettings.Value.Feedometer }, 
-                { "Happiness", _gameSettings.Value.Happiness } };
+            return new Dictionary<string, int> {
+                { "Feedometer", _gameSettings.Value.Feedometer },
+                { "Happiness", _gameSettings.Value.Happiness } 
+            };
         }
 
         public Dictionary<string, double> SetGameOverValues()
@@ -29,17 +30,31 @@ namespace Tamagotchi
 
         public Dictionary<string, double> SetTimersIntervals()
         {
-            return new Dictionary<string, double> { 
-                { "GameStatusTimerInterval", _gameSettings.Value.GameStatusTimerInterval }, 
+            return new Dictionary<string, double> {
+                { "GameStatusTimerInterval", _gameSettings.Value.GameStatusTimerInterval },
                 { "LifeProgressTimerInterval", _gameSettings.Value.LifeProgressTimerInterval } };
         }
 
+        public AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon)
+        {
+            var ageGroup = dragon.AgeGroup.ToString();
+            AgeGroupSettings gameSettingsForAgeGroup = ageGroup switch
+            {
+                "Baby" => _gameSettings.Value.BabySettings,
+                "Child" => _gameSettings.Value.ChildSettings,
+                "Teen" => _gameSettings.Value.TeenSettings,
+                "Adult" => _gameSettings.Value.AdultSettings,
+                "Senior" => _gameSettings.Value.SeniorSettings,
+                _ => _gameSettings.Value.SeniorSettings,
+            };
+            return gameSettingsForAgeGroup;
+        }
 
         public string IncreaseFeedometer(Dragon dragon)
         {
-            if (dragon.Feedometer < SetCareLevelsForAgeGroups(dragon)["maxFeedometerForAgeGroup"])
+            if (dragon.Feedometer < SetCareLevelsForAgeGroups(dragon).MaxFeedometerForAgeGroup)
             {
-                dragon.Feedometer += SetCareLevelsForAgeGroups(dragon)["feedometerIncrement"];
+                dragon.Feedometer += SetCareLevelsForAgeGroups(dragon).FeedometerIncrement;
 
                 dragonsMessage = "That was yummy!";
 
@@ -53,9 +68,9 @@ namespace Tamagotchi
 
         public string IncreaseHappiness(Dragon dragon)
         {
-            if (dragon.Happiness < SetCareLevelsForAgeGroups(dragon)["maxHappinessForAgeGroup"])
+            if (dragon.Happiness < SetCareLevelsForAgeGroups(dragon).MaxHappinessForAgeGroup)
             {
-                dragon.Happiness += SetCareLevelsForAgeGroups(dragon)["happinessIncrement"];
+                dragon.Happiness += SetCareLevelsForAgeGroups(dragon).HappinessIncrement;
 
                 dragonsMessage = "I love you!";
 
@@ -70,88 +85,14 @@ namespace Tamagotchi
         public void ProgressLifeSettings(Dragon dragon)
         {
             dragon.Age += 0.1;
-            dragon.Feedometer -= SetCareLevelsForAgeGroups(dragon)["hungerIncrement"];
+            dragon.Feedometer -= SetCareLevelsForAgeGroups(dragon).HungerIncrement;
 
             if (dragon.Name == null && dragon.Name == "")
             {
-                dragon.Happiness -= SetCareLevelsForAgeGroups(dragon)["sadnessIncrement"] * 2;
+                dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement * 2;
             }
 
-            dragon.Happiness -= SetCareLevelsForAgeGroups(dragon)["sadnessIncrement"];
-        }
-
-        public Dictionary<string, int> SetCareLevelsForAgeGroups(Dragon dragon)
-        {
-            var ageGroup = dragon.AgeGroup.ToString();
-
-            int feedometerIncrement, happinessIncrement, hungerIncrement, sadnessIncrement, maxFeedometerForAgeGroup, maxHappinessForAgeGroup;
-
-            switch (ageGroup)
-            {
-                case "Baby":
-                    feedometerIncrement = 10;
-                    happinessIncrement = 15;
-                    hungerIncrement  = 3;
-                    sadnessIncrement = 4;
-                    maxFeedometerForAgeGroup = 30;
-                    maxHappinessForAgeGroup = 200;
-                    break;
-
-                case "Child":
-                    feedometerIncrement = 15;
-                    happinessIncrement = 20;
-                    hungerIncrement  = 2;
-                    sadnessIncrement = 3;
-                    maxFeedometerForAgeGroup = 80;
-                    maxHappinessForAgeGroup = 150;
-                    break;
-
-                case "Teen":
-                    feedometerIncrement = 25;
-                    happinessIncrement = 35;
-                    hungerIncrement  = 5;
-                    sadnessIncrement = 1;
-                    maxFeedometerForAgeGroup = 150;
-                    maxHappinessForAgeGroup = 50;
-                    break;
-
-                case "Adult":
-                    feedometerIncrement= 20;
-                    happinessIncrement = 25;
-                    hungerIncrement  = 2;
-                    sadnessIncrement = 2;
-                    maxFeedometerForAgeGroup = 100;
-                    maxHappinessForAgeGroup = 100;
-                    break;
-
-                case "Senior":
-                    feedometerIncrement = 15;
-                    happinessIncrement = 30;
-                    hungerIncrement  = 1;
-                    sadnessIncrement = 1;
-                    maxFeedometerForAgeGroup = 90;
-                    maxHappinessForAgeGroup = 100;
-                    break;
-
-                default:
-                    feedometerIncrement = 10;
-                    happinessIncrement = 15;
-                    hungerIncrement  = 1;
-                    sadnessIncrement = 1;
-                    maxFeedometerForAgeGroup = 100;
-                    maxHappinessForAgeGroup = 100;
-                    break;
-
-            }
-
-            return new Dictionary<string, int> {
-                { "feedometerIncrement", feedometerIncrement },
-                { "happinessIncrement", happinessIncrement },
-                { "hungerIncrement", hungerIncrement },
-                { "sadnessIncrement", sadnessIncrement },
-                { "maxFeedometerForAgeGroup", maxFeedometerForAgeGroup },
-                { "maxHappinessForAgeGroup", maxHappinessForAgeGroup }
-            };
+            dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement;
         }
     }
 }

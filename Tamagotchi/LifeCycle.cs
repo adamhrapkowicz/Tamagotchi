@@ -21,6 +21,7 @@ namespace Tamagotchi
             _dragon = new Dragon()
             {
                 Feedometer = _lifeCycleManager.SetInitialDragonsValues()["Feedometer"],
+
                 Happiness = _lifeCycleManager.SetInitialDragonsValues()["Happiness"],
             };
 
