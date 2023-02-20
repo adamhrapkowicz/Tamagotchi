@@ -17,6 +17,7 @@ namespace Tamagotchi
                     services.AddScoped<ILifeCycleManager, LifeCycleManager>();
                     services.AddScoped<IConsoleManager, ConsoleManager>();
                     services.AddOptions<GameSettings>().Bind(hostContext.Configuration.GetSection("GameSettings"));
+                    services.AddOptions<DragonMessages>().Bind(hostContext.Configuration.GetSection("DragonMessages"));
                 })
                 .RunConsoleAsync();
         }

@@ -5,11 +5,13 @@ namespace Tamagotchi
     internal class LifeCycleManager : ILifeCycleManager
     {
         private readonly GameSettings _gameSettings;
+        private readonly DragonMessages _dragonMessages;
         public string dragonsMessage = string.Empty;
 
-        public LifeCycleManager(IOptions<GameSettings> gameSettings)
+        public LifeCycleManager(IOptions<GameSettings> gameSettings, IOptions<DragonMessages> dragonMessages)
         {
             _gameSettings = gameSettings.Value;
+            _dragonMessages = dragonMessages.Value;
         }
 
         public AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon)
@@ -34,12 +36,12 @@ namespace Tamagotchi
             {
                 dragon.Feedometer += SetCareLevelsForAgeGroups(dragon).FeedometerIncrement;
 
-                dragonsMessage = "That was yummy!";
+                dragonsMessage = _dragonMessages.FeedingSuccess;
 
                 return dragonsMessage;
             }
 
-            dragonsMessage = "I'm not hungry!";
+            dragonsMessage = _dragonMessages.Overfeeding;
 
             return dragonsMessage;
         }
@@ -50,12 +52,12 @@ namespace Tamagotchi
             {
                 dragon.Happiness += SetCareLevelsForAgeGroups(dragon).HappinessIncrement;
 
-                dragonsMessage = "I love you!";
+                dragonsMessage = _dragonMessages.PettingSuccess;
 
                 return dragonsMessage;
             }
 
-            dragonsMessage = "Leave me alone!!!";
+            dragonsMessage = _dragonMessages.Overpetting;
 
             return dragonsMessage;
         }

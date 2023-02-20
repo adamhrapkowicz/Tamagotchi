@@ -14,9 +14,11 @@ namespace Tamagotchi
         readonly IConsoleManager _consoleManager;
         private readonly ILifeCycleManager _lifeCycleManager;
         private readonly GameSettings _gameSettings;
+        private readonly DragonMessages _dragonMessages;
         private int? _exitCode;
 
-        public LifeCycle(IHostApplicationLifetime hostApplicationLifetime, ILifeCycleManager lifeCycleManager, IOptions<GameSettings> gameSettings, IConsoleManager consoleManager)
+        public LifeCycle(IHostApplicationLifetime hostApplicationLifetime, ILifeCycleManager lifeCycleManager,
+            IOptions<GameSettings> gameSettings, IConsoleManager consoleManager, IOptions<DragonMessages> dragonMessages)
         {
             _consoleManager = consoleManager;
             _lifeCycleManager = lifeCycleManager;
@@ -29,6 +31,7 @@ namespace Tamagotchi
             };
 
             _hostApplicationLifetime = hostApplicationLifetime;
+            _dragonMessages = dragonMessages.Value;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
@@ -133,7 +136,7 @@ namespace Tamagotchi
                 }
                 else
                 {
-                    dragonsMessage = "Where is my snack? Do you still love me?";
+                    dragonsMessage = _dragonMessages.WrongKey;
                 }
 
                 _consoleManager.WriteDragonsMessage(dragonsMessage);
