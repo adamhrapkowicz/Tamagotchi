@@ -19,7 +19,7 @@ namespace Tamagotchi
                     services.AddOptions<GameSettings>().Bind(hostContext.Configuration.GetSection("GameSettings"));
                     services.AddOptions<DragonMessages>().Bind(hostContext.Configuration.GetSection("DragonMessages"));
                 })
-                .RunConsoleAsync();
+                .Build().RunAsync();
         }
     }
 }

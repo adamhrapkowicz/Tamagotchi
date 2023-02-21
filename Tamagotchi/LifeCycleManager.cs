@@ -5,16 +5,95 @@ namespace Tamagotchi
     internal class LifeCycleManager : ILifeCycleManager
     {
         private readonly GameSettings _gameSettings;
-        private readonly DragonMessages _dragonMessages;
-        public string dragonsMessage = string.Empty;
+        private readonly List<Dragon> _dragons = new();
 
-        public LifeCycleManager(IOptions<GameSettings> gameSettings, IOptions<DragonMessages> dragonMessages)
+        public LifeCycleManager(IOptions<GameSettings> gameSettings)
         {
             _gameSettings = gameSettings.Value;
-            _dragonMessages = dragonMessages.Value;
         }
 
-        public AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon)
+        public FeedDragonResponse IncreaseFeedometer(Guid dragonId)
+        {
+            var dragon = GetDragonById(dragonId);
+
+            if (dragon.Feedometer < SetCareLevelsForAgeGroups(dragon).MaxFeedometerForAgeGroup)
+            {
+                dragon.Feedometer += SetCareLevelsForAgeGroups(dragon).FeedometerIncrement;
+
+                return new FeedDragonResponse { Success = true };
+            }
+
+            if (dragon.IsAlive == false)
+            {
+                return new FeedDragonResponse { Success = false, Reason = FeedingFailureReason.Dead };
+            }
+
+            return new FeedDragonResponse { Success = false, Reason = FeedingFailureReason.Full }; ;
+        }
+
+        public PetDragonResponse IncreaseHappiness(Guid dragonId)
+        {
+            var dragon = GetDragonById(dragonId);
+
+            if (dragon.Happiness < SetCareLevelsForAgeGroups(dragon).MaxHappinessForAgeGroup)
+            {
+                dragon.Happiness += SetCareLevelsForAgeGroups(dragon).HappinessIncrement;
+
+                return new PetDragonResponse { Success = true };
+            }
+
+            if (dragon.IsAlive == false)
+            {
+                return new PetDragonResponse { Success = false, Reason = PettingFailureReason.Dead };
+            }
+
+            return new PetDragonResponse { Success = false, Reason = PettingFailureReason.Overpetted };
+        }
+
+        public void ProgressLifeSettings()
+        {
+            foreach (var dragon in _dragons)
+            {
+                dragon.Age += _gameSettings.AgeIncrement;
+                dragon.Feedometer -= SetCareLevelsForAgeGroups(dragon).HungerIncrement;
+
+                if (dragon.Name == null && dragon.Name == "")
+                {
+                    dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement * _gameSettings.NameNeglectPenalty;
+                }
+
+                dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement;
+
+                if (dragon.Feedometer <= _gameSettings.MinValueOfFeedometer
+                    || dragon.Happiness <= _gameSettings.MinValueOfHappiness
+                    || dragon.Age >= _gameSettings.MaxAge)
+                {
+                    dragon.IsAlive = false;
+                }
+            }
+        }
+
+        internal Guid CreateDragon(string name)
+        {
+            Dragon dragon = new()
+            {
+                DragonId = Guid.NewGuid(),
+                Name = name,
+                Feedometer = _gameSettings.InitialFeedometer,
+                Happiness = _gameSettings.InitialHappiness,
+            };
+
+            _dragons.Add(dragon);
+
+            return dragon.DragonId;
+        }
+
+        public Dragon GetDragonById(Guid dragonId)
+        {
+            return _dragons.FirstOrDefault(d => d.DragonId == dragonId);
+        }
+
+        private AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon)
         {
             var ageGroup = dragon.AgeGroup;
 
@@ -28,51 +107,6 @@ namespace Tamagotchi
                 _ => _gameSettings.SeniorSettings,
             };
             return gameSettingsForAgeGroup;
-        }
-
-        public string IncreaseFeedometer(Dragon dragon)
-        {
-            if (dragon.Feedometer < SetCareLevelsForAgeGroups(dragon).MaxFeedometerForAgeGroup)
-            {
-                dragon.Feedometer += SetCareLevelsForAgeGroups(dragon).FeedometerIncrement;
-
-                dragonsMessage = _dragonMessages.FeedingSuccess;
-
-                return dragonsMessage;
-            }
-
-            dragonsMessage = _dragonMessages.Overfeeding;
-
-            return dragonsMessage;
-        }
-
-        public string IncreaseHappiness(Dragon dragon)
-        {
-            if (dragon.Happiness < SetCareLevelsForAgeGroups(dragon).MaxHappinessForAgeGroup)
-            {
-                dragon.Happiness += SetCareLevelsForAgeGroups(dragon).HappinessIncrement;
-
-                dragonsMessage = _dragonMessages.PettingSuccess;
-
-                return dragonsMessage;
-            }
-
-            dragonsMessage = _dragonMessages.Overpetting;
-
-            return dragonsMessage;
-        }
-
-        public void ProgressLifeSettings(Dragon dragon)
-        {
-            dragon.Age += _gameSettings.AgeIncrement;
-            dragon.Feedometer -= SetCareLevelsForAgeGroups(dragon).HungerIncrement;
-
-            if (dragon.Name == null && dragon.Name == "")
-            {
-                dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement * _gameSettings.NameNeglectPenalty;
-            }
-
-            dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement;
         }
     }
 }

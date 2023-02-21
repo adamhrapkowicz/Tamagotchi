@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System.Timers;
+using System.Xml.Linq;
 
 namespace Tamagotchi
 {
     public class LifeCycle : IHostedService
     {
-        private readonly Dragon _dragon;
+        //private readonly Dragon _dragon;
         private readonly IHostApplicationLifetime _hostApplicationLifetime;
         private Task? _applicationTask;
         static readonly System.Timers.Timer _gameStatusTimer = new();
@@ -18,64 +19,61 @@ namespace Tamagotchi
         private int? _exitCode;
 
         public LifeCycle(IHostApplicationLifetime hostApplicationLifetime, ILifeCycleManager lifeCycleManager,
-            IOptions<GameSettings> gameSettings, IConsoleManager consoleManager, IOptions<DragonMessages> dragonMessages)
+            IOptions<GameSettings> gameSettings, IConsoleManager consoleManager, IOptions<DragonMessages> dragonMessages, string name)
         {
             _consoleManager = consoleManager;
             _lifeCycleManager = lifeCycleManager;
             _gameSettings = gameSettings.Value;
 
-            _dragon = new Dragon()
-            {
-                Feedometer = _gameSettings.InitialFeedometer,
-                Happiness = _gameSettings.InitialHappiness
-            };
-
             _hostApplicationLifetime = hostApplicationLifetime;
             _dragonMessages = dragonMessages.Value;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
-            CancellationTokenSource? _cancellationTokenSource = null;
+            //CancellationTokenSource? _cancellationTokenSource = null;
 
-            _hostApplicationLifetime.ApplicationStarted.Register(() =>
-            {
-                _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-                _applicationTask = Task.Run(async () =>
-                {
-                    try
-                    {
-                        DeclareBirthOfTheDragon();
+            ScheduleLifeProgressTimer();
 
-                        var letUserCareForDragonTask = Task.Run(() => LetUserCareForDragon());
-                        var progressLifeTask = Task.Run(() => ScheduleLifeProgressTimer());
-                        var displayGameStatusTask = Task.Run(() => ScheduleGameStatusTimer());
+            //_hostApplicationLifetime.ApplicationStarted.Register(async () =>
+            //{
+            //    _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 
-                        await Task.WhenAll(progressLifeTask, letUserCareForDragonTask, displayGameStatusTask);
+            //    _applicationTask = await Task.Run(async () =>
+            //    {
+            //        try
+            //        {
+            //            //DeclareBirthOfTheDragon();
 
-                        _exitCode = 0;
-                    }
-                    catch (TaskCanceledException)
-                    {
+            //            //var letUserCareForDragonTask = Task.Run(() => LetUserCareForDragon());
+            //            //var progressLifeTask = Task.Run(() => ScheduleLifeProgressTimer());
+            //            //var displayGameStatusTask = Task.Run(() => ScheduleGameStatusTimer());
 
-                    }
-                    catch (Exception)
-                    {
-                        _exitCode = 1;
-                    }
-                    finally
-                    {
-                        _hostApplicationLifetime.StopApplication();
-                    }
-                }, cancellationToken);
-            });
+            //            //await Task.WhenAll(progressLifeTask, letUserCareForDragonTask, displayGameStatusTask);
 
-            _hostApplicationLifetime.ApplicationStopping.Register(() =>
-            {
-                _cancellationTokenSource?.Cancel();
-            });
+            //            await Task.Run(() => ScheduleLifeProgressTimer());
 
-            return Task.CompletedTask;
+            //            _exitCode = 0;
+            //        }
+            //        catch (TaskCanceledException)
+            //        {
+
+            //        }
+            //        catch (Exception)
+            //        {
+            //            _exitCode = 1;
+            //        }
+            //        finally
+            //        {
+            //            _hostApplicationLifetime.StopApplication();
+            //        }
+            //    }, cancellationToken);
+            //});
+
+            //_hostApplicationLifetime.ApplicationStopping.Register(() =>
+            //{
+            //    _cancellationTokenSource?.Cancel();
+            //});
         }
 
         public async Task StopAsync(CancellationToken cancellationToken)
@@ -85,63 +83,63 @@ namespace Tamagotchi
             Environment.ExitCode = _exitCode.GetValueOrDefault(-1);
         }
 
-        public void DeclareBirthOfTheDragon()
-        {
-            string? inputName = _consoleManager.GetDragonNameFromUser();
+        //public void DeclareBirthOfTheDragon()
+        //{
+        //    string? inputName = _consoleManager.GetDragonNameFromUser();
 
-            if (inputName != null && inputName != "")
-            {
-                _dragon.Name = inputName;
-            }
-        }
+        //    if (inputName != null && inputName != "")
+        //    {
+        //        _dragon.Name = inputName;
+        //    }
+        //}
 
-        public void DeclareDeathOfTheDragon()
-        {
-            _consoleManager.WriteDeclarationOfDeath(_dragon);
-            Environment.Exit(0);
-        }
+        //public void DeclareDeathOfTheDragon()
+        //{
+        //    _consoleManager.WriteDeclarationOfDeath(_dragon);
+        //    Environment.Exit(0);
+        //}
 
-        public void ScheduleGameStatusTimer()
-        {
-            _gameStatusTimer.Interval = _gameSettings.GameStatusTimerInterval;
-            _gameStatusTimer.Elapsed += new ElapsedEventHandler(DisplayGameStatus);
-            _gameStatusTimer.Start();
-        }
+        //public void ScheduleGameStatusTimer()
+        //{
+        //    _gameStatusTimer.Interval = _gameSettings.GameStatusTimerInterval;
+        //    _gameStatusTimer.Elapsed += new ElapsedEventHandler(DisplayGameStatus);
+        //    _gameStatusTimer.Start();
+        //}
 
-        private void DisplayGameStatus(object? sender, ElapsedEventArgs e)
-        {
-            if (!_dragon.IsAlive)
-            {
-                _gameStatusTimer.Dispose();
-                DeclareDeathOfTheDragon();
-            }
+        //private void DisplayGameStatus(object? sender, ElapsedEventArgs e)
+        //{
+        //    if (!_dragon.IsAlive)
+        //    {
+        //        _gameStatusTimer.Dispose();
+        //        DeclareDeathOfTheDragon();
+        //    }
 
-            _consoleManager.WriteGameStatus(_dragon);
-        }
+        //    _consoleManager.WriteGameStatus(_dragon);
+        //}
 
-        public void LetUserCareForDragon()
-        {
-            while (_dragon.IsAlive)
-            {
-                var careInstructionsFromUser = _consoleManager.GetCareInstructionsFromUser();
-                string? dragonsMessage;
+        //public void LetUserCareForDragon()
+        //{
+        //    while (_dragon.IsAlive)
+        //    {
+        //        var careInstructionsFromUser = _consoleManager.GetCareInstructionsFromUser();
+        //        string? dragonsMessage;
 
-                if (careInstructionsFromUser == "1")
-                {
-                    dragonsMessage = _lifeCycleManager.IncreaseFeedometer(_dragon);
-                }
-                else if (careInstructionsFromUser == "2")
-                {
-                    dragonsMessage = _lifeCycleManager.IncreaseHappiness(_dragon);
-                }
-                else
-                {
-                    dragonsMessage = _dragonMessages.WrongKey;
-                }
+        //        if (careInstructionsFromUser == "1")
+        //        {
+        //            dragonsMessage = _lifeCycleManager.IncreaseFeedometer(_dragon);
+        //        }
+        //        else if (careInstructionsFromUser == "2")
+        //        {
+        //            dragonsMessage = _lifeCycleManager.IncreaseHappiness(_dragon);
+        //        }
+        //        else
+        //        {
+        //            dragonsMessage = _dragonMessages.WrongKey;
+        //        }
 
-                _consoleManager.WriteDragonsMessage(dragonsMessage);
-            }
-        }
+        //        _consoleManager.WriteDragonsMessage(dragonsMessage);
+        //    }
+        //}
 
         public void ScheduleLifeProgressTimer()
         {
@@ -152,15 +150,7 @@ namespace Tamagotchi
 
         public void ProgressLife(object? sender, ElapsedEventArgs e)
         {
-            _lifeCycleManager.ProgressLifeSettings(_dragon);
-
-            if (_dragon.Feedometer <= _gameSettings.MinValueOfFeedometer
-                || _dragon.Happiness <= _gameSettings.MinValueOfHappiness
-                || _dragon.Age >= _gameSettings.MaxAge) 
-            {
-                _dragon.IsAlive = false;
-                _lifeProgressTimer.Dispose();
-            }
+            _lifeCycleManager.ProgressLifeSettings();
         }
     }
 }

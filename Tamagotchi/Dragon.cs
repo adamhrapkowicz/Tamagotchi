@@ -2,6 +2,8 @@
 {
     public class Dragon
     {
+        public Guid DragonId { get; set; }
+
         public string Name { get; set; } = string.Empty;
         
         public double Age { get; set; }

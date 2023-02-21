@@ -2,12 +2,12 @@
 {
     public interface ILifeCycleManager
     {
-        string IncreaseFeedometer(Dragon dragon);
+        FeedDragonResponse IncreaseFeedometer(Guid dragonId);
 
-        string IncreaseHappiness(Dragon dragon);
+        PetDragonResponse IncreaseHappiness(Guid dragonId);
 
-        void ProgressLifeSettings(Dragon dragon);
+        void ProgressLifeSettings();
 
-        AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon);
+        Dragon GetDragonById(Guid dragonId);
     }
 }
