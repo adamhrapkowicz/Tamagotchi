@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Tamagotchi
 {
-    internal class TamagotchiApi
+    public class TamagotchiApi
     {
         private readonly LifeCycle _lifeCycle;
         private readonly LifeCycleManager _lifeCycleManager;

@@ -2,7 +2,7 @@
 
 namespace Tamagotchi
 {
-    internal class LifeCycleManager : ILifeCycleManager
+    public class LifeCycleManager : ILifeCycleManager
     {
         private readonly GameSettings _gameSettings;
         private readonly List<Dragon> _dragons = new();
@@ -73,7 +73,7 @@ namespace Tamagotchi
             }
         }
 
-        internal Guid CreateDragon(string name)
+        public Guid CreateDragon(string name)
         {
             Dragon dragon = new()
             {

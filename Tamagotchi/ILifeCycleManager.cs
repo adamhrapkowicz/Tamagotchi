@@ -9,5 +9,7 @@
         void ProgressLifeSettings();
 
         Dragon GetDragonById(Guid dragonId);
+
+        Guid CreateDragon(string name);
     }
 }
