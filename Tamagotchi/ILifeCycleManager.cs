@@ -11,5 +11,7 @@
         Dragon GetDragonById(Guid dragonId);
 
         Guid CreateDragon(string name);
+
+        AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon);
     }
 }

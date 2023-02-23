@@ -16,16 +16,16 @@ namespace Tamagotchi
         {
             var dragon = GetDragonById(dragonId);
 
+            if (dragon.IsAlive == false)
+            {
+                return new FeedDragonResponse { Success = false, Reason = FeedingFailureReason.Dead };
+            }
+
             if (dragon.Feedometer < SetCareLevelsForAgeGroups(dragon).MaxFeedometerForAgeGroup)
             {
                 dragon.Feedometer += SetCareLevelsForAgeGroups(dragon).FeedometerIncrement;
 
                 return new FeedDragonResponse { Success = true };
-            }
-
-            if (dragon.IsAlive == false)
-            {
-                return new FeedDragonResponse { Success = false, Reason = FeedingFailureReason.Dead };
             }
 
             return new FeedDragonResponse { Success = false, Reason = FeedingFailureReason.Full }; ;
@@ -35,16 +35,16 @@ namespace Tamagotchi
         {
             var dragon = GetDragonById(dragonId);
 
+            if (dragon.IsAlive == false)
+            {
+                return new PetDragonResponse { Success = false, Reason = PettingFailureReason.Dead };
+            }
+
             if (dragon.Happiness < SetCareLevelsForAgeGroups(dragon).MaxHappinessForAgeGroup)
             {
                 dragon.Happiness += SetCareLevelsForAgeGroups(dragon).HappinessIncrement;
 
                 return new PetDragonResponse { Success = true };
-            }
-
-            if (dragon.IsAlive == false)
-            {
-                return new PetDragonResponse { Success = false, Reason = PettingFailureReason.Dead };
             }
 
             return new PetDragonResponse { Success = false, Reason = PettingFailureReason.Overpetted };
@@ -93,19 +93,19 @@ namespace Tamagotchi
             return _dragons.FirstOrDefault(d => d.DragonId == dragonId);
         }
 
-        private AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon)
+        public AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon)
         {
-            var ageGroup = dragon.AgeGroup;
-
-            AgeGroupSettings gameSettingsForAgeGroup = ageGroup switch
+            AgeGroupSettings gameSettingsForAgeGroup = dragon.AgeGroup switch
             {
                 AgeGroup.Baby => _gameSettings.BabySettings,
                 AgeGroup.Child => _gameSettings.ChildSettings,
                 AgeGroup.Teen => _gameSettings.TeenSettings,
                 AgeGroup.Adult => _gameSettings.AdultSettings,
                 AgeGroup.Senior => _gameSettings.SeniorSettings,
-                _ => _gameSettings.SeniorSettings,
+                _ => throw new Exception(
+                    "Enum value not being properly handled in 'SetCareLevelsForAgeGroups(Dragon dragon)'"),
             };
+
             return gameSettingsForAgeGroup;
         }
     }
