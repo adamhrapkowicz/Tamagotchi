@@ -1,3 +1,4 @@
+using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Moq;
 using Tamagotchi;
@@ -24,6 +25,11 @@ namespace TamagotchiTests
             {
                 InitialFeedometer = 10,
                 InitialHappiness = 10,
+                AgeIncrement = 0.1,
+                MinValueOfFeedometer = 0,
+                MinValueOfHappiness = 0,
+                MaxAge = 99.00,
+                NameNeglectPenalty = 2,
                 BabySettings = new AgeGroupSettings
                 {
                     FeedometerIncrement = 10,
@@ -82,7 +88,6 @@ namespace TamagotchiTests
             var dragonId = _lifeCycleManager.CreateDragon(name);
 
             //Assert
-            Assert.IsType<Guid>(dragonId);
             Assert.True(Guid.Empty != dragonId);
 
             var dragon = _lifeCycleManager.GetDragonById(dragonId);
@@ -106,7 +111,6 @@ namespace TamagotchiTests
             var returnedDragon = _lifeCycleManager.GetDragonById(testDragonId);
 
             //Assert
-            Assert.IsType<Dragon>(returnedDragon);
             Assert.NotNull(returnedDragon);
             Assert.Equal(name, returnedDragon.Name);
             Assert.Equal(expectedAgeGroup, returnedDragon.AgeGroup);
@@ -122,14 +126,16 @@ namespace TamagotchiTests
         {
             //Arrange
             var testDragonId = _lifeCycleManager.CreateDragon("TestDragon4");
+            var testDragon4 = _lifeCycleManager.GetDragonById(testDragonId);
+            var startingFeedometer = testDragon4.Feedometer;
 
             //Act
             var returnedResponse = _lifeCycleManager.IncreaseFeedometer(testDragonId);
 
             //Assert
             Assert.NotNull(returnedResponse);
-            Assert.IsType<FeedDragonResponse>(returnedResponse);
             Assert.True(returnedResponse.Success);
+            Assert.True(startingFeedometer < testDragon4.Feedometer);
         }
 
         [Fact]
@@ -140,15 +146,16 @@ namespace TamagotchiTests
             var testDragon5 = _lifeCycleManager.GetDragonById(testDragonId);
             testDragon5.IsAlive = false;
             var expectedReason = FeedingFailureReason.Dead;
+            var startingFeedometer = testDragon5.Feedometer;
 
             //Act
             var returnedResponse = _lifeCycleManager.IncreaseFeedometer(testDragonId);
 
             //Assert
             Assert.NotNull(returnedResponse);
-            Assert.IsType<FeedDragonResponse>(returnedResponse);
             Assert.False(returnedResponse.Success);
             Assert.Equal(expectedReason, returnedResponse.Reason.GetValueOrDefault());
+            Assert.True(startingFeedometer == testDragon5.Feedometer);
         }
 
         [Fact]
@@ -157,17 +164,196 @@ namespace TamagotchiTests
             //Arrange
             var testDragonId = _lifeCycleManager.CreateDragon("TestDragon6");
             var testDragon6 = _lifeCycleManager.GetDragonById(testDragonId);
-            testDragon6.Feedometer = _lifeCycleManager.SetCareLevelsForAgeGroups(testDragon6).MaxFeedometerForAgeGroup + 1;
+            testDragon6.Feedometer = _gameSettings.BabySettings.MaxFeedometerForAgeGroup;
             var expectedReason = FeedingFailureReason.Full;
+            var startingFeedometer = testDragon6.Feedometer;
 
             //Act
             var returnedResponse = _lifeCycleManager.IncreaseFeedometer(testDragonId);
 
             //Assert
             Assert.NotNull(returnedResponse);
-            Assert.IsType<FeedDragonResponse>(returnedResponse);
             Assert.False(returnedResponse.Success);
             Assert.Equal(expectedReason, returnedResponse.Reason.GetValueOrDefault());
+            Assert.True(startingFeedometer == testDragon6.Feedometer);
+        }
+
+        [Fact]
+        public void ReturnSuccessResponseOnIncreaseHappinessCallIfMaxHappinessNotReached()
+        {
+            //Arrange
+            var testDragonId = _lifeCycleManager.CreateDragon("TestDragon4");
+            var testDragon4 = _lifeCycleManager.GetDragonById(testDragonId);
+            var startingHappiness = testDragon4.Happiness;
+
+            //Act
+            var returnedResponse = _lifeCycleManager.IncreaseHappiness(testDragonId);
+
+            //Assert
+            returnedResponse.Should().NotBeNull();
+            returnedResponse.Success.Should().BeTrue();
+            testDragon4.Happiness.Should().BeGreaterThan(startingHappiness);
+        }
+
+        [Fact]
+        public void ReturnDeadResponseOnIncreaseHappinessCallIfDragonNotAlive()
+        {
+            //Arrange
+            var testDragonId = _lifeCycleManager.CreateDragon("TestDragon5");
+            var testDragon5 = _lifeCycleManager.GetDragonById(testDragonId);
+            testDragon5.IsAlive = false;
+            var expectedReason = PettingFailureReason.Dead;
+            var startingHappiness = testDragon5.Happiness;
+
+            //Act
+            var returnedResponse = _lifeCycleManager.IncreaseHappiness(testDragonId);
+
+            //Assert
+            returnedResponse.Should().NotBeNull();
+            returnedResponse.Success.Should().BeFalse();
+            returnedResponse.Reason.Should().Be(expectedReason);
+            testDragon5.Happiness.Should().Be(startingHappiness);
+        }
+
+        [Fact]
+        public void ReturnOverpettedResponseOnIncreaseFeedometerCallIfFeedometerMoreThanMax()
+        {
+            //Arrange
+            var testDragonId = _lifeCycleManager.CreateDragon("TestDragon6");
+            var testDragon6 = _lifeCycleManager.GetDragonById(testDragonId);
+            testDragon6.Happiness = _gameSettings.BabySettings.MaxHappinessForAgeGroup;
+            var expectedReason = PettingFailureReason.Overpetted;
+            var startingHappiness = testDragon6.Happiness;
+
+            //Act
+            var returnedResponse = _lifeCycleManager.IncreaseHappiness(testDragonId);
+
+            //Assert
+            returnedResponse.Should().NotBeNull();
+            returnedResponse.Success.Should().BeFalse();
+            returnedResponse.Reason.Should().Be(expectedReason);
+            testDragon6.Happiness.Should().Be(startingHappiness);
+        }
+
+        [Fact]
+        public void ProgressesLifeOnProgressLifeCall()
+        {
+            //Arrange
+            var testDragonId = _lifeCycleManager.CreateDragon("TestDragon");
+            var testDragon = _lifeCycleManager.GetDragonById(testDragonId);
+            var startingAge = testDragon.Age;
+            var startingHappiness = testDragon.Happiness;
+            var startingFeedometer = testDragon.Feedometer;
+
+            //Act
+            _lifeCycleManager.ProgressLife();
+
+            //Assert
+            testDragon.Age.Should().BeGreaterThan(startingAge);
+            testDragon.Happiness.Should().BeLessThan(startingHappiness);
+            testDragon.Feedometer.Should().BeLessThan(startingFeedometer);
+        }
+
+        [Fact]
+        public void ChangeDragonIsAliveToFalseOnProgressLifeCallIfMinFeedometerReached()
+        {
+            //Arrange
+            var testDragonId = _lifeCycleManager.CreateDragon("TestDragon");
+            var testDragon = _lifeCycleManager.GetDragonById(testDragonId);
+            var startingAge = testDragon.Age;
+            var startingHappiness = testDragon.Happiness;
+            var startingFeedometer = testDragon.Feedometer;
+            testDragon.Feedometer = _gameSettings.MinValueOfFeedometer;
+
+
+            //Act
+            _lifeCycleManager.ProgressLife();
+
+            //Assert
+            testDragon.Age.Should().BeGreaterThan(startingAge);
+            testDragon.Happiness.Should().BeLessThan(startingHappiness);
+            testDragon.Feedometer.Should().BeLessThan(startingFeedometer);
+            testDragon.IsAlive.Should().BeFalse();
+        }
+
+        [Fact]
+        public void ChangeDragonIsAliveToFalseOnProgressLifeCallIfMinHappinessReached()
+        {
+            //Arrange
+            var testDragonId = _lifeCycleManager.CreateDragon("TestDragon");
+            var testDragon = _lifeCycleManager.GetDragonById(testDragonId);
+            var startingAge = testDragon.Age;
+            var startingHappiness = testDragon.Happiness;
+            var startingFeedometer = testDragon.Feedometer;
+            testDragon.Happiness = _gameSettings.MinValueOfHappiness;
+
+            //Act
+            _lifeCycleManager.ProgressLife();
+
+            //Assert
+            testDragon.Age.Should().BeGreaterThan(startingAge);
+            testDragon.Happiness.Should().BeLessThan(startingHappiness);
+            testDragon.Feedometer.Should().BeLessThan(startingFeedometer);
+            testDragon.IsAlive.Should().BeFalse();
+        }
+
+        [Fact]
+        public void ChangeDragonIsAliveToFalseOnProgressLifeCallIfMaxAgeReached()
+        {
+            //Arrange
+            var testDragonId = _lifeCycleManager.CreateDragon("TestDragon");
+            var testDragon = _lifeCycleManager.GetDragonById(testDragonId);
+            var startingAge = testDragon.Age;
+            var startingHappiness = testDragon.Happiness;
+            var startingFeedometer = testDragon.Feedometer;
+            testDragon.Age = _gameSettings.MaxAge;
+
+            //Act
+            _lifeCycleManager.ProgressLife();
+
+            //Assert
+            testDragon.Age.Should().BeGreaterThan(startingAge);
+            testDragon.Happiness.Should().BeLessThan(startingHappiness);
+            testDragon.Feedometer.Should().BeLessThan(startingFeedometer);
+            testDragon.IsAlive.Should().BeFalse();
+        }
+
+        [Fact]
+        public void IncreaseSadnessFasterOnProgressLifeCallIfDragonHasNoName()
+        {
+            //Arange
+            var testDragonId = _lifeCycleManager.CreateDragon("TestDragon1");
+            var testDragon1 = _lifeCycleManager.GetDragonById(testDragonId);
+            var noNameDragon = testDragon1;
+            noNameDragon.Name = string.Empty;
+
+            //Act
+            _lifeCycleManager.ProgressLife();
+
+            //Assert
+            noNameDragon.Happiness.Should().BeLessThan(testDragon1.Happiness);
+            noNameDragon.Age.Should().Be(testDragon1.Age);
+            noNameDragon.Feedometer.Should().Be(testDragon1.Feedometer);
+        }
+
+        [Fact]
+        public void NotProgressLifeOnProgressLifeCallIfDragonIsNotAlive()
+        {
+            //Arrange
+            var testDragonId = _lifeCycleManager.CreateDragon("TestDragon1");
+            var testDragon = _lifeCycleManager.GetDragonById(testDragonId);
+            var startingAge = testDragon.Age;
+            var startingHappiness = testDragon.Happiness;
+            var startingFeedometer = testDragon.Feedometer;
+            testDragon.IsAlive = false;
+
+            //Act
+            _lifeCycleManager.ProgressLife();
+
+            //Assert
+            testDragon.Age.Should().Be(startingAge);
+            testDragon.Happiness.Should().Be(startingHappiness);
+            testDragon.Feedometer.Should().Be(startingFeedometer);
         }
     }
 }

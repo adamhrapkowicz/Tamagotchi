@@ -6,12 +6,10 @@
 
         PetDragonResponse IncreaseHappiness(Guid dragonId);
 
-        void ProgressLifeSettings();
+        void ProgressLife();
 
         Dragon GetDragonById(Guid dragonId);
 
         Guid CreateDragon(string name);
-
-        AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon);
     }
 }

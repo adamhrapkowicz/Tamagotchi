@@ -50,14 +50,14 @@ namespace Tamagotchi
             return new PetDragonResponse { Success = false, Reason = PettingFailureReason.Overpetted };
         }
 
-        public void ProgressLifeSettings()
+        public void ProgressLife()
         {
-            foreach (var dragon in _dragons)
+            foreach (var dragon in _dragons.Where(p => p.IsAlive))
             {
                 dragon.Age += _gameSettings.AgeIncrement;
                 dragon.Feedometer -= SetCareLevelsForAgeGroups(dragon).HungerIncrement;
 
-                if (dragon.Name == null && dragon.Name == "")
+                if (dragon.Name == null || dragon.Name == "")
                 {
                     dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement * _gameSettings.NameNeglectPenalty;
                 }
@@ -93,7 +93,7 @@ namespace Tamagotchi
             return _dragons.FirstOrDefault(d => d.DragonId == dragonId);
         }
 
-        public AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon)
+        private AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon)
         {
             AgeGroupSettings gameSettingsForAgeGroup = dragon.AgeGroup switch
             {

@@ -150,7 +150,7 @@ namespace Tamagotchi
 
         public void ProgressLife(object? sender, ElapsedEventArgs e)
         {
-            _lifeCycleManager.ProgressLifeSettings();
+            _lifeCycleManager.ProgressLife();
         }
     }
 }
