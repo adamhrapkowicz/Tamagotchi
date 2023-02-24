@@ -322,18 +322,18 @@ namespace TamagotchiTests
         public void IncreaseSadnessFasterOnProgressLifeCallIfDragonHasNoName()
         {
             //Arange
-            var testDragonId = _lifeCycleManager.CreateDragon("TestDragon1");
-            var testDragon1 = _lifeCycleManager.GetDragonById(testDragonId);
-            var noNameDragon = testDragon1;
-            noNameDragon.Name = string.Empty;
+            var testDragonId1 = _lifeCycleManager.CreateDragon("TestDragon1");
+            var noNameDragonId = _lifeCycleManager.CreateDragon("");
+            var testDragon1 = _lifeCycleManager.GetDragonById(testDragonId1);
+            var noNameDragon = _lifeCycleManager.GetDragonById(noNameDragonId);
 
             //Act
             _lifeCycleManager.ProgressLife();
 
             //Assert
             noNameDragon.Happiness.Should().BeLessThan(testDragon1.Happiness);
-            noNameDragon.Age.Should().Be(testDragon1.Age);
             noNameDragon.Feedometer.Should().Be(testDragon1.Feedometer);
+            noNameDragon.Age.Should().Be(testDragon1.Age);
         }
 
         [Fact]

@@ -62,7 +62,10 @@ namespace Tamagotchi
                     dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement * _gameSettings.NameNeglectPenalty;
                 }
 
-                dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement;
+                else
+                {
+                    dragon.Happiness -= SetCareLevelsForAgeGroups(dragon).SadnessIncrement;
+                }
 
                 if (dragon.Feedometer <= _gameSettings.MinValueOfFeedometer
                     || dragon.Happiness <= _gameSettings.MinValueOfHappiness
