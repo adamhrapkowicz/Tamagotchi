@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System.Timers;
+using Tamagotchi.Controllers;
 
 namespace Tamagotchi.TamagotchiConsoleUi
 {
@@ -8,7 +9,7 @@ namespace Tamagotchi.TamagotchiConsoleUi
     {
         private static readonly System.Timers.Timer GameStatusTimer = new();
 
-        private readonly TamagotchiApi _tamagotchiApi;
+        private readonly TamagotchiApiController _tamagotchiApi;
         private readonly GameSettings _gameSettings;
         private readonly DragonMessages _dragonMessages;
 
@@ -16,7 +17,7 @@ namespace Tamagotchi.TamagotchiConsoleUi
         private string? _dragonName;
 
         public ConsoleManager(
-            TamagotchiApi tamagotchiApi, IOptions<GameSettings> gameSettings, IOptions<DragonMessages> dragonMessages)
+            TamagotchiApiController tamagotchiApi, IOptions<GameSettings> gameSettings, IOptions<DragonMessages> dragonMessages)
         {
             _tamagotchiApi = tamagotchiApi;
             _gameSettings = gameSettings.Value;
