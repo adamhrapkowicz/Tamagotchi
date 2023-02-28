@@ -1,21 +1,11 @@
-﻿using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Tamagotchi
+﻿namespace Tamagotchi
 {
     public class TamagotchiApi
     {
-        private readonly LifeCycle _lifeCycle;
-        private readonly LifeCycleManager _lifeCycleManager;
+        private readonly ILifeCycleManager _lifeCycleManager;
 
-        public TamagotchiApi(LifeCycle lifeCycle, LifeCycleManager lifeCycleManager)
+        public TamagotchiApi(ILifeCycleManager lifeCycleManager)
         {
-            _lifeCycle = lifeCycle;
             _lifeCycleManager = lifeCycleManager;
         }
 
