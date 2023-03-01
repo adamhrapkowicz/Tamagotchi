@@ -1,9 +1,25 @@
-﻿namespace Tamagotchi
+﻿using System.Text.Json.Serialization;
+
+namespace Tamagotchi
 {
     public class Startup
     {
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllersWithViews()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                });
+            services.AddMvc();
+            services.AddSession();
+            services.AddHttpContextAccessor();
+        }
+
         public void Configure(IApplicationBuilder app, IHostApplicationLifetime lifetime)
         {
+            app.UseStaticFiles();
+            app.UseSession();
             app
                 .UseRouting()
                 .UseCors(builder => builder
@@ -12,12 +28,5 @@
                     .AllowAnyMethod())
                 .UseEndpoints(endpoints => endpoints.MapControllers());
         }
-
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddControllersWithViews();
-        }
-
-        
     }
 }
