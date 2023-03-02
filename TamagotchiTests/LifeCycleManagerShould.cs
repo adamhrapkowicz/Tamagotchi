@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Tamagotchi;
 
-namespace TamagotchiTests
+namespace TamagotchiUnitTests
 {
     public class LifeCycleManagerShould
     {

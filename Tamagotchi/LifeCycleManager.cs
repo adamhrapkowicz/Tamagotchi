@@ -76,7 +76,7 @@ namespace Tamagotchi
 
         public Dragon GetDragonById(Guid dragonId)
         {
-            return _dragons.FirstOrDefault(d => d.DragonId == dragonId);
+            return _dragons.FirstOrDefault(d => d.DragonId == dragonId)!;
         }
 
         private AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon)

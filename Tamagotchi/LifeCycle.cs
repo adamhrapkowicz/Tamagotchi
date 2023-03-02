@@ -31,7 +31,7 @@ namespace Tamagotchi
             return Task.CompletedTask;
         }
 
-        private void ScheduleLifeProgressTimer()
+        public void ScheduleLifeProgressTimer()
         {
             LifeProgressTimer.Interval = _gameSettings.LifeProgressTimerInterval;
             LifeProgressTimer.Elapsed += ProgressLife;
