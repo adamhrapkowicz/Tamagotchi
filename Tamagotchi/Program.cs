@@ -11,26 +11,41 @@ namespace Tamagotchi
         // Turn LifeCycle into an ASP.net application
         public static async Task Main(string[] args)
         {
-            await Host.CreateDefaultBuilder(args)
-                .UseContentRoot(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location))
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services.AddHostedService<LifeCycle>();
-                    services.AddHostedService<ConsoleManager>();
-                    services.AddScoped<ILifeCycleManager, LifeCycleManager>();
-                    services.AddScoped<TamagotchiApiController>();
-                    services.AddOptions<GameSettings>().Bind(hostContext.Configuration.GetSection("GameSettings"));
-                    services.AddOptions<DragonMessages>().Bind(hostContext.Configuration.GetSection("DragonMessages"));
-                })
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("*************");
+            Console.WriteLine(" Tamagotchi API ");
+            Console.WriteLine("*************");
+            Console.ForegroundColor = ConsoleColor.White;
+
+
+            try
+            {
+                await CreateHostBuilderAsync(args)
+                    .Build()
+                    .RunAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            finally
+            {
+            }
+
+        }
+
+        private static IHostBuilder CreateHostBuilderAsync(string[] args)
+        {
+            return Host
+                .CreateDefaultBuilder(args)
                 .UseDefaultServiceProvider(options => options.ValidateOnBuild = true)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder
                         .UseKestrel()
                         .UseStartup<Startup>();
-                })
-                .Build()
-                .RunAsync();
+                });
+                //.UseContentRoot(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
         }
     }
 }

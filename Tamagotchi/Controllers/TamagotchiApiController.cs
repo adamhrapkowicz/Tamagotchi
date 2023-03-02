@@ -1,9 +1,11 @@
-﻿using System.Web.Http;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Tamagotchi.Controllers
 {
     // Turn into an ASP API controller
-    public class TamagotchiApiController : ApiController
+    [Route("TamagotchiApi")]
+    [ApiController]
+    public class TamagotchiApiController : ControllerBase
     {
         private readonly ILifeCycleManager _lifeCycleManager;
 
@@ -12,15 +14,25 @@ namespace Tamagotchi.Controllers
             _lifeCycleManager = lifeCycleManager;
         }
 
+        // GET \TamagotchiApi\{dragonId}
+        [HttpGet]
+        [Route("{dragonId}")]
+        public Dragon GetGameStatus(Guid dragonId)
+        {
+            return _lifeCycleManager.GetDragonById(dragonId);
+        }
+
         // POST \TamagotchiApi\{dragonName}
         [HttpPost]
-        public Guid StartGame(string name)
+        [Route("{dragonName}")]
+        public Guid StartGame(string dragonName)
         {
-            return _lifeCycleManager.CreateDragon(name);
+            return _lifeCycleManager.CreateDragon(dragonName);
         }
 
         // PUT \TamagotchiApi\feed\{dragonId}
         [HttpPut]
+        [Route("feed/{dragonId}")]
         public FeedDragonResponse FeedDragon(Guid dragonId)
         {
             return _lifeCycleManager.IncreaseFeedometer(dragonId);
@@ -28,16 +40,10 @@ namespace Tamagotchi.Controllers
 
         // PUT \TamagotchiApi\pet\{dragonId}
         [HttpPut]
+        [Route("pet/{dragonId}")]
         public PetDragonResponse PetDragon(Guid dragonId)
         {
             return _lifeCycleManager.IncreaseHappiness(dragonId);
-        }
-
-        // GET \TamagotchiApi\{dragonId}
-        [HttpGet]
-        public Dragon GetGameStatus(Guid dragonId)
-        {
-            return _lifeCycleManager.GetDragonById(dragonId);
         }
     }
 }
