@@ -1,10 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System.Reflection;
-using Tamagotchi.Controllers;
-using Tamagotchi.TamagotchiConsoleUi;
-
-namespace Tamagotchi
+﻿namespace Tamagotchi
 {
     public class Program
     {
@@ -45,7 +39,6 @@ namespace Tamagotchi
                         .UseKestrel()
                         .UseStartup<Startup>();
                 });
-                //.UseContentRoot(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
         }
     }
 }

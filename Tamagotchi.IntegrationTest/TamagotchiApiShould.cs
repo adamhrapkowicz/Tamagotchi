@@ -1,111 +1,60 @@
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Moq;
+using Newtonsoft.Json;
 using Tamagotchi.Controllers;
 
 namespace Tamagotchi.IntegrationTest
 {
     public class TamagotchiApiShould
     {
-        private readonly ILifeCycleManager _lifeCycleManager;
-        private readonly GameSettings _gameSettings;
-
-        public TamagotchiApiShould(ILifeCycleManager lifeCycleManager, GameSettings gameSettings)
-        {
-            _gameSettings = GetMockGameSettings();
-            var mockGameSettings = new Mock<IOptions<GameSettings>>();
-            mockGameSettings.Setup(x => x.Value).Returns(_gameSettings);
-
-            _lifeCycleManager = new LifeCycleManager(mockGameSettings.Object);
-        }
-
-        private static GameSettings GetMockGameSettings()
-        {
-            return new GameSettings
-            {
-                LifeProgressTimerInterval = 700,
-                InitialFeedometer = 10,
-                InitialHappiness = 10,
-                AgeIncrement = 0.1,
-                MinValueOfFeedometer = 0,
-                MinValueOfHappiness = 0,
-                MaxAge = 99.00,
-                NameNeglectPenalty = 2,
-                BabySettings = new AgeGroupSettings
-                {
-                    FeedometerIncrement = 10,
-                    HappinessIncrement = 15,
-                    HungerIncrement = 3,
-                    SadnessIncrement = 4,
-                    MaxFeedometerForAgeGroup = 30,
-                    MaxHappinessForAgeGroup = 200
-                },
-                ChildSettings = new AgeGroupSettings
-                {
-                    FeedometerIncrement = 10,
-                    HappinessIncrement = 15,
-                    HungerIncrement = 3,
-                    SadnessIncrement = 4,
-                    MaxFeedometerForAgeGroup = 30,
-                    MaxHappinessForAgeGroup = 200
-                },
-                TeenSettings = new AgeGroupSettings
-                {
-                    FeedometerIncrement = 10,
-                    HappinessIncrement = 15,
-                    HungerIncrement = 3,
-                    SadnessIncrement = 4,
-                    MaxFeedometerForAgeGroup = 30,
-                    MaxHappinessForAgeGroup = 200
-                },
-                AdultSettings = new AgeGroupSettings
-                {
-                    FeedometerIncrement = 10,
-                    HappinessIncrement = 15,
-                    HungerIncrement = 3,
-                    SadnessIncrement = 4,
-                    MaxFeedometerForAgeGroup = 30,
-                    MaxHappinessForAgeGroup = 200
-                },
-                SeniorSettings = new AgeGroupSettings
-                {
-                    FeedometerIncrement = 10,
-                    HappinessIncrement = 15,
-                    HungerIncrement = 3,
-                    SadnessIncrement = 4,
-                    MaxFeedometerForAgeGroup = 30,
-                    MaxHappinessForAgeGroup = 200
-                }
-            };
-        }
-
         [Fact]
         public async Task StartGameWhenNameIsProvided()
         {
+            using var client = new TestClientProvider().Client;
 
-            var client = new TestClientProvider().Client;
+            const string dragonName = "myTestDragon1";
 
-            var response = await client.PostAsync("/TamagotchiApi/{dragonName}", new StringContent("testDragon"));
+            var responseToStartGame = await client.PostAsync($"/TamagotchiApi/{dragonName}", new StringContent(""));
 
-            response.EnsureSuccessStatusCode();
+            var contentOfResponseToStartGame = await responseToStartGame.Content.ReadAsStringAsync();
+            var dragonId = JsonConvert.DeserializeObject<Guid>(contentOfResponseToStartGame);
 
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
+            responseToStartGame.EnsureSuccessStatusCode();
+
+            responseToStartGame.StatusCode.Should().Be(HttpStatusCode.OK);
+            dragonId.Should().NotBeEmpty();
         }
 
-        //[Fact]
-        //public async Task ReturnGameStatusWhenDragonIdIsProvided()
-        //{
-        //    var client = new TestClientProvider().Client;
-        //    var dragonId = new TamagotchiApiController(_lifeCycleManager).StartGame("testDragon");
+        [Fact]
+        public async Task ReturnGameStatusWhenDragonIdIsProvided()
+        {
+            using var client = new TestClientProvider().Client;
 
-        //    var response = await client.GetAsync($"TamagotchiApi/{dragonId}");
+            const string dragonName = "myTestDragon2";
+            var responseToStartGame = await client.PostAsync($"/TamagotchiApi/{dragonName}", new StringContent(""));
 
-        //    response.EnsureSuccessStatusCode();
+            var contentOfResponseToStartGame = await responseToStartGame.Content.ReadAsStringAsync();
+            var dragonId = JsonConvert.DeserializeObject<Guid>(contentOfResponseToStartGame);
+            Thread.Sleep(1000);
+            var responseToGetGameStatus = await client.GetAsync($"TamagotchiApi/{dragonId}");
+            var contentOfResponseToGetGameStatus = await responseToGetGameStatus.Content.ReadAsStringAsync();
+            var gameStatus = JsonConvert.DeserializeObject<Dragon>(contentOfResponseToGetGameStatus);
 
-        //    response.StatusCode.Should().Be(HttpStatusCode.OK);
-        //}
+            responseToGetGameStatus.EnsureSuccessStatusCode();
+
+            responseToGetGameStatus.StatusCode.Should().Be(HttpStatusCode.OK);
+            gameStatus.Should().NotBeNull();
+            gameStatus.Name.Should().Be(dragonName);
+            gameStatus.Age.Should().BeGreaterThan(0.00);
+            gameStatus.Feedometer.Should().BeLessThan(199);
+            gameStatus.Happiness.Should().BeLessThan(199);
+            gameStatus.AgeGroup.Should().Be(AgeGroup.Baby);
+            gameStatus.DragonId.Should().Be(dragonId);
+        }
     }
 }
