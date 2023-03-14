@@ -2,6 +2,8 @@ using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Moq;
 using Tamagotchi;
+using Tamagotchi.Contracts;
+using Tamagotchi.Models;
 
 namespace TamagotchiUnitTests
 {

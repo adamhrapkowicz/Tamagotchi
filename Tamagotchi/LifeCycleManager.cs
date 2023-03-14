@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
+using Tamagotchi.Contracts;
+using Tamagotchi.Models;
 
 namespace Tamagotchi
 {

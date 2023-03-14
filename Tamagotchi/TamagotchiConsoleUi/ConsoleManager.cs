@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
 using System.Timers;
+using Tamagotchi.Contracts;
 using Tamagotchi.Controllers;
+using Tamagotchi.Models;
 
 namespace Tamagotchi.TamagotchiConsoleUi
 {
