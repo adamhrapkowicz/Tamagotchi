@@ -1,4 +1,4 @@
-﻿namespace Tamagotchi
+﻿namespace Tamagotchi.Contracts
 {
     public class PetDragonResponse
     {

@@ -1,4 +1,7 @@
-﻿namespace Tamagotchi
+﻿using Tamagotchi.Contracts;
+using Tamagotchi.Models;
+
+namespace Tamagotchi
 {
     public interface ILifeCycleManager
     {

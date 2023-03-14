@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Tamagotchi.Contracts;
+using Tamagotchi.Models;
 
 namespace Tamagotchi.Controllers
 {

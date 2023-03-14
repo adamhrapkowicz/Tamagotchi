@@ -1,4 +1,4 @@
-﻿namespace Tamagotchi
+﻿namespace Tamagotchi.Models
 {
     public class Dragon
     {
@@ -27,6 +27,6 @@
 
         public int Feedometer { get; set; }
 
-        public int Happiness { get; set; } 
+        public int Happiness { get; set; }
     }
 }
