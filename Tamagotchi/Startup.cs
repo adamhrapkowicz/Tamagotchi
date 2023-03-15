@@ -1,5 +1,7 @@
 ﻿using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 using Tamagotchi.TamagotchiConsoleUi;
+using TamagotchiData.Models;
 
 namespace Tamagotchi
 {
@@ -30,6 +32,11 @@ namespace Tamagotchi
             services
                 .AddSession()
                 .AddHttpContextAccessor();
+
+            services
+                .AddDbContext<TamagotchiDbContext>(options => options.UseSqlServer(
+                    _configuration.GetConnectionString("TamagotchiDbContextConnection")
+                    ?? throw new InvalidOperationException("Connection string 'TamagotchiDbContextConnection' not found")));
 
             services
                 .AddHostedService<LifeCycle>()
