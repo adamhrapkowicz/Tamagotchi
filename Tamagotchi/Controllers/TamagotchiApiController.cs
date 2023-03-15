@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Tamagotchi.Contracts;
-using Tamagotchi.Models;
+using TamagotchiData.Models;
 
 namespace Tamagotchi.Controllers
 {
@@ -18,7 +18,7 @@ namespace Tamagotchi.Controllers
 
         // GET \TamagotchiApi\{dragonId}
         [HttpGet]
-        [Route("{dragonId}")]
+        [Route("{dragonId:guid}")]
         public Dragon GetGameStatus(Guid dragonId)
         {
             return _lifeCycleManager.GetDragonById(dragonId);
@@ -34,7 +34,7 @@ namespace Tamagotchi.Controllers
 
         // PUT \TamagotchiApi\feed\{dragonId}
         [HttpPut]
-        [Route("feed/{dragonId}")]
+        [Route("feed/{dragonId:guid}")]
         public FeedDragonResponse FeedDragon(Guid dragonId)
         {
             return _lifeCycleManager.IncreaseFeedometer(dragonId);
@@ -42,7 +42,7 @@ namespace Tamagotchi.Controllers
 
         // PUT \TamagotchiApi\pet\{dragonId}
         [HttpPut]
-        [Route("pet/{dragonId}")]
+        [Route("pet/{dragonId:guid}")]
         public PetDragonResponse PetDragon(Guid dragonId)
         {
             return _lifeCycleManager.IncreaseHappiness(dragonId);

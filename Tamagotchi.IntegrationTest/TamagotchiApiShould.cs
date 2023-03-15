@@ -2,7 +2,7 @@ using System.Net;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Tamagotchi.Contracts;
-using Tamagotchi.Models;
+using TamagotchiData.Models;
 
 namespace Tamagotchi.IntegrationTest
 {

@@ -2,7 +2,7 @@
 using System.Timers;
 using Tamagotchi.Contracts;
 using Tamagotchi.Controllers;
-using Tamagotchi.Models;
+using TamagotchiData.Models;
 
 namespace Tamagotchi.TamagotchiConsoleUi
 {

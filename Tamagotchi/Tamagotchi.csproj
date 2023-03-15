@@ -12,4 +12,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TamagotchiData\TamagotchiData.csproj" />
+  </ItemGroup>
+
 </Project>

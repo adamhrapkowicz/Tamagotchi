@@ -1,4 +1,4 @@
-﻿namespace Tamagotchi.Models
+﻿namespace TamagotchiData.Models
 {
     public class Dragon
     {
