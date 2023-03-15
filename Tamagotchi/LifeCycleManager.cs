@@ -7,10 +7,11 @@ namespace Tamagotchi
     public class LifeCycleManager : ILifeCycleManager
     {
         private readonly GameSettings _gameSettings;
-        private readonly List<Dragon> _dragons = new();
+        private readonly TamagotchiDbContext _tamagotchiDbContext;
 
-        public LifeCycleManager(IOptions<GameSettings> gameSettings)
+        public LifeCycleManager(IOptions<GameSettings> gameSettings, TamagotchiDbContext tamagotchiDbContext)
         {
+            _tamagotchiDbContext = tamagotchiDbContext;
             _gameSettings = gameSettings.Value;
         }
 
@@ -25,6 +26,9 @@ namespace Tamagotchi
                 return new FeedDragonResponse { Success = false, Reason = FeedingFailureReason.Full };
 
             dragon.Feedometer += SetCareLevelsForAgeGroups(dragon).FeedometerIncrement;
+
+            _tamagotchiDbContext.Dragons.Update(dragon);
+            _tamagotchiDbContext.SaveChanges();
 
             return new FeedDragonResponse { Success = true };
         }
@@ -41,12 +45,15 @@ namespace Tamagotchi
             
             dragon.Happiness += SetCareLevelsForAgeGroups(dragon).HappinessIncrement;
 
+            _tamagotchiDbContext.Dragons.Update(dragon);
+            _tamagotchiDbContext.SaveChanges();
+
             return new PetDragonResponse { Success = true };
         }
 
         public void ProgressLife()
         {
-            foreach (var dragon in _dragons.Where(p => p.IsAlive))
+            foreach (var dragon in _tamagotchiDbContext.Dragons.Where(p => p.IsAlive))
             {
                 dragon.Age += _gameSettings.AgeIncrement;
                 dragon.Feedometer -= SetCareLevelsForAgeGroups(dragon).HungerIncrement;
@@ -58,6 +65,9 @@ namespace Tamagotchi
                 {
                     dragon.IsAlive = false;
                 }
+
+                _tamagotchiDbContext.Dragons.Update(dragon);
+                _tamagotchiDbContext.SaveChanges();
             }
         }
 
@@ -71,14 +81,15 @@ namespace Tamagotchi
                 Happiness = _gameSettings.InitialHappiness,
             };
 
-            _dragons.Add(dragon);
+            _tamagotchiDbContext.Dragons.Add(dragon);
+            _tamagotchiDbContext.SaveChanges();
 
             return dragon.DragonId;
         }
 
         public Dragon GetDragonById(Guid dragonId)
         {
-            return _dragons.FirstOrDefault(d => d.DragonId == dragonId)!;
+            return _tamagotchiDbContext.Dragons.FirstOrDefault(d => d.DragonId == dragonId)!;
         }
 
         private AgeGroupSettings SetCareLevelsForAgeGroups(Dragon dragon)

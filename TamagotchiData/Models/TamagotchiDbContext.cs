@@ -10,6 +10,6 @@ namespace TamagotchiData.Models
 
         }
 
-        public DbSet<Dragon>? Dragons { get; set; }
+        public DbSet<Dragon> Dragons { get; set; }
     }
 }
