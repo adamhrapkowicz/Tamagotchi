@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using System.Timers;
+using TamagotchiData.Models;
 
 namespace Tamagotchi
 {
@@ -9,7 +10,7 @@ namespace Tamagotchi
         
         private readonly ILifeCycleManager _lifeCycleManager;
         private readonly GameSettings _gameSettings;
-        
+
         private readonly int? _exitCode;
 
         public LifeCycle(ILifeCycleManager lifeCycleManager, IOptions<GameSettings> gameSettings)

@@ -28,7 +28,7 @@ namespace Tamagotchi
             dragon.Feedometer += SetCareLevelsForAgeGroups(dragon).FeedometerIncrement;
 
             _tamagotchiDbContext.Dragons.Update(dragon);
-            _tamagotchiDbContext.SaveChanges();
+            //_tamagotchiDbContext.SaveChanges();
 
             return new FeedDragonResponse { Success = true };
         }
@@ -46,7 +46,7 @@ namespace Tamagotchi
             dragon.Happiness += SetCareLevelsForAgeGroups(dragon).HappinessIncrement;
 
             _tamagotchiDbContext.Dragons.Update(dragon);
-            _tamagotchiDbContext.SaveChanges();
+            //_tamagotchiDbContext.SaveChanges();
 
             return new PetDragonResponse { Success = true };
         }
@@ -82,7 +82,7 @@ namespace Tamagotchi
             };
 
             _tamagotchiDbContext.Dragons.Add(dragon);
-            _tamagotchiDbContext.SaveChanges();
+            //_tamagotchiDbContext.SaveChanges();
 
             return dragon.DragonId;
         }
