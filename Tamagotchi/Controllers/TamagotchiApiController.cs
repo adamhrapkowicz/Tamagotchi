@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Tamagotchi.Contracts;
-using TamagotchiData.Models;
 
 namespace Tamagotchi.Controllers
 {
@@ -19,9 +18,9 @@ namespace Tamagotchi.Controllers
         // GET \TamagotchiApi\{dragonId}
         [HttpGet]
         [Route("{dragonId:guid}")]
-        public Dragon GetGameStatus(Guid dragonId)
+        public GameStatusResponse GetGameStatus(Guid dragonId)
         {
-            return _lifeCycleManager.GetDragonById(dragonId);
+            return _lifeCycleManager.RequestGameStatus(dragonId);
         }
 
         // POST \TamagotchiApi\{dragonName}

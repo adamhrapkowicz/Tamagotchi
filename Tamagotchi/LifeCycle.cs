@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
 using System.Timers;
-using TamagotchiData.Models;
 
 namespace Tamagotchi
 {

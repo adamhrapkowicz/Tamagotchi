@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Moq;
 using Tamagotchi;
@@ -11,14 +12,16 @@ namespace TamagotchiUnitTests
     {
         private readonly ILifeCycleManager _lifeCycleManager;
         private readonly GameSettings _gameSettings;
+        private readonly TamagotchiDbContext _tamagotchiDbContext;
 
-        public LifeCycleManagerShould()
+        public LifeCycleManagerShould(TamagotchiDbContext tamagotchiDbContext)
         {
             _gameSettings = GetMockSettings();
+            _tamagotchiDbContext = tamagotchiDbContext;
             var mockSettings = new Mock<IOptions<GameSettings>>();
             mockSettings.Setup(x => x.Value).Returns(_gameSettings);
 
-            _lifeCycleManager = new LifeCycleManager(mockSettings.Object);
+            _lifeCycleManager = new LifeCycleManager(mockSettings.Object, tamagotchiDbContext);
         }
 
         private static GameSettings GetMockSettings()

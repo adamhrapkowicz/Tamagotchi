@@ -14,5 +14,7 @@ namespace Tamagotchi
         Dragon GetDragonById(Guid dragonId);
 
         Guid CreateDragon(string name);
+
+        GameStatusResponse RequestGameStatus(Guid dragonId);
     }
 }

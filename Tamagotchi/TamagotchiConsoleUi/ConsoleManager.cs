@@ -61,24 +61,24 @@ namespace Tamagotchi.TamagotchiConsoleUi
 
         private void DisplayGameStatus(object? sender, ElapsedEventArgs e)
         {
-            var dragon = _tamagotchiApi.GetGameStatus(_dragonId);
+            var response = _tamagotchiApi.GetGameStatus(_dragonId);
 
-            if (!dragon.IsAlive)
+            if (response.Success == false)
             {
                 GameStatusTimer.Dispose();
                 EndGameAtDeathOfTheDragon();
             }
             else
             {
-                WriteGameStatus(dragon);
+                WriteGameStatus(response.StatusDragon!);
             }
         }
 
         private void LetUserCareForDragon()
         {
-            var dragon = _tamagotchiApi.GetGameStatus(_dragonId);
+            var response = _tamagotchiApi.GetGameStatus(_dragonId);
 
-            while (dragon.IsAlive)
+            while (response.StatusDragon!.IsAlive)
             {
                 var careInstructionsFromUser = GetCareInstructionsFromUser();
                 ImplementUserInstructions(careInstructionsFromUser);
