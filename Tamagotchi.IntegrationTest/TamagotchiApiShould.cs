@@ -38,15 +38,15 @@ namespace Tamagotchi.IntegrationTest
             // Act
             var responseToGetGameStatus = await client.GetAsync($"TamagotchiApi/{dragonId}");
             var contentOfResponseToGetGameStatus = await responseToGetGameStatus.Content.ReadAsStringAsync();
-            var gameStatus = JsonConvert.DeserializeObject<Dragon>(contentOfResponseToGetGameStatus);
+            var gameStatus = JsonConvert.DeserializeObject<GameStatusResponse>(contentOfResponseToGetGameStatus);
 
             responseToGetGameStatus.EnsureSuccessStatusCode();
 
             // Assert
             responseToGetGameStatus.StatusCode.Should().Be(HttpStatusCode.OK);
             gameStatus.Should().NotBeNull();
-            gameStatus.AgeGroup.Should().Be(AgeGroup.Baby);
-            gameStatus.DragonId.Should().Be(dragonId);
+            gameStatus.StatusDragon.AgeGroup.Should().Be(AgeGroup.Baby);
+            gameStatus.StatusDragon.DragonId.Should().Be(dragonId);
         }
 
         [Fact]
@@ -58,12 +58,11 @@ namespace Tamagotchi.IntegrationTest
             var dragonId = await GetDragonId(client);
 
             // Act
-            Thread.Sleep(1000);
 
             var responseToFirstGetGameStatusRequest = await client.GetAsync($"TamagotchiApi/{dragonId}");
             var contentOfResponseToFirstGetGameStatusRequest = await responseToFirstGetGameStatusRequest.Content.
                 ReadAsStringAsync();
-            var firstGameStatus = JsonConvert.DeserializeObject<Dragon>(contentOfResponseToFirstGetGameStatusRequest);
+            var firstGameStatus = JsonConvert.DeserializeObject<GameStatusResponse>(contentOfResponseToFirstGetGameStatusRequest);
 
             responseToFirstGetGameStatusRequest.EnsureSuccessStatusCode();
 
@@ -72,18 +71,40 @@ namespace Tamagotchi.IntegrationTest
             var responseToSecondGetGameStatusRequest = await client.GetAsync($"TamagotchiApi/{dragonId}");
             var contentOfResponseToSecondGetGameStatusRequest = await responseToSecondGetGameStatusRequest.Content.
                 ReadAsStringAsync();
-            var secondGameStatus = JsonConvert.DeserializeObject<Dragon>(contentOfResponseToSecondGetGameStatusRequest);
+            var secondGameStatus = JsonConvert.DeserializeObject<GameStatusResponse>(contentOfResponseToSecondGetGameStatusRequest);
 
             responseToSecondGetGameStatusRequest.EnsureSuccessStatusCode();
 
             // Assert
             firstGameStatus.Should().NotBeNull();
             secondGameStatus.Should().NotBeNull();
-            secondGameStatus.Name.Should().Be(firstGameStatus.Name);
-            secondGameStatus.DragonId.Should().Be(firstGameStatus.DragonId);
-            secondGameStatus.Age.Should().BeGreaterThan(firstGameStatus.Age);
-            secondGameStatus.Happiness.Should().BeLessThan(firstGameStatus.Happiness);
-            secondGameStatus.Feedometer.Should().BeLessThan(firstGameStatus.Feedometer);
+            secondGameStatus.StatusDragon.Name.Should().Be(firstGameStatus.StatusDragon.Name);
+            secondGameStatus.StatusDragon.DragonId.Should().Be(firstGameStatus.StatusDragon.DragonId);
+            secondGameStatus.StatusDragon.Age.Should().BeGreaterThan(firstGameStatus.StatusDragon.Age);
+            secondGameStatus.StatusDragon.Happiness.Should().BeLessThan(firstGameStatus.StatusDragon.Happiness);
+            secondGameStatus.StatusDragon.Feedometer.Should().BeLessThan(firstGameStatus.StatusDragon.Feedometer);
+        }
+
+        [Fact]
+        public async Task ReturnGetGameStatusFailureReasonAsDeadWhenDragonIsNotAlive()
+        {
+            // Arrange
+            using var client = new TestClientProvider().Client;
+
+            var dragonId = await GetDragonId(client);
+            await WaitForDragonToDie(client, dragonId);
+
+            // Act
+            var responseToGetGameStatusRequest = await client.GetAsync($"TamagotchiApi/{dragonId}");
+            var contentOfResponseToGetGameStatus = await responseToGetGameStatusRequest.
+                Content.ReadAsStringAsync();
+            var gameStatus = JsonConvert.DeserializeObject<GameStatusResponse>(contentOfResponseToGetGameStatus);
+
+            // Assert
+            responseToGetGameStatusRequest.StatusCode.Should().Be(HttpStatusCode.OK);
+            gameStatus.Success.Should().BeFalse();
+            gameStatus.Reason.Should().Be(GetGameStatusFailureReason.Dead);
+            gameStatus.StatusDragon.IsAlive.Should().BeFalse();
         }
 
         [Fact]
@@ -98,7 +119,7 @@ namespace Tamagotchi.IntegrationTest
             var responseToFirstGetGameStatusRequest = await client.GetAsync($"TamagotchiApi/{dragonId}");
             var contentOfResponseToFirstGetGameStatusRequest = await responseToFirstGetGameStatusRequest.Content.
                 ReadAsStringAsync();
-            var firstGameStatus = JsonConvert.DeserializeObject<Dragon>(contentOfResponseToFirstGetGameStatusRequest);
+            var firstGameStatus = JsonConvert.DeserializeObject<GameStatusResponse>(contentOfResponseToFirstGetGameStatusRequest);
 
             responseToFirstGetGameStatusRequest.EnsureSuccessStatusCode();
             
@@ -111,7 +132,7 @@ namespace Tamagotchi.IntegrationTest
             var responseToSecondGetGameStatusRequest = await client.GetAsync($"TamagotchiApi/{dragonId}");
             var contentOfResponseToSecondGetGameStatusRequest = await responseToSecondGetGameStatusRequest.Content.
                 ReadAsStringAsync();
-            var secondGameStatus = JsonConvert.DeserializeObject<Dragon>(contentOfResponseToSecondGetGameStatusRequest);
+            var secondGameStatus = JsonConvert.DeserializeObject<GameStatusResponse>(contentOfResponseToSecondGetGameStatusRequest);
 
             responseToSecondGetGameStatusRequest.EnsureSuccessStatusCode();
 
@@ -119,7 +140,7 @@ namespace Tamagotchi.IntegrationTest
             // Assert
             responseToFeedDragon.StatusCode.Should().Be(HttpStatusCode.OK);
             feedDragonResponse.Success.Should().BeTrue();
-            secondGameStatus.Feedometer.Should().BeGreaterThan(firstGameStatus.Feedometer);
+            secondGameStatus.StatusDragon.Feedometer.Should().BeGreaterThan(firstGameStatus.StatusDragon.Feedometer);
         }
 
         [Fact]
@@ -170,8 +191,6 @@ namespace Tamagotchi.IntegrationTest
             feedDragonResponse.Reason.Should().Be(FeedingFailureReason.Dead);
         }
 
-        
-
         [Fact]
         public async Task ReturnIncreasedHappinessAfterPetDragonRequest()
         {
@@ -183,7 +202,7 @@ namespace Tamagotchi.IntegrationTest
             var responseToFirstGetGameStatusRequest = await client.GetAsync($"TamagotchiApi/{dragonId}");
             var contentOfResponseToFirstGetGameStatusRequest = await responseToFirstGetGameStatusRequest.Content.
                 ReadAsStringAsync();
-            var firstGameStatus = JsonConvert.DeserializeObject<Dragon>(contentOfResponseToFirstGetGameStatusRequest);
+            var firstGameStatus = JsonConvert.DeserializeObject<GameStatusResponse>(contentOfResponseToFirstGetGameStatusRequest);
 
             responseToFirstGetGameStatusRequest.EnsureSuccessStatusCode();
 
@@ -197,7 +216,7 @@ namespace Tamagotchi.IntegrationTest
             var responseToSecondGetGameStatusRequest = await client.GetAsync($"TamagotchiApi/{dragonId}");
             var contentOfResponseToSecondGetGameStatusRequest = await responseToSecondGetGameStatusRequest.Content.
                 ReadAsStringAsync();
-            var secondGameStatus = JsonConvert.DeserializeObject<Dragon>(contentOfResponseToSecondGetGameStatusRequest);
+            var secondGameStatus = JsonConvert.DeserializeObject<GameStatusResponse>(contentOfResponseToSecondGetGameStatusRequest);
 
             responseToSecondGetGameStatusRequest.EnsureSuccessStatusCode();
 
@@ -205,7 +224,7 @@ namespace Tamagotchi.IntegrationTest
             // Assert
             responseToPetDragon.StatusCode.Should().Be(HttpStatusCode.OK);
             petDragonResponse.Success.Should().BeTrue();
-            secondGameStatus.Happiness.Should().BeGreaterThan(firstGameStatus.Happiness);
+            secondGameStatus.StatusDragon.Happiness.Should().BeGreaterThan(firstGameStatus.StatusDragon.Happiness);
         }
 
         [Fact]
@@ -275,8 +294,8 @@ namespace Tamagotchi.IntegrationTest
                 var responseToGetGameStatusRequest = await client.GetAsync($"/TamagotchiApi/{dragonId}");
                 var contentOfTheResponseToGetGameStatusRequest =
                     await responseToGetGameStatusRequest.Content.ReadAsStringAsync();
-                var gameStatus = JsonConvert.DeserializeObject<Dragon>(contentOfTheResponseToGetGameStatusRequest);
-                dragonIsAlive = gameStatus.IsAlive;
+                var gameStatus = JsonConvert.DeserializeObject<GameStatusResponse>(contentOfTheResponseToGetGameStatusRequest);
+                dragonIsAlive = gameStatus.StatusDragon.IsAlive;
 
                 await Task.Delay(500);
             }

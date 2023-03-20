@@ -9,12 +9,12 @@ namespace Tamagotchi
 
         PetDragonResponse IncreaseHappiness(Guid dragonId);
 
-        void ProgressLife();
-
         Dragon GetDragonById(Guid dragonId);
 
         Guid CreateDragon(string name);
 
-        GameStatusResponse RequestGameStatus(Guid dragonId);
+        GameStatusResponse GetGameStatus(Guid dragonId);
+
+        AgeGroupSettings GetCareLevelsForAgeGroups(Dragon dragon);
     }
 }

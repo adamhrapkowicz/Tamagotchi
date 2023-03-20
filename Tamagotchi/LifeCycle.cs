@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using System.Timers;
+using TamagotchiData.Models;
 
 namespace Tamagotchi
 {
@@ -9,12 +10,15 @@ namespace Tamagotchi
         
         private readonly ILifeCycleManager _lifeCycleManager;
         private readonly GameSettings _gameSettings;
+        private readonly IServiceProvider _serviceProvider;
 
         private readonly int? _exitCode;
 
-        public LifeCycle(ILifeCycleManager lifeCycleManager, IOptions<GameSettings> gameSettings)
+        public LifeCycle(
+            ILifeCycleManager lifeCycleManager, IOptions<GameSettings> gameSettings, IServiceProvider serviceProvider)
         {
             _lifeCycleManager = lifeCycleManager;
+            _serviceProvider = serviceProvider;
             _gameSettings = gameSettings.Value;
         }
 
@@ -39,7 +43,31 @@ namespace Tamagotchi
 
         private void ProgressLife(object? sender, ElapsedEventArgs e)
         {
-            _lifeCycleManager.ProgressLife();
+            ProgressLife();
         }
+
+        private void ProgressLife()
+        {
+            using var scope = _serviceProvider.CreateScope();
+
+            var context = scope.ServiceProvider.GetRequiredService<TamagotchiDbContext>();
+
+            foreach (var dragon in context.Dragons.Where(p => p.IsAlive))
+            {
+                dragon.Age += _gameSettings.AgeIncrement;
+                dragon.Feedometer -= _lifeCycleManager.GetCareLevelsForAgeGroups(dragon).HungerIncrement;
+                dragon.Happiness -= _lifeCycleManager.GetCareLevelsForAgeGroups(dragon).SadnessIncrement;
+
+                if (dragon.Feedometer <= _gameSettings.MinValueOfFeedometer
+                    || dragon.Happiness <= _gameSettings.MinValueOfHappiness
+                    || dragon.Age >= _gameSettings.MaxAge)
+                {
+                    dragon.IsAlive = false;
+                }
+            }
+
+            context.SaveChanges();
+        }
+
     }
 }

@@ -6,7 +6,7 @@ namespace Tamagotchi.Contracts
     {
         public bool Success { get; set; }
 
-        public Dragon? StatusDragon { get; set; }
+        public Dragon StatusDragon { get; set; } = default!;
 
         public GetGameStatusFailureReason? Reason { get; set; } = default!;
     }

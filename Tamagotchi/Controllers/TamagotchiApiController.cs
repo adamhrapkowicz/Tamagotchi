@@ -20,7 +20,7 @@ namespace Tamagotchi.Controllers
         [Route("{dragonId:guid}")]
         public GameStatusResponse GetGameStatus(Guid dragonId)
         {
-            return _lifeCycleManager.RequestGameStatus(dragonId);
+            return _lifeCycleManager.GetGameStatus(dragonId);
         }
 
         // POST \TamagotchiApi\{dragonName}

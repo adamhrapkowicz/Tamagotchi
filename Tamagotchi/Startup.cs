@@ -41,7 +41,7 @@ namespace Tamagotchi
             services
                 .AddHostedService<LifeCycle>()
 
-                .AddSingleton<ILifeCycleManager, LifeCycleManager>()
+                .AddScoped<ILifeCycleManager, LifeCycleManager>()
                 .Configure<GameSettings>(_configuration.GetSection("GameSettings"))
                 .Configure<DragonMessages>(_configuration.GetSection("DragonMessages"))
                 .AddOptions();
