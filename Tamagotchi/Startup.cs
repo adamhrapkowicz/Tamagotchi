@@ -48,6 +48,11 @@ namespace Tamagotchi
                 }
             });
             services
+                .AddDbContext<TamagotchiDbContext>(options => options.UseSqlServer(
+                    _configuration.GetConnectionString("TamagotchiDbContextConnection")
+                    ?? throw new InvalidOperationException("Connection string 'TamagotchiDbContextConnection' not found")));
+
+            services
                 .AddHostedService<LifeCycle>()
 
                 .AddScoped<ILifeCycleManager, LifeCycleManager>()
