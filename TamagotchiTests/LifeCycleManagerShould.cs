@@ -2,7 +2,6 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Moq;
-using Moq.EntityFrameworkCore;
 using Tamagotchi;
 using Tamagotchi.Contracts;
 using TamagotchiData.Models;
@@ -13,27 +12,27 @@ namespace TamagotchiUnitTests
     {
         private readonly ILifeCycleManager _lifeCycleManager;
         private readonly GameSettings _gameSettings;
-        //private readonly TamagotchiDbContext _tamagotchiDbContext;
 
         public LifeCycleManagerShould()
         {
+            // For usage in integration tests
+            //Environment.SetEnvironmentVariable("DBCONTEXT_INMEMORY", "true");
+
             _gameSettings = GetMockSettings();
             var mockSettings = new Mock<IOptions<GameSettings>>();
             mockSettings.Setup(x => x.Value).Returns(_gameSettings);
 
-            //_tamagotchiDbContext = GetMockDbSet();
-            var mockContext = new Mock<TamagotchiDbContext>();
-            mockContext.Setup<DbSet<Dragon>>(x => x.Dragons).ReturnsDbSet(GetMockDbSet());
-            
-            _lifeCycleManager = new LifeCycleManager(
-                mockSettings.Object, mockContext.Object);
+            var tamagotchiDbContext = GetInMemoryTamagotchiDbContext();
+            _lifeCycleManager = new LifeCycleManager(mockSettings.Object, tamagotchiDbContext);
         }
 
-        private static IEnumerable<Dragon> GetMockDbSet()
+        public static TamagotchiDbContext GetInMemoryTamagotchiDbContext()
         {
-            return new List<Dragon>();
+            var builder = new DbContextOptionsBuilder<TamagotchiDbContext>();
+            builder.UseInMemoryDatabase("Testing");
+            var tamagotchiDbOptions = new TamagotchiDbContext(builder.Options);
+            return tamagotchiDbOptions;
         }
-         
 
         private static GameSettings GetMockSettings()
         {

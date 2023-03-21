@@ -33,15 +33,25 @@ namespace Tamagotchi
                 .AddSession()
                 .AddHttpContextAccessor();
 
-            services
-                .AddDbContext<TamagotchiDbContext>(options => options.UseSqlServer(
-                    _configuration.GetConnectionString("TamagotchiDbContextConnection")
-                    ?? throw new InvalidOperationException("Connection string 'TamagotchiDbContextConnection' not found")));
-
+            services.AddDbContext<TamagotchiDbContext>(c =>
+            {
+                if (bool.Parse(Environment.GetEnvironmentVariable("DBCONTEXT_INMEMORY") ?? "false"))
+                {
+                    c.UseInMemoryDatabase("Testing");
+                }
+                else
+                {
+                    c.UseSqlServer(
+                        _configuration.GetConnectionString("TamagotchiDbContextConnection")
+                        ?? throw new InvalidOperationException(
+                            "Connection string 'TamagotchiDbContextConnection' not found"));
+                }
+            });
             services
                 .AddHostedService<LifeCycle>()
 
                 .AddScoped<ILifeCycleManager, LifeCycleManager>()
+                .AddScoped<ITamagotchiRepository, TamagotchiRepository>()
                 .Configure<GameSettings>(_configuration.GetSection("GameSettings"))
                 .Configure<DragonMessages>(_configuration.GetSection("DragonMessages"))
                 .AddOptions();
