@@ -5,7 +5,6 @@ namespace TamagotchiData.Models
     public class TamagotchiRepository : ITamagotchiRepository
     {
         private readonly TamagotchiDbContext _context;
-
         private readonly DbSet<Dragon> _dragons;
 
         public TamagotchiRepository(TamagotchiDbContext context)
@@ -22,21 +21,16 @@ namespace TamagotchiData.Models
         public async Task AddDragonAsync(Dragon dragon)
         {
             await _dragons.AddAsync(dragon);
+        }
+        
+        public async Task SaveAllChangesAsync()
+        {
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateDragonAsync(Guid dragonId)
+        public void SaveAllChanges()
         {
-            var dragon = await GetDragonAsync(dragonId);
-            if (dragon != null)
-            {
-                await _context.SaveChangesAsync();
-            }
-        }
-
-        public async Task SaveAllChanges()
-        {
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public IEnumerable<Dragon> Dragons => _dragons;

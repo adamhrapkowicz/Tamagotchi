@@ -34,17 +34,17 @@ namespace Tamagotchi.Controllers
         // PUT \TamagotchiApi\feed\{dragonId}
         [HttpPut]
         [Route("feed/{dragonId:guid}")]
-        public FeedDragonResponse FeedDragon(Guid dragonId)
+        public async Task<FeedDragonResponse> FeedDragon(Guid dragonId)
         {
-            return _lifeCycleManager.IncreaseFeedometer(dragonId);
+            return await _lifeCycleManager.IncreaseFeedometerAsync(dragonId);
         }
 
         // PUT \TamagotchiApi\pet\{dragonId}
         [HttpPut]
         [Route("pet/{dragonId:guid}")]
-        public PetDragonResponse PetDragon(Guid dragonId)
+        public async Task<PetDragonResponse> PetDragon(Guid dragonId)
         {
-            return _lifeCycleManager.IncreaseHappiness(dragonId);
+            return await _lifeCycleManager.IncreaseHappinessAsync(dragonId);
         }
     }
 }

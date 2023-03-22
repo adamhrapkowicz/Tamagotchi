@@ -99,7 +99,7 @@ namespace Tamagotchi.TamagotchiConsoleUi
 
         private string PetDragon()
         {
-            var response = _tamagotchiApi.PetDragon(_dragonId);
+            var response = _tamagotchiApi.PetDragon(_dragonId).Result;
 
             string dragonsMessage;
 
@@ -121,7 +121,7 @@ namespace Tamagotchi.TamagotchiConsoleUi
 
         private string FeedDragon()
         {
-            var response = _tamagotchiApi.FeedDragon(_dragonId);
+            var response = _tamagotchiApi.FeedDragon(_dragonId).Result;
             string dragonsMessage;
 
             if (response.Success)

@@ -5,11 +5,11 @@ namespace Tamagotchi
 {
     public interface ILifeCycleManager
     {
-        FeedDragonResponse IncreaseFeedometer(Guid dragonId);
+        Task<FeedDragonResponse> IncreaseFeedometerAsync(Guid dragonId);
 
-        PetDragonResponse IncreaseHappiness(Guid dragonId);
+        Task<PetDragonResponse> IncreaseHappinessAsync(Guid dragonId);
 
-        Dragon GetDragonById(Guid dragonId);
+        Task<Dragon?> GetDragonByIdAsync(Guid dragonId);
 
         Guid CreateDragon(string name);
 

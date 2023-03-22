@@ -7,19 +7,19 @@ namespace Tamagotchi
     public class LifeCycleManager : ILifeCycleManager
     {
         private readonly GameSettings _gameSettings;
-        private readonly TamagotchiDbContext _tamagotchiDbContext;
+        private readonly ITamagotchiRepository _tamagotchiRepository;
 
-        public LifeCycleManager(IOptions<GameSettings> gameSettings, TamagotchiDbContext tamagotchiDbContext)
+        public LifeCycleManager(IOptions<GameSettings> gameSettings, ITamagotchiRepository tamagotchiRepository)
         {
-            _tamagotchiDbContext = tamagotchiDbContext;
+            _tamagotchiRepository = tamagotchiRepository;
             _gameSettings = gameSettings.Value;
         }
 
-        public FeedDragonResponse IncreaseFeedometer(Guid dragonId)
+        public  async Task<FeedDragonResponse> IncreaseFeedometerAsync(Guid dragonId)
         {
-            var dragon = GetDragonById(dragonId);
+            var dragon = GetDragonByIdAsync(dragonId).Result;
 
-            if (dragon.IsAlive == false)
+            if (dragon!.IsAlive == false)
                 return new FeedDragonResponse { Success = false, Reason = FeedingFailureReason.Dead };
 
             if (dragon.Feedometer >= GetCareLevelsForAgeGroups(dragon).MaxFeedometerForAgeGroup)
@@ -27,16 +27,16 @@ namespace Tamagotchi
 
             dragon.Feedometer += GetCareLevelsForAgeGroups(dragon).FeedometerIncrement;
 
-            _tamagotchiDbContext.SaveChanges();
+            await _tamagotchiRepository.SaveAllChangesAsync();
 
             return new FeedDragonResponse { Success = true };
         }
 
-        public PetDragonResponse IncreaseHappiness(Guid dragonId)
+        public async Task<PetDragonResponse> IncreaseHappinessAsync(Guid dragonId)
         {
-            var dragon = GetDragonById(dragonId);
+            var dragon = GetDragonByIdAsync(dragonId).Result;
 
-            if (dragon.IsAlive == false)
+            if (dragon!.IsAlive == false)
                 return new PetDragonResponse { Success = false, Reason = PettingFailureReason.Dead };
 
             if (dragon.Happiness >= GetCareLevelsForAgeGroups(dragon).MaxHappinessForAgeGroup)
@@ -44,7 +44,7 @@ namespace Tamagotchi
 
             dragon.Happiness += GetCareLevelsForAgeGroups(dragon).HappinessIncrement;
 
-            _tamagotchiDbContext.SaveChanges();
+            await _tamagotchiRepository.SaveAllChangesAsync();
 
             return new PetDragonResponse { Success = true };
         }
@@ -59,22 +59,22 @@ namespace Tamagotchi
                 Happiness = _gameSettings.InitialHappiness,
             };
 
-            _tamagotchiDbContext.Dragons.Add(dragon);
-            _tamagotchiDbContext.SaveChanges();
+            _tamagotchiRepository.AddDragonAsync(dragon).GetAwaiter().GetResult();
+            _tamagotchiRepository.SaveAllChanges();
 
             return dragon.DragonId;
         }
 
-        public Dragon GetDragonById(Guid dragonId)
+        public async Task<Dragon?> GetDragonByIdAsync(Guid dragonId)
         {
-            return _tamagotchiDbContext.Dragons.FirstOrDefault(d => d.DragonId == dragonId)!;
+            return await _tamagotchiRepository.GetDragonAsync(dragonId);
         }
 
         public GameStatusResponse GetGameStatus(Guid dragonId)
         {
-            var dragon = GetDragonById(dragonId);
+            var dragon = GetDragonByIdAsync(dragonId).Result;
 
-            return !dragon.IsAlive
+            return !dragon!.IsAlive
                 ? new GameStatusResponse { Success = false, Reason = GetGameStatusFailureReason.Dead, StatusDragon = dragon}
                 : new GameStatusResponse { Success = true, StatusDragon = dragon };
         }

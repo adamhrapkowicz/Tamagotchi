@@ -6,9 +6,9 @@ public interface ITamagotchiRepository
 
     Task AddDragonAsync(Dragon dragon);
     
-    Task UpdateDragonAsync(Guid dragonId);
+    Task SaveAllChangesAsync();
 
-    Task SaveAllChanges();
+    void SaveAllChanges();
 
     IEnumerable<Dragon> Dragons { get; }
 }

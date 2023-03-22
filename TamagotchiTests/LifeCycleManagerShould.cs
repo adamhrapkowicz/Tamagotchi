@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -12,27 +14,43 @@ namespace TamagotchiUnitTests
     {
         private readonly ILifeCycleManager _lifeCycleManager;
         private readonly GameSettings _gameSettings;
+        private readonly ITamagotchiRepository _tamagotchiRepository;
 
-        public LifeCycleManagerShould()
+        public LifeCycleManagerShould(ITamagotchiRepository tamagotchiRepository)
         {
-            // For usage in integration tests
-            //Environment.SetEnvironmentVariable("DBCONTEXT_INMEMORY", "true");
+            //_tamagotchiRepository = tamagotchiRepository;
 
             _gameSettings = GetMockSettings();
             var mockSettings = new Mock<IOptions<GameSettings>>();
             mockSettings.Setup(x => x.Value).Returns(_gameSettings);
 
-            var tamagotchiDbContext = GetInMemoryTamagotchiDbContext();
-            _lifeCycleManager = new LifeCycleManager(mockSettings.Object, tamagotchiDbContext);
-        }
-
-        public static TamagotchiDbContext GetInMemoryTamagotchiDbContext()
-        {
             var builder = new DbContextOptionsBuilder<TamagotchiDbContext>();
             builder.UseInMemoryDatabase("Testing");
             var tamagotchiDbOptions = new TamagotchiDbContext(builder.Options);
-            return tamagotchiDbOptions;
+
+            _tamagotchiRepository = new Mock<TamagotchiRepository>(tamagotchiDbOptions).Object;
+
+            var mockRepository = new Mock<ITamagotchiRepository>();
+            mockRepository.Setup(x => x).Returns(_tamagotchiRepository);
+            //var tamagotchiDbContext = GetInMemoryTamagotchiDbContext();
+            _lifeCycleManager = new LifeCycleManager(mockSettings.Object, _tamagotchiRepository);
         }
+
+        //private static Mock<ITamagotchiRepository> GetMockRepository()
+        //{
+        //    return new TamagotchiRepository(_tamagotchi)
+        //    {
+
+        //    };
+        //}
+
+        //public static TamagotchiDbContext GetInMemoryTamagotchiDbContext()
+        //{
+        //    var builder = new DbContextOptionsBuilder<TamagotchiDbContext>();
+        //    builder.UseInMemoryDatabase("Testing");
+        //    var tamagotchiDbOptions = new TamagotchiDbContext(builder.Options);
+        //    return tamagotchiDbOptions;
+        //}
 
         private static GameSettings GetMockSettings()
         {
@@ -94,7 +112,7 @@ namespace TamagotchiUnitTests
         }
 
         [Fact]
-        public void CreateDragonWithCorrectNameOnCreateDragonCall()
+        public async Task CreateDragonWithCorrectNameOnCreateDragonCall()
         {
             //Arrange
             const string name = "testdragon";
@@ -105,7 +123,7 @@ namespace TamagotchiUnitTests
             //Assert
             Assert.True(Guid.Empty != dragonId);
 
-            var dragon = _lifeCycleManager.GetDragonById(dragonId);
+            var dragon = await _lifeCycleManager.GetDragonByIdAsync(dragonId);
             Assert.NotNull(dragon);
             Assert.Equal(name, dragon.Name);
         }
@@ -114,7 +132,7 @@ namespace TamagotchiUnitTests
         [InlineData("TestDragon1")]
         [InlineData("TestDragon2")]
         [InlineData("TestDragon3")]
-        public void ReturnCorrectDragonOnGetDragonByIdCall(string dragonName)
+        public async Task ReturnCorrectDragonOnGetDragonByIdCall(string dragonName)
         {
             //Arrange
             const AgeGroup expectedAgeGroup = AgeGroup.Baby;
@@ -122,7 +140,7 @@ namespace TamagotchiUnitTests
 
             //Act
             var testDragonId = _lifeCycleManager.CreateDragon(dragonName);
-            var returnedDragon = _lifeCycleManager.GetDragonById(testDragonId);
+            var returnedDragon = await _lifeCycleManager.GetDragonByIdAsync(testDragonId);
 
             //Assert
             Assert.NotNull(returnedDragon);
@@ -136,15 +154,15 @@ namespace TamagotchiUnitTests
         }
 
         [Fact]
-        public void ReturnSuccessResponseOnIncreaseFeedometerCallIfMaxFeedometerNotReached()
+        public async Task ReturnSuccessResponseOnIncreaseFeedometerCallIfMaxFeedometerNotReached()
         {
             //Arrange
             var testDragonId = _lifeCycleManager.CreateDragon("TestDragon4");
-            var testDragon4 = _lifeCycleManager.GetDragonById(testDragonId);
-            var startingFeedometer = testDragon4.Feedometer;
+            var testDragon4 = _lifeCycleManager.GetDragonByIdAsync(testDragonId).Result;
+            var startingFeedometer = testDragon4!.Feedometer;
 
             //Act
-            var returnedResponse = _lifeCycleManager.IncreaseFeedometer(testDragonId);
+            var returnedResponse = await _lifeCycleManager.IncreaseFeedometerAsync(testDragonId);
 
             //Assert
             Assert.NotNull(returnedResponse);
@@ -153,17 +171,17 @@ namespace TamagotchiUnitTests
         }
 
         [Fact]
-        public void ReturnDeadResponseOnIncreaseFeedometerCallIfDragonNotAlive()
+        public async Task ReturnDeadResponseOnIncreaseFeedometerCallIfDragonNotAlive()
         {
             //Arrange
             var testDragonId = _lifeCycleManager.CreateDragon("TestDragon5");
-            var testDragon5 = _lifeCycleManager.GetDragonById(testDragonId);
+            var testDragon5 = _lifeCycleManager.GetDragonByIdAsync(testDragonId).Result!;
             testDragon5.IsAlive = false;
             const FeedingFailureReason expectedReason = FeedingFailureReason.Dead;
             var startingFeedometer = testDragon5.Feedometer;
 
             //Act
-            var returnedResponse = _lifeCycleManager.IncreaseFeedometer(testDragonId);
+            var returnedResponse = await _lifeCycleManager.IncreaseFeedometerAsync(testDragonId);
 
             //Assert
             Assert.NotNull(returnedResponse);
@@ -173,17 +191,17 @@ namespace TamagotchiUnitTests
         }
 
         [Fact]
-        public void ReturnFullResponseOnIncreaseFeedometerCallIfFeedometerMoreThanMax()
+        public async Task ReturnFullResponseOnIncreaseFeedometerCallIfFeedometerMoreThanMax()
         {
             //Arrange
             var testDragonId = _lifeCycleManager.CreateDragon("TestDragon6");
-            var testDragon6 = _lifeCycleManager.GetDragonById(testDragonId);
+            var testDragon6 = _lifeCycleManager.GetDragonByIdAsync(testDragonId).Result!;
             testDragon6.Feedometer = _gameSettings.BabySettings.MaxFeedometerForAgeGroup;
             const FeedingFailureReason expectedReason = FeedingFailureReason.Full;
             var startingFeedometer = testDragon6.Feedometer;
 
             //Act
-            var returnedResponse = _lifeCycleManager.IncreaseFeedometer(testDragonId);
+            var returnedResponse = await _lifeCycleManager.IncreaseFeedometerAsync(testDragonId);
 
             //Assert
             Assert.NotNull(returnedResponse);
@@ -193,15 +211,15 @@ namespace TamagotchiUnitTests
         }
 
         [Fact]
-        public void ReturnSuccessResponseOnIncreaseHappinessCallIfMaxHappinessNotReached()
+        public async Task ReturnSuccessResponseOnIncreaseHappinessCallIfMaxHappinessNotReached()
         {
             //Arrange
             var testDragonId = _lifeCycleManager.CreateDragon("TestDragon4");
-            var testDragon4 = _lifeCycleManager.GetDragonById(testDragonId);
+            var testDragon4 = _lifeCycleManager.GetDragonByIdAsync(testDragonId).Result!;
             var startingHappiness = testDragon4.Happiness;
 
             //Act
-            var returnedResponse = _lifeCycleManager.IncreaseHappiness(testDragonId);
+            var returnedResponse = await _lifeCycleManager.IncreaseHappinessAsync(testDragonId);
 
             //Assert
             returnedResponse.Should().NotBeNull();
@@ -210,17 +228,17 @@ namespace TamagotchiUnitTests
         }
 
         [Fact]
-        public void ReturnDeadResponseOnIncreaseHappinessCallIfDragonNotAlive()
+        public async Task ReturnDeadResponseOnIncreaseHappinessCallIfDragonNotAlive()
         {
             //Arrange
             var testDragonId = _lifeCycleManager.CreateDragon("TestDragon5");
-            var testDragon5 = _lifeCycleManager.GetDragonById(testDragonId);
+            var testDragon5 = _lifeCycleManager.GetDragonByIdAsync(testDragonId).Result!;
             testDragon5.IsAlive = false;
             const PettingFailureReason expectedReason = PettingFailureReason.Dead;
             var startingHappiness = testDragon5.Happiness;
 
             //Act
-            var returnedResponse = _lifeCycleManager.IncreaseHappiness(testDragonId);
+            var returnedResponse =await _lifeCycleManager.IncreaseHappinessAsync(testDragonId);
 
             //Assert
             returnedResponse.Should().NotBeNull();
@@ -230,17 +248,17 @@ namespace TamagotchiUnitTests
         }
 
         [Fact]
-        public void ReturnOverpettedResponseOnIncreaseFeedometerCallIfFeedometerMoreThanMax()
+        public async Task ReturnOverpettedResponseOnIncreaseFeedometerCallIfFeedometerMoreThanMax()
         {
             //Arrange
             var testDragonId = _lifeCycleManager.CreateDragon("TestDragon6");
-            var testDragon6 = _lifeCycleManager.GetDragonById(testDragonId);
+            var testDragon6 = _lifeCycleManager.GetDragonByIdAsync(testDragonId).Result!;
             testDragon6.Happiness = _gameSettings.BabySettings.MaxHappinessForAgeGroup;
             const PettingFailureReason expectedReason = PettingFailureReason.Overpetted;
             var startingHappiness = testDragon6.Happiness;
 
             //Act
-            var returnedResponse = _lifeCycleManager.IncreaseHappiness(testDragonId);
+            var returnedResponse = await  _lifeCycleManager.IncreaseHappinessAsync(testDragonId);
 
             //Assert
             returnedResponse.Should().NotBeNull();

@@ -66,7 +66,8 @@ namespace Tamagotchi
                 }
             }
 
-            repository.SaveAllChanges();
+            repository.SaveAllChangesAsync().GetAwaiter().GetResult();
+            //repository.SaveAllChanges();
         }
 
     }
