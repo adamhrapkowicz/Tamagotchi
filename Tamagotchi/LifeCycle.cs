@@ -50,9 +50,9 @@ namespace Tamagotchi
         {
             using var scope = _serviceProvider.CreateScope();
 
-            //var repository = scope.ServiceProvider.GetRequiredService<ITamagotchiRepository>();
-            var tamagotchiDbContext = scope.ServiceProvider.GetRequiredService<TamagotchiDbContext>();
-            foreach (var dragon in tamagotchiDbContext.Dragons.Where(p => p.IsAlive))
+            var repository = scope.ServiceProvider.GetRequiredService<ITamagotchiRepository>();
+
+            foreach (var dragon in repository.Dragons.Where(p => p.IsAlive))
             {
                 dragon.Age += _gameSettings.AgeIncrement;
                 dragon.Feedometer -= _lifeCycleManager.GetCareLevelsForAgeGroups(dragon).HungerIncrement;
@@ -66,8 +66,7 @@ namespace Tamagotchi
                 }
             }
 
-            tamagotchiDbContext.SaveChanges();
-            //repository.SaveChanges();
+            repository.SaveAllChanges();
         }
 
     }
