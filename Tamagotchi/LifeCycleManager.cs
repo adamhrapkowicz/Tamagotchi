@@ -7,11 +7,11 @@ namespace Tamagotchi
     public class LifeCycleManager : ILifeCycleManager
     {
         private readonly GameSettings _gameSettings;
-        private readonly TamagotchiDbContext _tamagotchiDbContext;
+        private readonly ITamagotchiRepository _tamagotchiRepository;
 
-        public LifeCycleManager(IOptions<GameSettings> gameSettings, TamagotchiDbContext tamagotchiDbContext)
+        public LifeCycleManager(IOptions<GameSettings> gameSettings, ITamagotchiRepository tamagotchiRepository)
         {
-            _tamagotchiDbContext = tamagotchiDbContext;
+            _tamagotchiRepository = tamagotchiRepository;
             _gameSettings = gameSettings.Value;
         }
 
@@ -27,12 +27,12 @@ namespace Tamagotchi
 
             dragon.Feedometer += GetCareLevelsForAgeGroups(dragon).FeedometerIncrement;
 
-            _tamagotchiDbContext.SaveChanges();
+            _tamagotchiRepository.SaveAllChanges();
 
             return new FeedDragonResponse { Success = true };
         }
 
-        public PetDragonResponse IncreaseHappiness(Guid dragonId)
+        public async Task<PetDragonResponse> IncreaseHappinessAsync(Guid dragonId)
         {
             var dragon = GetDragonById(dragonId);
 
@@ -44,7 +44,7 @@ namespace Tamagotchi
 
             dragon.Happiness += GetCareLevelsForAgeGroups(dragon).HappinessIncrement;
 
-            _tamagotchiDbContext.SaveChanges();
+            await _tamagotchiRepository.SaveAllChangesAsync();
 
             return new PetDragonResponse { Success = true };
         }
@@ -59,15 +59,15 @@ namespace Tamagotchi
                 Happiness = _gameSettings.InitialHappiness,
             };
 
-            _tamagotchiDbContext.Dragons.Add(dragon);
-            _tamagotchiDbContext.SaveChanges();
+            _tamagotchiRepository.AddDragonAsync(dragon).GetAwaiter().GetResult();
+            _tamagotchiRepository.SaveAllChanges();
 
             return dragon.DragonId;
         }
 
         public Dragon GetDragonById(Guid dragonId)
         {
-            return _tamagotchiDbContext.Dragons.FirstOrDefault(d => d.DragonId == dragonId)!;
+            return _tamagotchiRepository.Dragons.FirstOrDefault(d => d.DragonId == dragonId)!;
         }
 
         public GameStatusResponse GetGameStatus(Guid dragonId)

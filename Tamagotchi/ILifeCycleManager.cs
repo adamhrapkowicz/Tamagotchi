@@ -7,7 +7,7 @@ namespace Tamagotchi
     {
         FeedDragonResponse IncreaseFeedometer(Guid dragonId);
 
-        PetDragonResponse IncreaseHappiness(Guid dragonId);
+        Task<PetDragonResponse> IncreaseHappinessAsync(Guid dragonId);
 
         Dragon GetDragonById(Guid dragonId);
 

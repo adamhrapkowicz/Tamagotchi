@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -193,7 +194,7 @@ namespace TamagotchiUnitTests
         }
 
         [Fact]
-        public void ReturnSuccessResponseOnIncreaseHappinessCallIfMaxHappinessNotReached()
+        public async Task ReturnSuccessResponseOnIncreaseHappinessCallIfMaxHappinessNotReached()
         {
             //Arrange
             var testDragonId = _lifeCycleManager.CreateDragon("TestDragon4");
@@ -201,7 +202,7 @@ namespace TamagotchiUnitTests
             var startingHappiness = testDragon4.Happiness;
 
             //Act
-            var returnedResponse = _lifeCycleManager.IncreaseHappiness(testDragonId);
+            var returnedResponse = await _lifeCycleManager.IncreaseHappinessAsync(testDragonId);
 
             //Assert
             returnedResponse.Should().NotBeNull();
@@ -210,7 +211,7 @@ namespace TamagotchiUnitTests
         }
 
         [Fact]
-        public void ReturnDeadResponseOnIncreaseHappinessCallIfDragonNotAlive()
+        public async Task ReturnDeadResponseOnIncreaseHappinessCallIfDragonNotAlive()
         {
             //Arrange
             var testDragonId = _lifeCycleManager.CreateDragon("TestDragon5");
@@ -220,7 +221,7 @@ namespace TamagotchiUnitTests
             var startingHappiness = testDragon5.Happiness;
 
             //Act
-            var returnedResponse = _lifeCycleManager.IncreaseHappiness(testDragonId);
+            var returnedResponse =await _lifeCycleManager.IncreaseHappinessAsync(testDragonId);
 
             //Assert
             returnedResponse.Should().NotBeNull();
@@ -230,7 +231,7 @@ namespace TamagotchiUnitTests
         }
 
         [Fact]
-        public void ReturnOverpettedResponseOnIncreaseFeedometerCallIfFeedometerMoreThanMax()
+        public async Task ReturnOverpettedResponseOnIncreaseFeedometerCallIfFeedometerMoreThanMax()
         {
             //Arrange
             var testDragonId = _lifeCycleManager.CreateDragon("TestDragon6");
@@ -240,7 +241,7 @@ namespace TamagotchiUnitTests
             var startingHappiness = testDragon6.Happiness;
 
             //Act
-            var returnedResponse = _lifeCycleManager.IncreaseHappiness(testDragonId);
+            var returnedResponse = await  _lifeCycleManager.IncreaseHappinessAsync(testDragonId);
 
             //Assert
             returnedResponse.Should().NotBeNull();
