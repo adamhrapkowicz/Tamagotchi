@@ -70,7 +70,7 @@ namespace Tamagotchi.TamagotchiConsoleUi
             }
             else
             {
-                WriteGameStatus(response.StatusDragon!);
+                WriteGameStatus(response.StatusDragon);
             }
         }
 
@@ -78,7 +78,7 @@ namespace Tamagotchi.TamagotchiConsoleUi
         {
             var response = _tamagotchiApi.GetGameStatus(_dragonId);
 
-            while (response.StatusDragon!.IsAlive)
+            while (response.StatusDragon.IsAlive)
             {
                 var careInstructionsFromUser = GetCareInstructionsFromUser();
                 ImplementUserInstructions(careInstructionsFromUser);
