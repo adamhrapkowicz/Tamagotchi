@@ -49,7 +49,7 @@ namespace Tamagotchi
             return new PetDragonResponse { Success = true };
         }
 
-        public Guid CreateDragon(string name)
+        public CreateDragonResponse CreateDragon(string name)
         {
             Dragon dragon = new()
             {
@@ -62,7 +62,7 @@ namespace Tamagotchi
             _tamagotchiRepository.AddDragonAsync(dragon).GetAwaiter().GetResult();
             _tamagotchiRepository.SaveAllChanges();
 
-            return dragon.DragonId;
+            return new CreateDragonResponse() {DragonId = dragon.DragonId};
         }
 
         public async Task<Dragon?> GetDragonByIdAsync(Guid dragonId)

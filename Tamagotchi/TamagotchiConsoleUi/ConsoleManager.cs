@@ -49,7 +49,8 @@ namespace Tamagotchi.TamagotchiConsoleUi
         private void StartConsoleGameWithNewDragon()
         {
             _dragonName = GetDragonNameFromUser();
-            _dragonId = _tamagotchiApi.StartGame(_dragonName);
+            var response =_tamagotchiApi.StartGame(_dragonName);
+            _dragonId = response.Value!.DragonId;
         }
 
         private void EndGameAtDeathOfTheDragon()
@@ -63,14 +64,14 @@ namespace Tamagotchi.TamagotchiConsoleUi
         {
             var response = _tamagotchiApi.GetGameStatus(_dragonId);
 
-            if (response.Success == false)
+            if (response.Value!.Success == false)
             {
                 GameStatusTimer.Dispose();
                 EndGameAtDeathOfTheDragon();
             }
             else
             {
-                WriteGameStatus(response.StatusDragon);
+                WriteGameStatus(response.Value.StatusDragon);
             }
         }
 
@@ -78,7 +79,7 @@ namespace Tamagotchi.TamagotchiConsoleUi
         {
             var response = _tamagotchiApi.GetGameStatus(_dragonId);
 
-            while (response.StatusDragon.IsAlive)
+            while (response.Value!.StatusDragon.IsAlive)
             {
                 var careInstructionsFromUser = GetCareInstructionsFromUser();
                 ImplementUserInstructions(careInstructionsFromUser);
@@ -103,11 +104,11 @@ namespace Tamagotchi.TamagotchiConsoleUi
 
             string dragonsMessage;
 
-            if (response.Success)
+            if (response.Value!.Success)
             {
                 dragonsMessage = _dragonMessages.PettingSuccess;
             }
-            else if (response.Reason == PettingFailureReason.Overpetted)
+            else if (response.Value.Reason == PettingFailureReason.Overpetted)
             {
                 dragonsMessage = _dragonMessages.Overpetting;
             }
@@ -124,11 +125,11 @@ namespace Tamagotchi.TamagotchiConsoleUi
             var response = _tamagotchiApi.FeedDragon(_dragonId).Result;
             string dragonsMessage;
 
-            if (response.Success)
+            if (response.Value!.Success)
             {
                 dragonsMessage = _dragonMessages.FeedingSuccess;
             }
-            else if (response.Reason == FeedingFailureReason.Full)
+            else if (response.Value.Reason == FeedingFailureReason.Full)
             {
                 dragonsMessage = _dragonMessages.Overfeeding;
             }

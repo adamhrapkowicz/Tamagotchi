@@ -121,10 +121,10 @@ namespace TamagotchiUnitTests
             const string name = "testDragon";
 
             //Act
-            var dragonId = _lifeCycleManager.CreateDragon(name);
+            var response = _lifeCycleManager.CreateDragon(name);
 
             //Assert
-            Assert.True(Guid.Empty != dragonId);
+            Assert.True(Guid.Empty != response.DragonId);
             _mockRepository.Verify(x=>x.AddDragonAsync(It.Is<Dragon>(p=>p.Name == name)));
         }
 
