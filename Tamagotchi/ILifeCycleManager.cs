@@ -1,20 +1,19 @@
 ﻿using Tamagotchi.Contracts;
 using TamagotchiData.Models;
 
-namespace Tamagotchi
+namespace Tamagotchi;
+
+public interface ILifeCycleManager
 {
-    public interface ILifeCycleManager
-    {
-        Task<FeedDragonResponse> IncreaseFeedometerAsync(Guid dragonId);
+    Task<FeedDragonResponse> IncreaseFeedometerAsync(Guid dragonId);
 
-        Task<PetDragonResponse> IncreaseHappinessAsync(Guid dragonId);
+    Task<PetDragonResponse> IncreaseHappinessAsync(Guid dragonId);
 
-        Task<Dragon?> GetDragonByIdAsync(Guid dragonId);
+    Task<Dragon?> GetDragonByIdAsync(Guid dragonId);
 
-        StartGameResponse CreateDragon(string name);
+    StartGameResponse CreateDragon(string name);
 
-        GameStatusResponse GetGameStatus(Guid dragonId);
+    GameStatusResponse GetGameStatus(Guid dragonId);
 
-        AgeGroupSettings GetCareLevelsForAgeGroups(Dragon dragon);
-    }
+    AgeGroupSettings GetCareLevelsForAgeGroups(Dragon dragon);
 }

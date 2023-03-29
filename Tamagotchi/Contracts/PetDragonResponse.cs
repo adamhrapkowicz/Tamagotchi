@@ -1,15 +1,14 @@
-﻿namespace Tamagotchi.Contracts
+﻿namespace Tamagotchi.Contracts;
+
+public class PetDragonResponse
 {
-    public class PetDragonResponse
-    {
-        public bool Success { get; set; }
+    public bool Success { get; set; }
 
-        public PettingFailureReason? Reason { get; set; } = default!;
-    }
+    public PettingFailureReason? Reason { get; set; } = default!;
+}
 
-    public enum PettingFailureReason
-    {
-        Dead,
-        Overpetted
-    }
+public enum PettingFailureReason
+{
+    Dead,
+    Overpetted
 }

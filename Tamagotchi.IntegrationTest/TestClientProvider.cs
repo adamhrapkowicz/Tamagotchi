@@ -2,33 +2,32 @@
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 
-namespace Tamagotchi.IntegrationTest
+namespace Tamagotchi.IntegrationTest;
+
+public class TestClientProvider : IDisposable
 {
-    public class TestClientProvider : IDisposable
+    private readonly TestServer _server;
+
+    public TestClientProvider()
     {
-        private readonly TestServer _server;
-        public HttpClient Client { get; private set; }
+        _server = new TestServer(
+            new WebHostBuilder()
+                .UseStartup<Startup>()
+                .ConfigureAppConfiguration((context, config) =>
+                {
+                    config
+                        .AddJsonFile("appsettings.json")
+                        .AddEnvironmentVariables();
+                }));
 
-        public TestClientProvider()
-        {
-            _server = new TestServer(
-                new WebHostBuilder()
-                    .UseStartup<Startup>()
-                    .ConfigureAppConfiguration((context, config) =>
-                    {
-                        config
-                            .AddJsonFile("appsettings.json")
-                            .AddEnvironmentVariables();
-                    }));
+        Client = _server.CreateClient();
+    }
 
-            Client = _server.CreateClient();
+    public HttpClient Client { get; }
 
-        }
-
-        public void Dispose()
-        {
-            _server?.Dispose();
-            Client?.Dispose();
-        }
+    public void Dispose()
+    {
+        _server.Dispose();
+        Client.Dispose();
     }
 }

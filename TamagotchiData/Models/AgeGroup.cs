@@ -1,13 +1,10 @@
-﻿namespace TamagotchiData.Models
-{
-    public enum AgeGroup
-    {
-        Baby,
-        Child,
-        Teen,
-        Adult,
-        Senior
-    }
-}
+﻿namespace TamagotchiData.Models;
 
-// POCO - Plain Old CLI Objects
+public enum AgeGroup
+{
+    Baby,
+    Child,
+    Teen,
+    Adult,
+    Senior
+}

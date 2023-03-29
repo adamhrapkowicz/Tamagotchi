@@ -1,32 +1,31 @@
-﻿namespace TamagotchiData.Models
+﻿namespace TamagotchiData.Models;
+
+public class Dragon
 {
-    public class Dragon
+    public Guid DragonId { get; set; }
+
+    public string Name { get; set; } = string.Empty;
+
+    public double Age { get; set; }
+
+    public AgeGroup AgeGroup
     {
-        public Guid DragonId { get; set; }
-
-        public string Name { get; set; } = string.Empty;
-
-        public double Age { get; set; }
-
-        public AgeGroup AgeGroup
+        get
         {
-            get
+            return Age switch
             {
-                return Age switch
-                {
-                    <= 2 => AgeGroup.Baby,
-                    <= 10 => AgeGroup.Child,
-                    <= 20 => AgeGroup.Teen,
-                    <= 60 => AgeGroup.Adult,
-                    _ => AgeGroup.Senior
-                };
-            }
+                <= 2 => AgeGroup.Baby,
+                <= 10 => AgeGroup.Child,
+                <= 20 => AgeGroup.Teen,
+                <= 60 => AgeGroup.Adult,
+                _ => AgeGroup.Senior
+            };
         }
-
-        public bool IsAlive { get; set; } = true;
-
-        public int Feedometer { get; set; }
-
-        public int Happiness { get; set; }
     }
+
+    public bool IsAlive { get; set; } = true;
+
+    public int Feedometer { get; set; }
+
+    public int Happiness { get; set; }
 }

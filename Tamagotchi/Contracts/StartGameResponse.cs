@@ -1,7 +1,6 @@
-﻿namespace Tamagotchi.Contracts
+﻿namespace Tamagotchi.Contracts;
+
+public class StartGameResponse
 {
-    public class StartGameResponse
-    {
-        public Guid DragonId { get; set; }
-    }
+    public Guid DragonId { get; set; }
 }

@@ -1,15 +1,14 @@
-﻿namespace Tamagotchi.Contracts
+﻿namespace Tamagotchi.Contracts;
+
+public class FeedDragonResponse
 {
-    public class FeedDragonResponse
-    {
-        public bool Success { get; set; }
+    public bool Success { get; set; }
 
-        public FeedingFailureReason? Reason { get; set; } = default!;
-    }
+    public FeedingFailureReason? Reason { get; set; } = default!;
+}
 
-    public enum FeedingFailureReason
-    {
-        Dead,
-        Full
-    }
+public enum FeedingFailureReason
+{
+    Dead,
+    Full
 }

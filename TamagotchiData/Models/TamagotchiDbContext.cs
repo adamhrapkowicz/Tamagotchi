@@ -1,15 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace TamagotchiData.Models
+namespace TamagotchiData.Models;
+
+public class TamagotchiDbContext : DbContext
+
 {
-    public class TamagotchiDbContext : DbContext
-
+    public TamagotchiDbContext(DbContextOptions<TamagotchiDbContext> options) : base(options)
     {
-        public TamagotchiDbContext(DbContextOptions<TamagotchiDbContext> options) : base(options)
-        {
-
-        }
-
-        public DbSet<Dragon> Dragons { get; set; }
     }
+
+    public DbSet<Dragon>? Dragons { get; set; }
 }
