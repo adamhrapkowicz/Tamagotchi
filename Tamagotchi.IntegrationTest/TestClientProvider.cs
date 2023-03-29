@@ -6,11 +6,9 @@ namespace Tamagotchi.IntegrationTest;
 
 public class TestClientProvider : IDisposable
 {
-    private readonly TestServer _server;
-
     public TestClientProvider()
     {
-        _server = new TestServer(
+        var server = new TestServer(
             new WebHostBuilder()
                 .UseStartup<Startup>()
                 .ConfigureAppConfiguration((context, config) =>
@@ -20,14 +18,13 @@ public class TestClientProvider : IDisposable
                         .AddEnvironmentVariables();
                 }));
 
-        Client = _server.CreateClient();
+        Client = server.CreateClient();
     }
 
     public HttpClient Client { get; }
 
     public void Dispose()
     {
-        _server.Dispose();
-        Client.Dispose();
+        GC.SuppressFinalize(this);
     }
 }
