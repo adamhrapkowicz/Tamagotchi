@@ -28,7 +28,26 @@ namespace Tamagotchi.IntegrationTest
         }
 
         [Fact]
-        public async Task ReturnGameStatusWhenDragonIdIsProvided()
+        public async Task ReturnFailureStartGameResponseWhenNameIsNotProvided()
+        {
+            // Arrange
+            using var client = new TestClientProvider().Client;
+
+            const string dragonName = "";
+
+            // Act
+            var responseToStartGame = await client.PostAsync($"/TamagotchiApi/{dragonName}", new StringContent(""));
+
+            var contentOfResponseToStartGame = await responseToStartGame.Content.ReadAsStringAsync();
+            var dragonId = JsonConvert.DeserializeObject<StartGameResponse>(contentOfResponseToStartGame);
+
+            // Assert
+            responseToStartGame.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            dragonId.DragonId.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task ReturnGameStatusResponseWhenDragonIdIsProvided()
         {
             // Arrange
             using var client = new TestClientProvider().Client;
@@ -45,12 +64,11 @@ namespace Tamagotchi.IntegrationTest
             // Assert
             responseToGetGameStatus.StatusCode.Should().Be(HttpStatusCode.OK);
             gameStatus.Should().NotBeNull();
-            gameStatus.StatusDragon.AgeGroup.Should().Be(AgeGroup.Baby);
-            gameStatus.StatusDragon.DragonId.Should().Be(dragonId);
+            gameStatus.AgeGroup.Should().Be(AgeGroup.Baby);
         }
 
         [Fact]
-        public async Task ReturnDifferentGameStatusAfterTimePasses()
+        public async Task ReturnDifferentGameStatusResponseContentAfterTimePasses()
         {
             // Arrange
             using var client = new TestClientProvider().Client;
@@ -78,15 +96,15 @@ namespace Tamagotchi.IntegrationTest
             // Assert
             firstGameStatus.Should().NotBeNull();
             secondGameStatus.Should().NotBeNull();
-            secondGameStatus.StatusDragon.Name.Should().Be(firstGameStatus.StatusDragon.Name);
-            secondGameStatus.StatusDragon.DragonId.Should().Be(firstGameStatus.StatusDragon.DragonId);
-            secondGameStatus.StatusDragon.Age.Should().BeGreaterThan(firstGameStatus.StatusDragon.Age);
-            secondGameStatus.StatusDragon.Happiness.Should().BeLessThan(firstGameStatus.StatusDragon.Happiness);
-            secondGameStatus.StatusDragon.Feedometer.Should().BeLessThan(firstGameStatus.StatusDragon.Feedometer);
+            firstGameStatus.IsAlive.Should().BeTrue();
+            secondGameStatus.Name.Should().Be(firstGameStatus.Name);
+            secondGameStatus.Age.Should().BeGreaterThan(firstGameStatus.Age);
+            secondGameStatus.Happiness.Should().BeLessThan(firstGameStatus.Happiness);
+            secondGameStatus.Feedometer.Should().BeLessThan(firstGameStatus.Feedometer);
         }
 
         [Fact]
-        public async Task ReturnGetGameStatusFailureReasonAsDeadWhenDragonIsNotAlive()
+        public async Task ReturnGetGameStatusResponseFailureReasonAsDeadWhenDragonIsNotAlive()
         {
             // Arrange
             using var client = new TestClientProvider().Client;
@@ -104,7 +122,7 @@ namespace Tamagotchi.IntegrationTest
             responseToGetGameStatusRequest.StatusCode.Should().Be(HttpStatusCode.OK);
             gameStatus.Success.Should().BeFalse();
             gameStatus.Reason.Should().Be(GetGameStatusFailureReason.Dead);
-            gameStatus.StatusDragon.IsAlive.Should().BeFalse();
+            gameStatus.IsAlive.Should().BeFalse();
         }
 
         [Fact]
@@ -140,7 +158,7 @@ namespace Tamagotchi.IntegrationTest
             // Assert
             responseToFeedDragon.StatusCode.Should().Be(HttpStatusCode.OK);
             feedDragonResponse.Success.Should().BeTrue();
-            secondGameStatus.StatusDragon.Feedometer.Should().BeGreaterThan(firstGameStatus.StatusDragon.Feedometer);
+            secondGameStatus.Feedometer.Should().BeGreaterThan(firstGameStatus.Feedometer);
         }
 
         [Fact]
@@ -224,7 +242,7 @@ namespace Tamagotchi.IntegrationTest
             // Assert
             responseToPetDragon.StatusCode.Should().Be(HttpStatusCode.OK);
             petDragonResponse.Success.Should().BeTrue();
-            secondGameStatus.StatusDragon.Happiness.Should().BeGreaterThan(firstGameStatus.StatusDragon.Happiness);
+            secondGameStatus.Happiness.Should().BeGreaterThan(firstGameStatus.Happiness);
         }
 
         [Fact]
@@ -295,7 +313,7 @@ namespace Tamagotchi.IntegrationTest
                 var contentOfTheResponseToGetGameStatusRequest =
                     await responseToGetGameStatusRequest.Content.ReadAsStringAsync();
                 var gameStatus = JsonConvert.DeserializeObject<GameStatusResponse>(contentOfTheResponseToGetGameStatusRequest);
-                dragonIsAlive = gameStatus.StatusDragon.IsAlive;
+                dragonIsAlive = gameStatus.IsAlive;
 
                 await Task.Delay(500);
             }

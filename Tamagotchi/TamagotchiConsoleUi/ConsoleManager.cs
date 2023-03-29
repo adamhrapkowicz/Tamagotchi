@@ -71,7 +71,7 @@ namespace Tamagotchi.TamagotchiConsoleUi
             }
             else
             {
-                WriteGameStatus(response.Value.StatusDragon);
+                WriteGameStatus(response.Value);
             }
         }
 
@@ -79,7 +79,7 @@ namespace Tamagotchi.TamagotchiConsoleUi
         {
             var response = _tamagotchiApi.GetGameStatus(_dragonId);
 
-            while (response.Value!.StatusDragon.IsAlive)
+            while (response.Value!.IsAlive)
             {
                 var careInstructionsFromUser = GetCareInstructionsFromUser();
                 ImplementUserInstructions(careInstructionsFromUser);
@@ -169,13 +169,16 @@ namespace Tamagotchi.TamagotchiConsoleUi
             }
         }
 
-        private static void WriteGameStatus(Dragon dragon)
+        private static void WriteGameStatus(GameStatusResponse gameStatusResponse)
         {
             Console.CursorVisible = false;
             Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.Green;
 
-            Console.WriteLine($"Age: {dragon.Age:N2}            Happiness: {dragon.Happiness:D3}           Feedometer: {dragon.Feedometer:D3}      {dragon.AgeGroup} ");
+            Console.WriteLine($"Age: {gameStatusResponse.Age:N2}" +
+                              $"            Happiness: {gameStatusResponse.Happiness:D3}" +
+                              $"           Feedometer: {gameStatusResponse.Feedometer:D3}" +
+                              $"      {gameStatusResponse.AgeGroup} ");
             Console.SetCursorPosition(0, 2);
             Console.WriteLine("To feed press 1, to pet press 2.");
 

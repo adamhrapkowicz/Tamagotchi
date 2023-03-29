@@ -30,7 +30,7 @@ namespace Tamagotchi.Controllers
         public ActionResult<StartGameResponse> StartGame(string dragonName)
         {
             if (string.IsNullOrWhiteSpace(dragonName)) 
-                return BadRequest("dragonName cannot be empty");
+                return BadRequest("Dragon name cannot be empty");
 
             return new ObjectResult(_lifeCycleManager.CreateDragon(dragonName))
                 { StatusCode = (int)HttpStatusCode.Created };

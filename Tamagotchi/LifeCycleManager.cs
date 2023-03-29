@@ -75,8 +75,26 @@ namespace Tamagotchi
             var dragon = GetDragonByIdAsync(dragonId).Result;
 
             return !dragon!.IsAlive
-                ? new GameStatusResponse { Success = false, Reason = GetGameStatusFailureReason.Dead, StatusDragon = dragon}
-                : new GameStatusResponse { Success = true, StatusDragon = dragon };
+                ? new GameStatusResponse
+                {
+                    Success = false,
+                    Reason = GetGameStatusFailureReason.Dead,
+                    Name = dragon.Name,
+                    Age = dragon.Age,
+                    AgeGroup = dragon.AgeGroup,
+                    Feedometer = dragon.Feedometer,
+                    Happiness = dragon.Happiness,
+                    IsAlive = dragon.IsAlive
+                }
+                : new GameStatusResponse 
+                { Success = true,
+                    Name = dragon.Name,
+                    Age = dragon.Age,
+                    AgeGroup = dragon.AgeGroup,
+                    Feedometer = dragon.Feedometer,
+                    Happiness = dragon.Happiness,
+                    IsAlive = dragon.IsAlive
+                };
         }
 
         public AgeGroupSettings GetCareLevelsForAgeGroups(Dragon dragon)

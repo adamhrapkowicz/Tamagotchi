@@ -165,7 +165,6 @@ namespace TamagotchiUnitTests
             // Assert
             _mockRepository.Verify(x => x.GetDragonAsync(It.IsNotNull<Guid>()));
             returnedResponse.Should().NotBeNull();
-            returnedResponse.StatusDragon.DragonId.Should().Be(mockDragonIds[0]);
             returnedResponse.Success.Should().BeTrue();
             returnedResponse.Reason.Should().BeNull();
         }
