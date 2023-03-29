@@ -20,11 +20,11 @@ namespace Tamagotchi.IntegrationTest
             var responseToStartGame = await client.PostAsync($"/TamagotchiApi/{dragonName}", new StringContent(""));
 
             var contentOfResponseToStartGame = await responseToStartGame.Content.ReadAsStringAsync();
-            var dragonId = JsonConvert.DeserializeObject<Guid>(contentOfResponseToStartGame);
+            var dragonId = JsonConvert.DeserializeObject<StartGameResponse>(contentOfResponseToStartGame);
 
             // Assert
-            responseToStartGame.StatusCode.Should().Be(HttpStatusCode.OK);
-            dragonId.Should().NotBeEmpty();
+            responseToStartGame.StatusCode.Should().Be(HttpStatusCode.Created);
+            dragonId.Should().NotBeNull();
         }
 
         [Fact]
@@ -280,9 +280,9 @@ namespace Tamagotchi.IntegrationTest
             var responseToStartGame = await client.PostAsync($"/TamagotchiApi/{dragonName}", new StringContent(""));
 
             var contentOfResponseToStartGame = await responseToStartGame.Content.ReadAsStringAsync();
-            var dragonId = JsonConvert.DeserializeObject<Guid>(contentOfResponseToStartGame);
+            var valueOfCreateGameResponse = JsonConvert.DeserializeObject<StartGameResponse>(contentOfResponseToStartGame);
 
-            return dragonId;
+            return valueOfCreateGameResponse.DragonId;
         }
 
         private static async Task WaitForDragonToDie(HttpClient client, Guid dragonId)

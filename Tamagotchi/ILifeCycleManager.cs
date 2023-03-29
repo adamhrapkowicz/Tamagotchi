@@ -11,7 +11,7 @@ namespace Tamagotchi
 
         Task<Dragon?> GetDragonByIdAsync(Guid dragonId);
 
-        CreateDragonResponse CreateDragon(string name);
+        StartGameResponse CreateDragon(string name);
 
         GameStatusResponse GetGameStatus(Guid dragonId);
 

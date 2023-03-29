@@ -27,7 +27,7 @@ namespace Tamagotchi.Controllers
         // POST \TamagotchiApi\{dragonName}
         [HttpPost]
         [Route("{dragonName}")]
-        public ActionResult<CreateDragonResponse> StartGame(string dragonName)
+        public ActionResult<StartGameResponse> StartGame(string dragonName)
         {
             if (string.IsNullOrWhiteSpace(dragonName)) 
                 return BadRequest("dragonName cannot be empty");
