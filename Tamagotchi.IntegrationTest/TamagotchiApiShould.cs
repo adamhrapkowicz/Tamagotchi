@@ -99,7 +99,7 @@ public class TamagotchiApiShould
         firstGameStatus.Should().NotBeNull();
         secondGameStatus.Should().NotBeNull();
         firstGameStatus.IsAlive.Should().BeTrue();
-        secondGameStatus.Name.Should().Be(firstGameStatus.Name);
+        secondGameStatus.DragonName.Should().Be(firstGameStatus.DragonName);
         secondGameStatus.Age.Should().BeGreaterThan(firstGameStatus.Age);
         secondGameStatus.Happiness.Should().BeLessThan(firstGameStatus.Happiness);
         secondGameStatus.Feedometer.Should().BeLessThan(firstGameStatus.Feedometer);

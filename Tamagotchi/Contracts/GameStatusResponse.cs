@@ -6,7 +6,7 @@ public class GameStatusResponse
 {
     public bool Success { get; set; }
 
-    public string Name { get; set; } = default!;
+    public string DragonName { get; set; } = default!;
 
     public double Age { get; set; }
 
@@ -18,7 +18,7 @@ public class GameStatusResponse
 
     public int Happiness { get; set; }
 
-    public GetGameStatusFailureReason? Reason { get; set; } = default!;
+    public GetGameStatusFailureReason? Reason { get; set; }
 }
 
 public enum GetGameStatusFailureReason

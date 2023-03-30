@@ -79,7 +79,7 @@ public class LifeCycleManager : ILifeCycleManager
             {
                 Success = false,
                 Reason = GetGameStatusFailureReason.Dead,
-                Name = dragon.Name,
+                DragonName = dragon.Name,
                 Age = dragon.Age,
                 AgeGroup = dragon.AgeGroup,
                 Feedometer = dragon.Feedometer,
@@ -89,7 +89,7 @@ public class LifeCycleManager : ILifeCycleManager
             : new GameStatusResponse
             {
                 Success = true,
-                Name = dragon.Name,
+                DragonName = dragon.Name,
                 Age = dragon.Age,
                 AgeGroup = dragon.AgeGroup,
                 Feedometer = dragon.Feedometer,

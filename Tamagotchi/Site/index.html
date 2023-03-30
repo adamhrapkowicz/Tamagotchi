@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <meta charset="utf-8" />
+    <title>Tamagotchi</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"
+            integrity="sha256-a2yjHM4jnF9f54xUQakjZGaqYs/V1CYvWpoqZzC2/Bw="
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+            crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" 
+          rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" 
+          crossorigin="anonymous">
+</head>
+
+<body>
+
+    <header>
+        <h1>Welcome to Tamagotchi</h1>
+    </header>
+
+<div class="container">
+    <form >
+        <label for="dragonsName">Name your Dragon!</label>
+        <input class="text" id="dragonsName"/>
+        <input id="postName" type="submit" value="Start game">
+    </form>
+</div>
+<div class="container">
+    <table>
+        <tr>
+            <th>Name:</th>
+            <td id="petName"></td>
+        </tr>
+        <tr>
+            <th>Age:</th>
+            <td id="age"></td>
+        </tr>
+        <tr>
+            <th>Age Group:</th>
+            <td id="ageGroup"></td>
+        </tr>
+        <tr>
+            <th>Happiness:</th>
+            <td id="happiness"></td>
+        </tr>
+        <tr>
+            <th>Feedometer:</th>
+            <td id="feedometer"></td>
+        </tr>
+    </table>
+</div>
+<script type="text/javascript">
+    let dragonId = null;
+    let dragonStatus = null;
+    
+    
+        $("document").ready(async function () {
+            let dragonName = $("#postName").click(async function(){
+                const newName = $("#dragonsName").val()
+
+                let response = await fetch("https://localhost:59039/TamagotchiApi/" + dragonName, {method: 'POST'});
+                dragonId = (await response.json()).dragonId;
+            });
+            
+            if(dragonId !== null && (dragonStatus !== null || dragonStatus.isAlive)) {
+                let statusResponse = await fetch("https://localhost:59039/TamagotchiApi/" + dragonId, {method: 'GET'});
+                dragonStatus = await statusResponse.json()
+
+                $("#name").html(dragonStatus.dragonName)
+                $("#age").html(dragonStatus.age)
+                $("#ageGroup").html(dragonStatus.ageGroup)
+                $("#happiness").html(dragonStatus.happiness)
+                $("#feedometer").html(dragonStatus.feedometer)
+            }
+        });
+
+    
+</script>
+</body>
+</html>
