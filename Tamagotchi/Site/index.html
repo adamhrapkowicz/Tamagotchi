@@ -26,6 +26,10 @@
                 <input id="postName" type="submit" value="Start game">
             </form>
     
+            <div class="container">
+                <button class="btn btn-outline-info" id="dragonsMessage" style="display: none; border-radius: 12px">
+                </button>
+            </div>
             <img src="https://64.media.tumblr.com/adcbb3daada465364a45233f4c6a3cd8/tumblr_pslbztcpBU1vqblevo1_500.png" 
                  alt="dragon" class="p-2" id="dragonPic" style="width:50%; display:none">
     
@@ -64,6 +68,7 @@
         let dragonId = null;
         let dragonStatus = null;
         let dragonName;
+        let dragonMessage;
     
             $("document").ready(async function () {
 
@@ -95,6 +100,15 @@
                 $("#feedBtn").click(async function(){
                     let feedingResponse = await fetch("https://localhost:59039/TamagotchiApi/feed/" 
                         + dragonId, {method: 'PUT'});
+                    let feedingStatus = await feedingResponse.json()
+                    
+                    if (feedingStatus.success === true){
+                        dragonMessage = "That was yummy!";
+                    }
+                    else if (feedingStatus.success !== true && feedingStatus.feedingFailureReason === 1){
+                        dragonMessage = "I'm not hungry!";
+                    }
+                    $("#dragonsMessage").html(dragonMessage).show();
                 });
             
                 $("#petBtn").click(async function(){
