@@ -24,4 +24,8 @@
     <ProjectReference Include="..\TamagotchiData\TamagotchiData.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\photos" />
+  </ItemGroup>
+
 </Project>

@@ -15,66 +15,88 @@
 </head>
 
 <body>
-
     <header>
         <h1>Welcome to Tamagotchi</h1>
     </header>
-
-<div class="container">
-    <form >
-        <label for="dragonsName">Name your Dragon!</label>
-        <input class="text" id="dragonsName"/>
-        <input id="postName" type="submit" value="Start game">
-    </form>
-</div>
-<div class="container">
-    <table>
-        <tr>
-            <th>Name:</th>
-            <td id="petName"></td>
-        </tr>
-        <tr>
-            <th>Age:</th>
-            <td id="age"></td>
-        </tr>
-        <tr>
-            <th>Age Group:</th>
-            <td id="ageGroup"></td>
-        </tr>
-        <tr>
-            <th>Happiness:</th>
-            <td id="happiness"></td>
-        </tr>
-        <tr>
-            <th>Feedometer:</th>
-            <td id="feedometer"></td>
-        </tr>
-    </table>
-</div>
-<script type="text/javascript">
-    let dragonId = null;
-    let dragonStatus = null;
+    <div class="container row">
+        <div class="container col-md-8">
+            <form>
+                <label for="dragonsName" id="nameLabel">Name your Dragon!</label>
+                <input class="text" id="dragonsName"/>
+                <input id="postName" type="submit" value="Start game">
+            </form>
     
+            <img src="https://64.media.tumblr.com/adcbb3daada465364a45233f4c6a3cd8/tumblr_pslbztcpBU1vqblevo1_500.png" 
+                 alt="dragon" class="p-2" width="50%">
     
-        $("document").ready(async function () {
-            let dragonName = $("#postName").click(async function(){
-                const newName = $("#dragonsName").val()
-
-                let response = await fetch("https://localhost:59039/TamagotchiApi/" + dragonName, {method: 'POST'});
+            <div class="container p-2">
+                <button class="btn btn-primary btn-lg p-2" id="petBtn" style="width: 24%" type="button">Pet</button>
+                <button class="btn btn-primary btn-lg p-2" id="feedBtn" style="width: 24%" type="button">Feed</button>
+            </div>
+        </div>
+        <div class="container col-md-4">
+            <table>
+                <tr>
+                    <th>Name:</th>
+                    <td id="petName" type="text"></td>
+                </tr>
+                <tr>
+                    <th>Age:</th>
+                    <td id="age"></td>
+                </tr>
+                <tr>
+                    <th>Age Group:</th>
+                    <td id="ageGroup"></td>
+                </tr>
+                <tr>
+                    <th>Happiness:</th>
+                    <td id="happiness"></td>
+                </tr>
+                <tr>
+                    <th>Feedometer:</th>
+                    <td id="feedometer"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+   
+    <script type="text/javascript">
+        let dragonId = null;
+        let dragonStatus = null;
+        let dragonName = "testDragon";
+    
+            $("document").ready(async function () {
+                
+                
+                
+                let response = await fetch("https://localhost:59039/TamagotchiApi/" 
+                    + dragonName, {method: 'POST'});
                 dragonId = (await response.json()).dragonId;
-            });
             
-            if(dragonId !== null && (dragonStatus !== null || dragonStatus.isAlive)) {
-                let statusResponse = await fetch("https://localhost:59039/TamagotchiApi/" + dragonId, {method: 'GET'});
-                dragonStatus = await statusResponse.json()
+                
+                setInterval(async function() {
+                    let statusResponse = await fetch("https://localhost:59039/TamagotchiApi/" 
+                        + dragonId, {method: 'GET'});
+                    dragonStatus = await statusResponse.json()
 
-                $("#name").html(dragonStatus.dragonName)
-                $("#age").html(dragonStatus.age)
-                $("#ageGroup").html(dragonStatus.ageGroup)
-                $("#happiness").html(dragonStatus.happiness)
-                $("#feedometer").html(dragonStatus.feedometer)
-            }
-        });
+                    $("#name").html(dragonStatus.dragonName)
+                    $("#age").html(dragonStatus.age)
+                    $("#ageGroup").html(dragonStatus.ageGroup)
+                    $("#happiness").html(dragonStatus.happiness)
+                    $("#feedometer").html(dragonStatus.feedometer)
+                }, 1000)
+            
+                $("#feedBtn").click(async function(){
+                    let feedingResponse = await fetch("https://localhost:59039/TamagotchiApi/feed/" 
+                        + dragonId, {method: 'PUT'});
+                });
+            
+                $("#petBtn").click(async function(){
+                    let pettingResponse = await fetch("https://localhost:59039/TamagotchiApi/pet/" 
+                        + dragonId, {method: 'PUT'});
+                });
+            
+            });
 
     
 </script>
