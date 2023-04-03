@@ -20,7 +20,7 @@
     </header>
     <div class="container row">
         <div class="container col-md-8">
-            <form>
+            <form id="nameForm">
                 <label for="dragonsName" id="nameLabel">Name your Dragon!</label>
                 <input class="text" id="dragonsName"/>
                 <input id="postName" type="submit" value="Start game">
@@ -30,12 +30,12 @@
                  alt="dragon" class="p-2" width="50%">
     
             <div class="container p-2">
-                <button class="btn btn-primary btn-lg p-2" id="petBtn" style="width: 24%" type="button">Pet</button>
-                <button class="btn btn-primary btn-lg p-2" id="feedBtn" style="width: 24%" type="button">Feed</button>
+                <button class="btn btn-primary btn-lg p-2" id="petBtn" style="width:24%; display:none" type="button">Pet</button>
+                <button class="btn btn-primary btn-lg p-2" id="feedBtn" style="width:24%; display:none" type="button">Feed</button>
             </div>
         </div>
         <div class="container col-md-4">
-            <table>
+            <table id="statusTable" style="display:none">
                 <tr>
                     <th>Name:</th>
                     <td id="petName" type="text"></td>
@@ -63,10 +63,15 @@
     <script type="text/javascript">
         let dragonId = null;
         let dragonStatus = null;
-        let dragonName = "testDragon";
+        let dragonName;
     
             $("document").ready(async function () {
-                
+
+                 $("#nameForm").submit(async function(event){
+                    dragonName = (await $("#dragonsName").val());
+                    $("#statusTable, #feedBtn, #petBtn").show();
+                    
+                    event.preventDefault();
                 
                 
                 let response = await fetch("https://localhost:59039/TamagotchiApi/" 
@@ -95,7 +100,7 @@
                     let pettingResponse = await fetch("https://localhost:59039/TamagotchiApi/pet/" 
                         + dragonId, {method: 'PUT'});
                 });
-            
+            });
             });
 
     
