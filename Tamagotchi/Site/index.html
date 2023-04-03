@@ -27,7 +27,7 @@
             </form>
     
             <img src="https://64.media.tumblr.com/adcbb3daada465364a45233f4c6a3cd8/tumblr_pslbztcpBU1vqblevo1_500.png" 
-                 alt="dragon" class="p-2" width="50%">
+                 alt="dragon" class="p-2" id="dragonPic" style="width:50%; display:none">
     
             <div class="container p-2">
                 <button class="btn btn-primary btn-lg p-2" id="petBtn" style="width:24%; display:none" type="button">Pet</button>
@@ -69,7 +69,8 @@
 
                  $("#nameForm").submit(async function(event){
                     dragonName = (await $("#dragonsName").val());
-                    $("#statusTable, #feedBtn, #petBtn").show();
+                    $("#nameForm").hide();
+                    $("#statusTable, #feedBtn, #petBtn, #dragonPic").show();
                     
                     event.preventDefault();
                 
