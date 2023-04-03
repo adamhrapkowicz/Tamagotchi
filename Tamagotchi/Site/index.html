@@ -85,7 +85,7 @@
                         + dragonId, {method: 'GET'});
                     dragonStatus = await statusResponse.json()
 
-                    $("#name").html(dragonStatus.dragonName)
+                    $("#petName").html(dragonStatus.dragonName)
                     $("#age").html(dragonStatus.age)
                     $("#ageGroup").html(dragonStatus.ageGroup)
                     $("#happiness").html(dragonStatus.happiness)
