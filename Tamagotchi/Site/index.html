@@ -2,6 +2,7 @@
 <html lang="eng">
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tamagotchi</title>
     <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"
             integrity="sha256-a2yjHM4jnF9f54xUQakjZGaqYs/V1CYvWpoqZzC2/Bw="
@@ -16,13 +17,13 @@
 
 <body>
     <header>
-        <h1>Welcome to Tamagotchi</h1>
+        <h1 id="myBanner">Welcome to Tamagotchi</h1>
     </header>
     <div class="container row">
         <div class="container col-md-8">
             <form id="nameForm">
                 <label for="dragonsName" id="nameLabel">Name your Dragon!</label>
-                <input class="text" id="dragonsName"/>
+                <input class="text" id="dragonsName" required/>
                 <input id="postName" type="submit" value="Start game">
             </form>
             <div class="toast-container">
@@ -68,9 +69,10 @@
         let dragonStatus = null;
         let dragonName;
         let dragonMessage;
+        let deathReason;
     
             $("document").ready(async function () {
-
+                    
                  $("#nameForm").submit(async function(event){
                     dragonName = (await $("#dragonsName").val());
                     $("#nameForm").hide();
@@ -78,11 +80,10 @@
                     
                     event.preventDefault();
                 
-                
-                let response = await fetch("https://localhost:59039/TamagotchiApi/" 
-                    + dragonName, {method: 'POST'});
-                dragonId = (await response.json()).dragonId;
-            
+                try {
+                    let response = await fetch("https://localhost:59039/TamagotchiApi/"
+                        + dragonName, {method: 'POST'});
+                    dragonId = (await response.json()).dragonId;
                 
                 setInterval(async function() {
                     let statusResponse = await fetch("https://localhost:59039/TamagotchiApi/" 
@@ -94,6 +95,19 @@
                     $("#ageGroup").html(dragonStatus.ageGroup)
                     $("#happiness").html(dragonStatus.happiness)
                     $("#feedometer").html(dragonStatus.feedometer)
+                    
+                    if (dragonStatus.feedometer <= 0 || dragonStatus.happiness <= 0){
+                        $("#statusTable, #feedBtn, #petBtn, #dragonPic").hide();
+                        if (dragonStatus.feedometer <= 0)
+                        {
+                            deathReason = "feed it enough";
+                        }
+                        else if (dragonStatus.happiness <= 0)
+                        {
+                            deathReason = "love it enough";
+                        }
+                        $("#myBanner").html(dragonStatus.dragonName + " has just died, because you didn't " + deathReason);
+                    }
                 }, 1000)
             
                 $("#feedBtn").click(async function(){
@@ -104,7 +118,7 @@
                     if (feedingStatus.success === true){
                         dragonMessage = "That was yummy!";
                     }
-                    else if (feedingStatus.success !== true && feedingStatus.feedingFailureReason === 1){
+                    else if (feedingStatus.success !== true && feedingStatus.reason === 1){
                         dragonMessage = "I'm not hungry!";
                     }
                     $("#dragonsMessage").html(dragonMessage);
@@ -112,6 +126,7 @@
                     let toastList = toastElList.map(function (toastEl) {
                         return new bootstrap.Toast(toastEl)
                     });
+                    
                     toastList.forEach(toast => toast.show(1000))
                 });
             
@@ -123,7 +138,7 @@
                     if (pettingStatus.success === true){
                         dragonMessage = "I love you!";
                     }
-                    else if (pettingStatus.success !== true && pettingStatus.pettingFailureReason === 1){
+                    else if (pettingStatus.success !== true && pettingStatus.reason === 1){
                         dragonMessage = "Leave me alone!";
                     }
                     $("#dragonsMessage").html(dragonMessage);
@@ -133,6 +148,11 @@
                     });
                     toastList.forEach(toast => toast.show(1000))
                 });
+                }
+                catch(err){
+                    await fetch("http://localhost:63342/Tamagotchi/Tamagotchi/Site/index.html");
+                    alert("You must name your dragon!");
+                }
             });
             });
 
