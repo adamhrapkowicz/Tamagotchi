@@ -25,40 +25,39 @@
                 <input class="text" id="dragonsName"/>
                 <input id="postName" type="submit" value="Start game">
             </form>
-    
-            <div class="container">
-                <button class="btn btn-outline-info" id="dragonsMessage" style="display: none; border-radius: 12px">
-                </button>
+            <div class="toast-container">
+            <div class="toast" data-bs-delay="1000" id="messageToast">
+                <div class="toast-body" id="dragonsMessage"><p></p></div>
+            </div>
             </div>
             <img src="https://64.media.tumblr.com/adcbb3daada465364a45233f4c6a3cd8/tumblr_pslbztcpBU1vqblevo1_500.png" 
                  alt="dragon" class="p-2" id="dragonPic" style="width:50%; display:none">
     
             <div class="container p-2">
-                <button class="btn btn-primary btn-lg p-2" id="petBtn" style="width:24%; display:none" type="button">Pet</button>
-                <button class="btn btn-primary btn-lg p-2" id="feedBtn" style="width:24%; display:none" type="button">Feed</button>
+                <button class="btn btn-primary btn-lg p-2" id="petBtn" style="width:24%; display:none" type="button">
+                    Pet
+                </button>
+                <button class="btn btn-primary btn-lg p-2" id="feedBtn" style="width:24%; display:none" type="button">
+                    Feed
+                </button>
             </div>
         </div>
         <div class="container col-md-4">
             <table id="statusTable" style="display:none">
                 <tr>
-                    <th>Name:</th>
-                    <td id="petName" type="text"></td>
+                    <th>Name:</th><td id="petName" type="text"></td>
                 </tr>
                 <tr>
-                    <th>Age:</th>
-                    <td id="age"></td>
+                    <th>Age:</th><td id="age"></td>
                 </tr>
                 <tr>
-                    <th>Age Group:</th>
-                    <td id="ageGroup"></td>
+                    <th>Age Group:</th><td id="ageGroup"></td>
                 </tr>
                 <tr>
-                    <th>Happiness:</th>
-                    <td id="happiness"></td>
+                    <th>Happiness:</th><td id="happiness"></td>
                 </tr>
                 <tr>
-                    <th>Feedometer:</th>
-                    <td id="feedometer"></td>
+                    <th>Feedometer:</th><td id="feedometer"></td>
                 </tr>
             </table>
         </div>
@@ -108,12 +107,31 @@
                     else if (feedingStatus.success !== true && feedingStatus.feedingFailureReason === 1){
                         dragonMessage = "I'm not hungry!";
                     }
-                    $("#dragonsMessage").html(dragonMessage).show();
+                    $("#dragonsMessage").html(dragonMessage);
+                    let toastElList = [].slice.call($(".toast"));
+                    let toastList = toastElList.map(function (toastEl) {
+                        return new bootstrap.Toast(toastEl)
+                    });
+                    toastList.forEach(toast => toast.show(1000))
                 });
             
                 $("#petBtn").click(async function(){
                     let pettingResponse = await fetch("https://localhost:59039/TamagotchiApi/pet/" 
                         + dragonId, {method: 'PUT'});
+                    let pettingStatus = await pettingResponse.json();
+                    
+                    if (pettingStatus.success === true){
+                        dragonMessage = "I love you!";
+                    }
+                    else if (pettingStatus.success !== true && pettingStatus.pettingFailureReason === 1){
+                        dragonMessage = "Leave me alone!";
+                    }
+                    $("#dragonsMessage").html(dragonMessage);
+                    let toastElList = [].slice.call($(".toast"));
+                    let toastList = toastElList.map(function (toastEl) {
+                        return new bootstrap.Toast(toastEl)
+                    });
+                    toastList.forEach(toast => toast.show(1000))
                 });
             });
             });
