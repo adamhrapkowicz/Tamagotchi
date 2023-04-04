@@ -89,10 +89,30 @@
                     let statusResponse = await fetch("https://localhost:59039/TamagotchiApi/" 
                         + dragonId, {method: 'GET'});
                     dragonStatus = await statusResponse.json()
-
+                    
+                    let ageGroup;
+                    switch (dragonStatus.ageGroup){
+                        case 0: 
+                            ageGroup = "Baby";
+                            break;
+                        case 1:
+                            ageGroup = "Child";
+                            break;
+                        case 2:
+                            ageGroup = "Teen";
+                            break;
+                        case 3: 
+                            ageGroup = "Adult";
+                            break;
+                        case 4:
+                            ageGroup = "Senior";
+                            break;
+                        default:
+                            ageGroup = "";
+                    }
                     $("#petName").html(dragonStatus.dragonName)
                     $("#age").html(dragonStatus.age)
-                    $("#ageGroup").html(dragonStatus.ageGroup)
+                    $("#ageGroup").html(ageGroup)
                     $("#happiness").html(dragonStatus.happiness)
                     $("#feedometer").html(dragonStatus.feedometer)
                     
