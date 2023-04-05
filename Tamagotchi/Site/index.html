@@ -17,7 +17,7 @@
 
 <body>
     <header>
-        <h1 id="myBanner">Welcome to Tamagotchi</h1>
+        <h1 class="text-center" id="myBanner">Welcome to Tamagotchi</h1>
     </header>
     <div class="container row">
         <div class="container col-md-8">
@@ -120,11 +120,11 @@
                         $("#statusTable, #feedBtn, #petBtn, #dragonPic").hide();
                         if (dragonStatus.feedometer <= 0)
                         {
-                            deathReason = "feed it enough";
+                            deathReason = "feed it enough!";
                         }
                         else if (dragonStatus.happiness <= 0)
                         {
-                            deathReason = "love it enough";
+                            deathReason = "love it enough!";
                         }
                         $("#myBanner").html(dragonStatus.dragonName + " has just died, because you didn't " + deathReason);
                     }
