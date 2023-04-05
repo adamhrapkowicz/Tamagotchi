@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TamagotchiData.Models;
 
@@ -11,9 +12,10 @@ using TamagotchiData.Models;
 namespace TamagotchiData.Migrations
 {
     [DbContext(typeof(TamagotchiDbContext))]
-    partial class TamagotchiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230405124220_DragonNameUpdated")]
+    partial class DragonNameUpdated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,8 +30,8 @@ namespace TamagotchiData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<decimal>("Age")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Age")
+                        .HasColumnType("float");
 
                     b.Property<int>("Feedometer")
                         .HasColumnType("int");

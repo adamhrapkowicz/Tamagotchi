@@ -10,13 +10,13 @@ public sealed class GameSettings
 
     public int MinValueOfHappiness { get; set; }
 
-    public double MaxAge { get; set; }
+    public decimal MaxAge { get; set; }
 
     public double GameStatusTimerInterval { get; set; }
 
     public double LifeProgressTimerInterval { get; set; }
 
-    public double AgeIncrement { get; set; }
+    public decimal AgeIncrement { get; set; }
 
     public int NameNeglectPenalty { get; set; }
 

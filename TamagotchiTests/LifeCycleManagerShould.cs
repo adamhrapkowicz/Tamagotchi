@@ -28,10 +28,10 @@ public class LifeCycleManagerShould
         {
             InitialFeedometer = 10,
             InitialHappiness = 10,
-            AgeIncrement = 0.1,
+            AgeIncrement = (decimal)0.1,
             MinValueOfFeedometer = 0,
             MinValueOfHappiness = 0,
-            MaxAge = 99.00,
+            MaxAge = (decimal)99.00,
             NameNeglectPenalty = 2,
             BabySettings = new AgeGroupSettings
             {

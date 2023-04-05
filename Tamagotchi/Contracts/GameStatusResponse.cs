@@ -8,7 +8,7 @@ public class GameStatusResponse
 
     public string DragonName { get; set; } = default!;
 
-    public double Age { get; set; }
+    public decimal Age { get; set; }
 
     public AgeGroup AgeGroup { get; set; }
 

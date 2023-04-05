@@ -1,12 +1,15 @@
-﻿namespace TamagotchiData.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TamagotchiData.Models;
 
 public class Dragon
 {
     public Guid DragonId { get; set; }
-
+    [Required(ErrorMessage = "You must name your dragon!")]
+    [StringLength(15, MinimumLength = 2, ErrorMessage = "Your dragon's name must be between 1 and 15 characters")]
     public string Name { get; set; } = string.Empty;
 
-    public double Age { get; set; }
+    public decimal Age { get; set; }
 
     public AgeGroup AgeGroup
     {
