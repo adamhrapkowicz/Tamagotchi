@@ -13,6 +13,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" 
           rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" 
           crossorigin="anonymous">
+    <link href="css/tamagotchistyle.css" rel="stylesheet">
 </head>
 
 <body>
@@ -22,13 +23,13 @@
     <div class="container row">
         <div class="container col-md-8">
             <form id="nameForm">
-                <label for="dragonsName" id="nameLabel">Name your Dragon!</label>
+                <label class="mybold" for="dragonsName" id="nameLabel">Name your Dragon!</label>
                 <input class="text" id="dragonsName" required/>
                 <input id="postName" type="submit" value="Start game">
             </form>
             <div class="toast-container">
             <div class="toast" data-bs-delay="1000" id="messageToast">
-                <div class="toast-body" id="dragonsMessage"><p></p></div>
+                <div class="toast-body text-danger" id="dragonsMessage"><p class="mybold"></p></div>
             </div>
             </div>
             <img src="https://64.media.tumblr.com/adcbb3daada465364a45233f4c6a3cd8/tumblr_pslbztcpBU1vqblevo1_500.png" 

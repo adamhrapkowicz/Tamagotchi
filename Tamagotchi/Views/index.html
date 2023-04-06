@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tamagotchi</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"
+            integrity="sha256-a2yjHM4jnF9f54xUQakjZGaqYs/V1CYvWpoqZzC2/Bw="
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+            crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" 
+          rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" 
+          crossorigin="anonymous">
+    <link href="css/tamagotchistyle.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: navajowhite;
+        }
+
+        .mybold {
+            font-weight: bolder;
+        }
+        
+        .mynondisplay {
+            display: none;
+        }
+        
+        .instructionwidth {
+            width: 24%;
+        }
+        
+        #dragonPic {
+            width: 50%;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1 class="text-center" id="myBanner">Welcome to Tamagotchi</h1>
+    </header>
+    <div class="container row">
+        <div class="container col-md-8">
+            <form id="nameForm">
+                <label class="mybold" for="dragonsName" id="nameLabel">Name your Dragon!</label>
+                <input class="text" id="dragonsName" required autofocus/>
+                <input class="mybold" id="postName" type="submit" value="Start game">
+            </form>
+            
+            <div class="toast-container">
+                <div class="toast bg-white rounded-5" data-bs-delay="1000" id="messageToast">
+                    <div class="toast-body text-danger text-xl-center align-content-end mybold" id="dragonsMessage">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            
+            <img src="https://64.media.tumblr.com/adcbb3daada465364a45233f4c6a3cd8/tumblr_pslbztcpBU1vqblevo1_500.png" 
+                 alt="dragon" class="p-2 mynondisplay" id="dragonPic">
+    
+            <div class="container p-2">
+                <button class="btn btn-primary btn-lg p-2 mynondisplay instructionwidth" id="petBtn" type="button">
+                    <strong>Pet</strong>
+                </button>
+                <button class="btn btn-primary btn-lg p-2 mynondisplay instructionwidth" id="feedBtn" type="button">
+                    <strong>Feed</strong>
+                </button>
+            </div>
+        </div>
+        <div class="container col-md-4">
+            <table class="mybold mynondisplay" id="statusTable" >
+                <tr>
+                    <th>Name:</th><td id="petName" type="text"></td>
+                </tr>
+                <tr>
+                    <th>Age:</th><td id="age"></td>
+                </tr>
+                <tr>
+                    <th>Age Group:</th><td id="ageGroup"></td>
+                </tr>
+                <tr>
+                    <th>Happiness:</th><td id="happiness"></td>
+                </tr>
+                <tr>
+                    <th>Feedometer:</th><td id="feedometer"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+   
+    <script type="text/javascript">
+        let dragonId = null;
+        let dragonStatus = null;
+        let dragonName;
+        let dragonMessage;
+        let deathReason;
+    
+            $("document").ready(async function () {
+                    
+                 $("#nameForm").submit(async function(event){
+                    dragonName = (await $("#dragonsName").val());
+                    $("#nameForm").hide();
+                    $("#statusTable, #feedBtn, #petBtn, #dragonPic").show();
+                    
+                    event.preventDefault();
+                
+                try {
+                    let response = await fetch("https://localhost:59039/TamagotchiApi/"
+                        + dragonName, {method: 'POST'});
+                    dragonId = (await response.json()).dragonId;
+                
+                setInterval(async function() {
+                    let statusResponse = await fetch("https://localhost:59039/TamagotchiApi/" 
+                        + dragonId, {method: 'GET'});
+                    dragonStatus = await statusResponse.json()
+                    
+                    let ageGroup;
+                    switch (dragonStatus.ageGroup){
+                        case 0: 
+                            ageGroup = "Baby";
+                            break;
+                        case 1:
+                            ageGroup = "Child";
+                            break;
+                        case 2:
+                            ageGroup = "Teen";
+                            break;
+                        case 3: 
+                            ageGroup = "Adult";
+                            break;
+                        case 4:
+                            ageGroup = "Senior";
+                            break;
+                        default:
+                            ageGroup = "";
+                    }
+                    $("#petName").html(dragonStatus.dragonName)
+                    $("#age").html(dragonStatus.age)
+                    $("#ageGroup").html(ageGroup)
+                    $("#happiness").html(dragonStatus.happiness)
+                    $("#feedometer").html(dragonStatus.feedometer)
+                    
+                    if (dragonStatus.feedometer <= 0 || dragonStatus.happiness <= 0){
+                        $("#statusTable, #feedBtn, #petBtn").hide();
+                        $("#dragonPic").attr("src", "https://www.edinburghexpert.com/uploads/4/0/3/1/40316751" +
+                            "/editor/img-3738.jpg?1572517293")
+                        if (dragonStatus.feedometer <= 0)
+                        {
+                            deathReason = "feed it enough!";
+                        }
+                        else if (dragonStatus.happiness <= 0)
+                        {
+                            deathReason = "love it enough!";
+                        }
+                        $("#myBanner").html(dragonStatus.dragonName + " has just died," +
+                            " because you didn't " + deathReason);
+                    }
+                }, 1000)
+            
+                $("#feedBtn").click(async function(){
+                    let feedingResponse = await fetch("https://localhost:59039/TamagotchiApi/feed/" 
+                        + dragonId, {method: 'PUT'});
+                    let feedingStatus = await feedingResponse.json()
+                    
+                    if (feedingStatus.success === true){
+                        dragonMessage = "That was yummy!";
+                    }
+                    else if (feedingStatus.success !== true && feedingStatus.reason === 1){
+                        dragonMessage = "I'm not hungry!";
+                    }
+                    $("#dragonsMessage").html(dragonMessage);
+                    let toastElList = [].slice.call($(".toast"));
+                    let toastList = toastElList.map(function (toastEl) {
+                        return new bootstrap.Toast(toastEl)
+                    });
+                    
+                    toastList.forEach(toast => toast.show(1000))
+                });
+            
+                $("#petBtn").click(async function(){
+                    let pettingResponse = await fetch("https://localhost:59039/TamagotchiApi/pet/" 
+                        + dragonId, {method: 'PUT'});
+                    let pettingStatus = await pettingResponse.json();
+                    
+                    if (pettingStatus.success === true){
+                        dragonMessage = "I love you!";
+                    }
+                    else if (pettingStatus.success !== true && pettingStatus.reason === 1){
+                        dragonMessage = "Leave me alone!";
+                    }
+                    $("#dragonsMessage").html(dragonMessage);
+                    let toastElList = [].slice.call($(".toast"));
+                    let toastList = toastElList.map(function (toastEl) {
+                        return new bootstrap.Toast(toastEl)
+                    });
+                    toastList.forEach(toast => toast.show(1000))
+                });
+                }
+                catch(err){
+                    await fetch("http://localhost:63342/Tamagotchi/Tamagotchi/Site/index.html");
+                    alert("You must name your dragon!");
+                }
+            });
+            });
+
+    
+</script>
+</body>
+</html>

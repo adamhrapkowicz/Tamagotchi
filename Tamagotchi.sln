@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TamagotchiUnitTests", "Tama
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tamagotchi.IntegrationTest", "Tamagotchi.IntegrationTest\Tamagotchi.IntegrationTest.csproj", "{D2F63034-0A58-4A32-BCB1-8E37014E02AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TamagotchiData", "TamagotchiData\TamagotchiData.csproj", "{7A465D2E-0512-48F4-8706-5E4B54168E0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TamagotchiData", "TamagotchiData\TamagotchiData.csproj", "{7A465D2E-0512-48F4-8706-5E4B54168E0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tamagotchi.Site", "Tamagotchi.Site\Tamagotchi.Site.csproj", "{769E8EA3-CC09-4C68-B442-97111B0EC8D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7A465D2E-0512-48F4-8706-5E4B54168E0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A465D2E-0512-48F4-8706-5E4B54168E0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A465D2E-0512-48F4-8706-5E4B54168E0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{769E8EA3-CC09-4C68-B442-97111B0EC8D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{769E8EA3-CC09-4C68-B442-97111B0EC8D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{769E8EA3-CC09-4C68-B442-97111B0EC8D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{769E8EA3-CC09-4C68-B442-97111B0EC8D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

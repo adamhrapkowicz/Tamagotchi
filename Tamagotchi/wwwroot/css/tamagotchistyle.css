@@ -1,0 +1,19 @@
+﻿body {
+    background-color: navajowhite;
+}
+
+.mybold {
+    font-weight: bolder;
+}
+
+.mynondisplay {
+    display: none;
+}
+
+.instructionwidth {
+    width: 24%;
+}
+
+#dragonPic {
+    width: 50%;
+}
