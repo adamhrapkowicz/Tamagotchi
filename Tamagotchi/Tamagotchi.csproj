@@ -28,4 +28,8 @@
     <Folder Include="wwwroot\photos" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\index.html" />
+  </ItemGroup>
+
 </Project>

@@ -66,7 +66,7 @@ public class Startup
                 .AllowAnyHeader()
                 .AllowAnyMethod())
             .UseEndpoints(endpoints => endpoints.MapControllers());
-
+        app.UseStaticFiles();
         if (_env.IsDevelopment())
         {
             app.UseSwagger();
