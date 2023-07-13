@@ -8,8 +8,14 @@
     <projectFile profileName="IIS Express">TamagotchiData/TamagotchiData.csproj</projectFile>
     <projectFile profileName="TamagotchiData">TamagotchiData/TamagotchiData.csproj</projectFile>
   </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bb65791-dd6f-4cd7-8092-0d1b52968290" name="Changes" comment="" />
+    <list default="true" id="3bb65791-dd6f-4cd7-8092-0d1b52968290" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tamagotchi/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tamagotchi/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tamagotchi.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.sln" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,6 +49,13 @@
       </UrlAndAccount>
     </option>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Tamagotchi.IntegrationTest/TamagotchiApiShould.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Tamagotchi/LifeCycleManager.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Tamagotchi/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Tamagotchi/Startup.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/TamagotchiData/Models/Dragon.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -65,8 +78,14 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -75,8 +94,8 @@
       &quot;sqlserver&quot;
     ],
     &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\wolsz\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\wolsz\\AppData\\Roaming\\JetBrains\\Rider2022.3\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\wolsz\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\wolsz\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
       &quot;C:\\Users\\wolsz\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
@@ -188,6 +207,14 @@
       <workItem from="1680266996919" duration="42593000" />
       <workItem from="1680686539719" duration="26129000" />
       <workItem from="1681284848048" duration="6308000" />
+      <workItem from="1683802159897" duration="164000" />
+      <workItem from="1683803001613" duration="157000" />
+      <workItem from="1683803234084" duration="145000" />
+      <workItem from="1688995379419" duration="1856000" />
+      <workItem from="1688997333321" duration="977000" />
+      <workItem from="1688998615657" duration="3405000" />
+      <workItem from="1689150807860" duration="6516000" />
+      <workItem from="1689265834368" duration="1062000" />
     </task>
     <task id="LOCAL-00001" summary="Fix: Code clean-up">
       <created>1680175039630</created>
