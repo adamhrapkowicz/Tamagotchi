@@ -12,10 +12,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bb65791-dd6f-4cd7-8092-0d1b52968290" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tamagotchi/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tamagotchi/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tamagotchi.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.sln" afterDir="false" />
-    </list>
+    <list default="true" id="3bb65791-dd6f-4cd7-8092-0d1b52968290" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -215,6 +212,7 @@
       <workItem from="1688998615657" duration="3405000" />
       <workItem from="1689150807860" duration="6516000" />
       <workItem from="1689265834368" duration="1062000" />
+      <workItem from="1689267289382" duration="1534000" />
     </task>
     <task id="LOCAL-00001" summary="Fix: Code clean-up">
       <created>1680175039630</created>
@@ -335,7 +333,15 @@
       <option name="project" value="LOCAL" />
       <updated>1681292903820</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Feat: New project Tamagotchi.PlaywrigthTests added to use Playwright for more tests.">
+      <option name="closed" value="true" />
+      <created>1689268919312</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1689268919312</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -371,6 +377,7 @@
     <MESSAGE value="Feat: css style added to improve the look in index.html(font made bold for better visibility, background added), dragonPic is now replace by jQuery with another picture if dragon dies." />
     <MESSAGE value="Fix: In Startup UseStaticFiles added so now the application is able to find index.html on local server." />
     <MESSAGE value="Feat: Js folder added in wwwroot and tamagotchi.js file created where all jQuery logic was moved from index.html. In index.html reference to js file added. Tamagotchistyle.css in css subfolder of wwwroot folder to handle all custom css style of index.html. All css style moved from index.html to tamagotchistyle.css. Photos used by index.html and tamagotchi.js are now in photos folder." />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: Js folder added in wwwroot and tamagotchi.js file created where all jQuery logic was moved from index.html. In index.html reference to js file added. Tamagotchistyle.css in css subfolder of wwwroot folder to handle all custom css style of index.html. All css style moved from index.html to tamagotchistyle.css. Photos used by index.html and tamagotchi.js are now in photos folder." />
+    <MESSAGE value="Feat: New project Tamagotchi.PlaywrigthTests added to use Playwright for more tests." />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: New project Tamagotchi.PlaywrigthTests added to use Playwright for more tests." />
   </component>
 </project>

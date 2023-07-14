@@ -28,7 +28,7 @@ public class TamagotchiApiShould
     }
 
     [Fact]
-    public async Task ReturnFailureStartGameResponseWhenNameIsNotProvided()
+    public async Task ReturnNotFoundWhenNameIsNotProvided()
     {
         // Arrange
         using var client = new TestClientProvider().Client;
@@ -38,12 +38,8 @@ public class TamagotchiApiShould
         // Act
         var responseToStartGame = await client.PostAsync($"/TamagotchiApi/{dragonName}", new StringContent(""));
 
-        var contentOfResponseToStartGame = await responseToStartGame.Content.ReadAsStringAsync();
-        var dragonId = JsonConvert.DeserializeObject<StartGameResponse>(contentOfResponseToStartGame);
-
         // Assert
-        responseToStartGame.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        dragonId.DragonId.Should().BeEmpty();
+        responseToStartGame.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
 
     [Fact]
