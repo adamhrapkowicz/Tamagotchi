@@ -12,7 +12,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bb65791-dd6f-4cd7-8092-0d1b52968290" name="Changes" comment="" />
+    <list default="true" id="3bb65791-dd6f-4cd7-8092-0d1b52968290" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/Fixtures/CustomBaseTest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Pages/TamagotchiIndexPage.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/NameDragonSection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tamagotchi/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tamagotchi/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/UnitTest1.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tamagotchi.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.sln" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,6 +39,7 @@
         <entry key="$PROJECT_DIR$" value="ConsumeAPI" />
       </map>
     </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -47,6 +55,10 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/575c31ecc35a636b6f962cb71d53992552941a18982aae1c8e6c16305cc3761b/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b7599714aa68e5e9aa7ced2914e8623e2a92e39b237c6f6036e77d7d247c4/PlaywrightTest.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d6fbc51668b72d5a95d74e899b1f60f243e35ae3cc371aa1fa414e1baba8129/AssertionsBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tamagotchi.IntegrationTest/TamagotchiApiShould.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tamagotchi/LifeCycleManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tamagotchi/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -62,7 +74,7 @@
     <option name="ignoreSourceCode" value="false" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="Toolset" />
   </component>
   <component name="ProjectId" id="2NjCSlNBak9tClobOYVnVmdLWBD" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -75,6 +87,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.24029304&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -82,7 +95,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.Mappings&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -213,6 +226,10 @@
       <workItem from="1689150807860" duration="6516000" />
       <workItem from="1689265834368" duration="1062000" />
       <workItem from="1689267289382" duration="1534000" />
+      <workItem from="1689323261868" duration="13444000" />
+      <workItem from="1689927848928" duration="40666000" />
+      <workItem from="1690291410956" duration="23414000" />
+      <workItem from="1690381513671" duration="157000" />
     </task>
     <task id="LOCAL-00001" summary="Fix: Code clean-up">
       <created>1680175039630</created>
@@ -341,7 +358,15 @@
       <option name="project" value="LOCAL" />
       <updated>1689268919312</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Fix: In TamagotchiApiShould.cs ReturnFailureStartGameResponseWhenNameIsNotProvided changed to ReturnNotFoundWhenNameIsNotProvided and test fixed to check if the code returned is 404 rather than 400.">
+      <option name="closed" value="true" />
+      <created>1689325150130</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1689325150130</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -378,6 +403,24 @@
     <MESSAGE value="Fix: In Startup UseStaticFiles added so now the application is able to find index.html on local server." />
     <MESSAGE value="Feat: Js folder added in wwwroot and tamagotchi.js file created where all jQuery logic was moved from index.html. In index.html reference to js file added. Tamagotchistyle.css in css subfolder of wwwroot folder to handle all custom css style of index.html. All css style moved from index.html to tamagotchistyle.css. Photos used by index.html and tamagotchi.js are now in photos folder." />
     <MESSAGE value="Feat: New project Tamagotchi.PlaywrigthTests added to use Playwright for more tests." />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: New project Tamagotchi.PlaywrigthTests added to use Playwright for more tests." />
+    <MESSAGE value="Fix: In TamagotchiApiShould.cs ReturnFailureStartGameResponseWhenNameIsNotProvided changed to ReturnNotFoundWhenNameIsNotProvided and test fixed to check if the code returned is 404 rather than 400." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: In TamagotchiApiShould.cs ReturnFailureStartGameResponseWhenNameIsNotProvided changed to ReturnNotFoundWhenNameIsNotProvided and test fixed to check if the code returned is 404 rather than 400." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="DotNet Exception Breakpoints">
+          <properties exception="Microsoft.Playwright.PlaywrightException" isInternal="false" displayValue="PlaywrightException" namespaceName="Microsoft.Playwright">
+            <option name="internal" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Frame#Microsoft.Playwright.Core.AssertionsBase+&lt;ExpectImplAsync&gt;d__12.MoveNext" memberName="actual" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
 </project>

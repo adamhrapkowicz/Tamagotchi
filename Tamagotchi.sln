@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TamagotchiData", "Tamagotch
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tamagotchi.Site", "Tamagotchi.Site\Tamagotchi.Site.csproj", "{769E8EA3-CC09-4C68-B442-97111B0EC8D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tamagotchi.PlaywrightTests", "Tamagotchi.PlaywrightTests\Tamagotchi.PlaywrightTests.csproj", "{3300CF46-D1A3-4D87-BD56-6663A7C841C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tamagotchi.PlaywrightTests", "Tamagotchi.PlaywrightTests\Tamagotchi.PlaywrightTests.csproj", "{3300CF46-D1A3-4D87-BD56-6663A7C841C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
