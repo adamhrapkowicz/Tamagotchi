@@ -10,4 +10,6 @@ public class GameStatusSection
     {
         _page = page;
     }
+
+    public ILocator GameStatusTable() => _page.Locator("#statusTable");
 }

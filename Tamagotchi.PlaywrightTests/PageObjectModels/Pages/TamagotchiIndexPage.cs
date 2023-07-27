@@ -9,6 +9,7 @@ public class TamagotchiIndexPage : PageTest
     private readonly IPage _page;
     private readonly NameDragonSection _nameDragonSection;
     private readonly GameControlsSection _gameControlsSection;
+    private readonly GameStatusSection _gameStatusSection;
     private readonly TopHeadingSection _topHeadingSection;
 
     public TamagotchiIndexPage(IPage page)
@@ -17,11 +18,28 @@ public class TamagotchiIndexPage : PageTest
         _nameDragonSection = new(_page);
         _topHeadingSection = new(_page);
         _gameControlsSection = new(_page);
+        _gameStatusSection = new(_page);
     }
 
     public async Task GoToPage()
     {
         await _page.GotoAsync("https://localhost:59039/index.html");
+    }
+    
+    public async Task StartNewGame()
+    {
+        await _nameDragonSection.EnterDragonName();
+        await _nameDragonSection.SubmitDragonName();
+    }
+
+    public async Task ClickPetButton()
+    {
+        await _gameControlsSection.PetButton().ClickAsync();
+    }
+
+    public async Task ClickFeedButton()
+    {
+        await _gameControlsSection.FeedButton().ClickAsync();
     }
     
     public async Task ExpectNameFieldLabelToBeVisible()
@@ -142,19 +160,13 @@ public class TamagotchiIndexPage : PageTest
         await Expect(_gameControlsSection.ImNotHungryToast()).ToBeHiddenAsync();
     }
 
-    public async Task StartNewGame()
+    public async Task ExpectGameStatusTableToBeVisible()
     {
-        await _nameDragonSection.EnterDragonName();
-        await _nameDragonSection.SubmitDragonName();
+        await Expect(_gameStatusSection.GameStatusTable()).ToBeVisibleAsync();
     }
 
-    public async Task ClickPetButton()
+    public async Task ExpectGameStatusTableToBeHidden()
     {
-        await _gameControlsSection.PetButton().ClickAsync();
-    }
-
-    public async Task ClickFeedButton()
-    {
-        await _gameControlsSection.FeedButton().ClickAsync();
+        await Expect(_gameStatusSection.GameStatusTable()).ToBeHiddenAsync();
     }
 }

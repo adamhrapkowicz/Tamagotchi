@@ -90,7 +90,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     }
     
     [Test]
-    public async Task DisplayDragonJustDiedHeadingWhenDragonDies()
+    public async Task DisplayDragonJustDiedHeadingWhenDragonDied()
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
@@ -311,5 +311,52 @@ public class PomTamagotchiIndexPageShould : PageTest
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
         await indexPage.ExpectImNotHungryToastNotToBeVisible();
+    }
+
+    [Test]
+    public async Task HideGameStatusTableOnLaunch()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.ExpectGameStatusTableToBeHidden();
+    }
+    
+    [Test]
+    public async Task DisplayGameStatusTableAfterStartGameClicked()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await indexPage.ExpectGameStatusTableToBeVisible();
+    }
+    
+    [Test]
+    public async Task DisplayGameStatusTableAfterFeedButtonClicked()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await indexPage.ClickFeedButton();
+        await indexPage.ExpectGameStatusTableToBeVisible();
+    }
+    
+    [Test]
+    public async Task DisplayGameStatusTableAfterPetButtonClicked()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await indexPage.ClickPetButton();
+        await indexPage.ExpectGameStatusTableToBeVisible();
+    }
+    
+    [Test]
+    public async Task HideGameStatusTableAfterDragonDied()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await Task.Delay(50000);
+        await indexPage.ExpectGameStatusTableToBeHidden();
     }
 }
