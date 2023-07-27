@@ -10,9 +10,10 @@ public class NameDragonSection
     {
         _page = page;
     }
-    
+
     public ILocator NameFieldLabel() => _page.GetByText("Name your Dragon!");
     public ILocator NameField() => _page.GetByLabel("Name your Dragon!");
+
     public ILocator StartGameButton() =>
         _page.GetByRole(AriaRole.Button, new() { Name = "Start game" });
 
@@ -25,4 +26,5 @@ public class NameDragonSection
     {
         await StartGameButton().ClickAsync();
     }
+
 }

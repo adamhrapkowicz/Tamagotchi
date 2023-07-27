@@ -13,12 +13,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3bb65791-dd6f-4cd7-8092-0d1b52968290" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/Fixtures/CustomBaseTest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Pages/TamagotchiIndexPage.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/NameDragonSection.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/GameControlsSection.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/GameStatusSection.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/TopBannerSection.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tamagotchi/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tamagotchi/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/UnitTest1.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tamagotchi.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Pages/TamagotchiIndexPage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Pages/TamagotchiIndexPage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/NameDragonSection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/NameDragonSection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PomTamagotchiIndexPageShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PomTamagotchiIndexPageShould.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,11 +56,15 @@
     </option>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/575c31ecc35a636b6f962cb71d53992552941a18982aae1c8e6c16305cc3761b/ExceptionDispatchInfo.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b7599714aa68e5e9aa7ced2914e8623e2a92e39b237c6f6036e77d7d247c4/PlaywrightTest.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d6fbc51668b72d5a95d74e899b1f60f243e35ae3cc371aa1fa414e1baba8129/AssertionsBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tamagotchi.IntegrationTest/TamagotchiApiShould.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Tamagotchi.PlaywrightTests/Fixtures/CustomBaseTest.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Pages/TamagotchiIndexPage.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/NameDragonSection.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PomTamagotchiIndexPageShould.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Tamagotchi.PlaywrightTests/UsingFixturesTamagotchiIndexPageShould.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tamagotchi/LifeCycleManager.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tamagotchi/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tamagotchi/Startup.cs" root0="FORCE_HIGHLIGHTING" />
@@ -74,7 +79,7 @@
     <option name="ignoreSourceCode" value="false" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="Toolset" />
+    <option name="selectedTabId" value="SWEA" />
   </component>
   <component name="ProjectId" id="2NjCSlNBak9tClobOYVnVmdLWBD" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -230,6 +235,8 @@
       <workItem from="1689927848928" duration="40666000" />
       <workItem from="1690291410956" duration="23414000" />
       <workItem from="1690381513671" duration="157000" />
+      <workItem from="1690381735240" duration="1626000" />
+      <workItem from="1690445084054" duration="9847000" />
     </task>
     <task id="LOCAL-00001" summary="Fix: Code clean-up">
       <created>1680175039630</created>
@@ -366,7 +373,15 @@
       <option name="project" value="LOCAL" />
       <updated>1689325150130</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Feat: In Tamagotchi.PlaywrightTest new folders created: PageObjectModels with subfolders Pages where new class TamagotchiIndexPage.cs is located that is POM for index page and Sections with class NameDragonSection.cs to make it more modular and easier to maintain. Also folder Fixtures was created for CustomBaseTest.cs. Two test classes has been created PomTamagotchiIndexPageShould.cs with tests: DisplayNameLabelOnLaunch, DisplayNameFieldOnLaunch and DisplayStartButtonOnLaunch. UsingFixturesTamagotchiIndexPageShould.cs was created to handle tests that use CustomBaseTest.cs">
+      <option name="closed" value="true" />
+      <created>1690394412677</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1690394412677</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -404,7 +419,8 @@
     <MESSAGE value="Feat: Js folder added in wwwroot and tamagotchi.js file created where all jQuery logic was moved from index.html. In index.html reference to js file added. Tamagotchistyle.css in css subfolder of wwwroot folder to handle all custom css style of index.html. All css style moved from index.html to tamagotchistyle.css. Photos used by index.html and tamagotchi.js are now in photos folder." />
     <MESSAGE value="Feat: New project Tamagotchi.PlaywrigthTests added to use Playwright for more tests." />
     <MESSAGE value="Fix: In TamagotchiApiShould.cs ReturnFailureStartGameResponseWhenNameIsNotProvided changed to ReturnNotFoundWhenNameIsNotProvided and test fixed to check if the code returned is 404 rather than 400." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix: In TamagotchiApiShould.cs ReturnFailureStartGameResponseWhenNameIsNotProvided changed to ReturnNotFoundWhenNameIsNotProvided and test fixed to check if the code returned is 404 rather than 400." />
+    <MESSAGE value="Feat: In Tamagotchi.PlaywrightTest new folders created: PageObjectModels with subfolders Pages where new class TamagotchiIndexPage.cs is located that is POM for index page and Sections with class NameDragonSection.cs to make it more modular and easier to maintain. Also folder Fixtures was created for CustomBaseTest.cs. Two test classes has been created PomTamagotchiIndexPageShould.cs with tests: DisplayNameLabelOnLaunch, DisplayNameFieldOnLaunch and DisplayStartButtonOnLaunch. UsingFixturesTamagotchiIndexPageShould.cs was created to handle tests that use CustomBaseTest.cs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: In Tamagotchi.PlaywrightTest new folders created: PageObjectModels with subfolders Pages where new class TamagotchiIndexPage.cs is located that is POM for index page and Sections with class NameDragonSection.cs to make it more modular and easier to maintain. Also folder Fixtures was created for CustomBaseTest.cs. Two test classes has been created PomTamagotchiIndexPageShould.cs with tests: DisplayNameLabelOnLaunch, DisplayNameFieldOnLaunch and DisplayStartButtonOnLaunch. UsingFixturesTamagotchiIndexPageShould.cs was created to handle tests that use CustomBaseTest.cs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
