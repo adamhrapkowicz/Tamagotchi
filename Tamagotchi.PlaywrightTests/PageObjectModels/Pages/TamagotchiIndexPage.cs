@@ -9,11 +9,13 @@ public class TamagotchiIndexPage : PageTest
     private readonly IPage _page;
     private readonly NameDragonSection _nameDragonSection;
     private readonly GameControlsSection _gameControlsSection;
+    private readonly TopHeadingSection _topHeadingSection;
 
     public TamagotchiIndexPage(IPage page)
     {
         _page = page;
         _nameDragonSection = new(_page);
+        _topHeadingSection = new(_page);
         _gameControlsSection = new(_page);
     }
 
@@ -50,6 +52,24 @@ public class TamagotchiIndexPage : PageTest
     public async Task ExpectStartGameButtonNotToBeVisible()
     {
         await Expect(_nameDragonSection.StartGameButton()).ToBeHiddenAsync();
+    }
+
+    public async Task ExpectWelcomeToTamagotchiHeadingToBeVisible()
+    {
+        await Expect(_topHeadingSection.WelcomeToTamagotchiHeading()).ToBeVisibleAsync();
+    }
+    public async Task ExpectWelcomeToTamagotchiHeadingNotToBeVisible()
+    {
+        await Expect(_topHeadingSection.WelcomeToTamagotchiHeading()).ToBeHiddenAsync();
+    }
+    
+    public async Task ExpectDragonJustDiedHeadingToBeVisible()
+    {
+        await Expect(_topHeadingSection.DragonHasJustDiedHeading()).ToBeVisibleAsync();
+    }
+    public async Task ExpectDragonJustDiedHeadingNotToBeVisible()
+    {
+        await Expect(_topHeadingSection.DragonHasJustDiedHeading()).ToBeHiddenAsync();
     }
     
     public async Task ExpectPetButtonToBeVisible()

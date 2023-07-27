@@ -6,6 +6,100 @@ namespace PlaywrightTests;
 public class PomTamagotchiIndexPageShould : PageTest
 {
     [Test]
+    public async Task DisplayWelcomeToTamagotchiHeadingOnLaunch()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.ExpectWelcomeToTamagotchiHeadingToBeVisible();
+    }
+
+    [Test]
+    public async Task DisplayWelcomeToTamagotchiHeadingAfterStartGameClicked()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await indexPage.ExpectWelcomeToTamagotchiHeadingToBeVisible();
+    }
+    
+    [Test]
+    public async Task DisplayWelcomeToTamagotchiHeadingAfterPetButtonClicked()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await indexPage.ClickPetButton();
+        await indexPage.ExpectWelcomeToTamagotchiHeadingToBeVisible();
+    }
+    
+    [Test]
+    public async Task DisplayWelcomeToTamagotchiHeadingAfterFeedButtonClicked()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await indexPage.ClickFeedButton();
+        await indexPage.ExpectWelcomeToTamagotchiHeadingToBeVisible();
+    }
+    
+    [Test]
+    public async Task NotDisplayWelcomeToTamagotchiHeadingAfterDragonDied()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await Task.Delay(50000);
+        await indexPage.ExpectWelcomeToTamagotchiHeadingNotToBeVisible();
+    }
+    
+    [Test]
+    public async Task NotDisplayDragonJustDiedHeadingOnLaunch()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.ExpectDragonJustDiedHeadingNotToBeVisible();
+    }
+    
+    [Test]
+    public async Task NotDisplayDragonJustDiedHeadingAfterStartGameClicked()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await indexPage.ExpectDragonJustDiedHeadingNotToBeVisible();
+    }
+    
+    [Test]
+    public async Task NotDisplayDragonJustDiedHeadingAfterFeedButtonClicked()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await indexPage.ClickFeedButton();
+        await indexPage.ExpectDragonJustDiedHeadingNotToBeVisible();
+    }
+    
+    [Test]
+    public async Task NotDisplayDragonJustDiedHeadingAfterPetButtonClicked()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await indexPage.ClickPetButton();
+        await indexPage.ExpectDragonJustDiedHeadingNotToBeVisible();
+    }
+    
+    [Test]
+    public async Task DisplayDragonJustDiedHeadingWhenDragonDies()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await Task.Delay(50000);
+        await indexPage.ExpectDragonJustDiedHeadingToBeVisible();
+    }
+    
+    [Test]
     public async Task DisplayNameFieldLabelOnLaunch()
     {
         var indexPage = new TamagotchiIndexPage(Page);

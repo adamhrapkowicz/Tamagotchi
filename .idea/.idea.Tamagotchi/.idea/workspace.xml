@@ -12,11 +12,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bb65791-dd6f-4cd7-8092-0d1b52968290" name="Changes" comment="Feat: In PageObjectModels\Sections new classes added TopBannerSection.cs, GameStatusSection.cs and GameControlsSection.cs. GameControlsSection.cs had public ILocators PetButton, FeedButton, DragonPicture, LoveYouToast, LeaveMeAloneToast, ThatWasYummyToast and ImNotHungryToast created. TamagotchiIndexPage.cs now uses ILocators from GameControlsSection.cs to ClickPetButton, ClickFeedButton and to assert if different locators are visible or hidden when expected.">
+    <list default="true" id="3bb65791-dd6f-4cd7-8092-0d1b52968290" name="Changes" comment="Feat: In PomTamagotchiIndexPageShould.cs more test added to assert locators from NameDragonSection.cs and GameControlsSection.cs are visible or hidden depending on users actions.">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tamagotchi/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tamagotchi/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Pages/TamagotchiIndexPage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Pages/TamagotchiIndexPage.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/GameControlsSection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/GameControlsSection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/NameDragonSection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/NameDragonSection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/TopBannerSection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/TopHeadingSection.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PomTamagotchiIndexPageShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PomTamagotchiIndexPageShould.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -234,7 +233,7 @@
       <workItem from="1690291410956" duration="23414000" />
       <workItem from="1690381513671" duration="157000" />
       <workItem from="1690381735240" duration="1626000" />
-      <workItem from="1690445084054" duration="14592000" />
+      <workItem from="1690445084054" duration="17974000" />
     </task>
     <task id="LOCAL-00001" summary="Fix: Code clean-up">
       <created>1680175039630</created>
@@ -387,7 +386,15 @@
       <option name="project" value="LOCAL" />
       <updated>1690460566809</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Feat: In PomTamagotchiIndexPageShould.cs more test added to assert locators from NameDragonSection.cs and GameControlsSection.cs are visible or hidden depending on users actions.">
+      <option name="closed" value="true" />
+      <created>1690465114644</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1690465114644</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -427,7 +434,8 @@
     <MESSAGE value="Fix: In TamagotchiApiShould.cs ReturnFailureStartGameResponseWhenNameIsNotProvided changed to ReturnNotFoundWhenNameIsNotProvided and test fixed to check if the code returned is 404 rather than 400." />
     <MESSAGE value="Feat: In Tamagotchi.PlaywrightTest new folders created: PageObjectModels with subfolders Pages where new class TamagotchiIndexPage.cs is located that is POM for index page and Sections with class NameDragonSection.cs to make it more modular and easier to maintain. Also folder Fixtures was created for CustomBaseTest.cs. Two test classes has been created PomTamagotchiIndexPageShould.cs with tests: DisplayNameLabelOnLaunch, DisplayNameFieldOnLaunch and DisplayStartButtonOnLaunch. UsingFixturesTamagotchiIndexPageShould.cs was created to handle tests that use CustomBaseTest.cs" />
     <MESSAGE value="Feat: In PageObjectModels\Sections new classes added TopBannerSection.cs, GameStatusSection.cs and GameControlsSection.cs. GameControlsSection.cs had public ILocators PetButton, FeedButton, DragonPicture, LoveYouToast, LeaveMeAloneToast, ThatWasYummyToast and ImNotHungryToast created. TamagotchiIndexPage.cs now uses ILocators from GameControlsSection.cs to ClickPetButton, ClickFeedButton and to assert if different locators are visible or hidden when expected." />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: In PageObjectModels\Sections new classes added TopBannerSection.cs, GameStatusSection.cs and GameControlsSection.cs. GameControlsSection.cs had public ILocators PetButton, FeedButton, DragonPicture, LoveYouToast, LeaveMeAloneToast, ThatWasYummyToast and ImNotHungryToast created. TamagotchiIndexPage.cs now uses ILocators from GameControlsSection.cs to ClickPetButton, ClickFeedButton and to assert if different locators are visible or hidden when expected." />
+    <MESSAGE value="Feat: In PomTamagotchiIndexPageShould.cs more test added to assert locators from NameDragonSection.cs and GameControlsSection.cs are visible or hidden depending on users actions." />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: In PomTamagotchiIndexPageShould.cs more test added to assert locators from NameDragonSection.cs and GameControlsSection.cs are visible or hidden depending on users actions." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
