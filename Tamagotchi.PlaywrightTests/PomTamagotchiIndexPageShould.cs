@@ -28,7 +28,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         await indexPage.GoToPage();
         await indexPage.ExpectStartGameButtonToBeVisible();
     }
-    
+
     [Test]
     public async Task NotDisplayNameFieldLabelAfterStartGameClicked()
     {
@@ -105,7 +105,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     }
     
     [Test]
-    public async Task DisplayThatWasYummyToastOnPetButtonClick()
+    public async Task DisplayThatWasYummyToastOnFeedButtonClick()
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
@@ -115,7 +115,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     }
     
     [Test]
-    public async Task DisplayImNotHungryToastOnPetButtonClick()
+    public async Task DisplayImNotHungryToastOnFeedButtonClick()
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
@@ -127,5 +127,95 @@ public class PomTamagotchiIndexPageShould : PageTest
         await indexPage.ExpectImNotHungryToastToBeVisible();
     }
     
+    [Test]
+    public async Task NotDisplayPetButtonOnLaunch()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.ExpectPetButtonNotToBeVisible();
+    }
     
+    [Test]
+    public async Task NotDisplayFeedButtonOnLaunch()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.ExpectFeedButtonNotToBeVisible();
+    }
+
+    [Test]
+    public async Task NotDisplayDragonPictureOnLaunch()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.ExpectDragonPictureNotToBeVisible();
+    }
+    
+    [Test]
+    public async Task NotDisplayILoveYouToastOnLaunch()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.ExpectILoveYouToastNotToBeVisible();
+    }
+    
+    [Test]
+    public async Task NotDisplayLeaveMeAloneToastOnLaunch()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.ExpectLeaveMeAloneToastNotToBeVisible();
+    }
+    
+    [Test]
+    public async Task NotDisplayThatWasYummyToastOnLaunch()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.ExpectThatWasYummyToastNotToBeVisible();
+    }
+    
+    [Test]
+    public async Task NotDisplayImNotHungryToastOnLaunch()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.ExpectImNotHungryToastNotToBeVisible();
+    }
+    
+    [Test]
+    public async Task NotDisplayILoveYouToastAfterStartGameClicked()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await indexPage.ExpectILoveYouToastNotToBeVisible();
+    }
+    
+    [Test]
+    public async Task NotDisplayLeaveMeAloneToastAfterStartGameClicked()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await indexPage.ExpectLeaveMeAloneToastNotToBeVisible();
+    }
+    
+    [Test]
+    public async Task NotDisplayThatWasYummyToastAfterStartGameClicked()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await indexPage.ExpectThatWasYummyToastNotToBeVisible();
+    }
+    
+    [Test]
+    public async Task NotDisplayImNotHungryToastAfterStartGameClicked()
+    {
+        var indexPage = new TamagotchiIndexPage(Page);
+        await indexPage.GoToPage();
+        await indexPage.StartNewGame();
+        await indexPage.ExpectImNotHungryToastNotToBeVisible();
+    }
 }

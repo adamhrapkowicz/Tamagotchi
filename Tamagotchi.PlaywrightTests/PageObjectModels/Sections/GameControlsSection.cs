@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
 
 namespace PlaywrightTests.PageObjectModels.Sections;
 
@@ -19,6 +18,4 @@ public class GameControlsSection
     public ILocator LeaveMeAloneToast() => _page.GetByText("Leave me alone!");
     public ILocator ThatWasYummyToast() => _page.GetByText("That was yummy!");
     public ILocator ImNotHungryToast() => _page.GetByText("I'm not hungry!");
-
-    
 }

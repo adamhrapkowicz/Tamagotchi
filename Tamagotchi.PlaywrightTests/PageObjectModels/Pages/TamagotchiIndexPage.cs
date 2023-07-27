@@ -51,7 +51,7 @@ public class TamagotchiIndexPage : PageTest
     {
         await Expect(_nameDragonSection.StartGameButton()).ToBeHiddenAsync();
     }
-
+    
     public async Task ExpectPetButtonToBeVisible()
     {
         await Expect(_gameControlsSection.PetButton()).ToBeVisibleAsync();
@@ -87,12 +87,47 @@ public class TamagotchiIndexPage : PageTest
         await Expect(_gameControlsSection.ImNotHungryToast()).ToBeVisibleAsync();
     }
 
+    public async Task ExpectPetButtonNotToBeVisible()
+    {
+        await Expect(_gameControlsSection.PetButton()).ToBeHiddenAsync();
+    }
+    
+    public async Task ExpectFeedButtonNotToBeVisible()
+    {
+        await Expect(_gameControlsSection.FeedButton()).ToBeHiddenAsync();
+    }
+
+    public async Task ExpectDragonPictureNotToBeVisible()
+    {
+        await Expect(_gameControlsSection.DragonPicture()).ToBeHiddenAsync();
+    }
+
+    public async Task ExpectILoveYouToastNotToBeVisible()
+    {
+        await Expect(_gameControlsSection.LoveYouToast()).ToBeHiddenAsync();
+    }
+
+    public async Task ExpectLeaveMeAloneToastNotToBeVisible()
+    {
+        await Expect(_gameControlsSection.LeaveMeAloneToast()).ToBeHiddenAsync();
+    }
+
+    public async Task ExpectThatWasYummyToastNotToBeVisible()
+    {
+        await Expect(_gameControlsSection.ThatWasYummyToast()).ToBeHiddenAsync();
+    }
+
+    public async Task ExpectImNotHungryToastNotToBeVisible()
+    {
+        await Expect(_gameControlsSection.ImNotHungryToast()).ToBeHiddenAsync();
+    }
+
     public async Task StartNewGame()
     {
         await _nameDragonSection.EnterDragonName();
         await _nameDragonSection.SubmitDragonName();
     }
-    
+
     public async Task ClickPetButton()
     {
         await _gameControlsSection.PetButton().ClickAsync();
