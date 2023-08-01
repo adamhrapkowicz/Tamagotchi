@@ -19,7 +19,7 @@ public class CustomBaseTest : IDisposable
     private async Task<IPage> InitializePage()
     {
         var playwright = await Playwright.CreateAsync();
-        _browser = await playwright.Chromium.LaunchAsync(new() { Headless = false });
+        _browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions { Headless = false });
         return await _browser.NewPageAsync();
     }
 

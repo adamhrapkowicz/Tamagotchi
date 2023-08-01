@@ -12,9 +12,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bb65791-dd6f-4cd7-8092-0d1b52968290" name="Changes" comment="">
+    <list default="true" id="3bb65791-dd6f-4cd7-8092-0d1b52968290" name="Changes" comment="Fix: CustomBaseTest.cs refactored that is IDisposable and contains now Playwright setup. TamagotchiIndexPage is now exposed and therefore accessible in UsingFixturesTamagotchiIndexPageShould.cs.">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tamagotchi/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tamagotchi/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/Fixtures/CustomBaseTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/Fixtures/CustomBaseTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Pages/TamagotchiIndexPage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Pages/TamagotchiIndexPage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/GameControlsSection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/GameControlsSection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/GameStatusSection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/GameStatusSection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/NameDragonSection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/NameDragonSection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/TopHeadingSection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/TopHeadingSection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PomTamagotchiIndexPageShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PomTamagotchiIndexPageShould.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/UsingFixturesTamagotchiIndexPageShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/UsingFixturesTamagotchiIndexPageShould.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,6 +62,7 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b7599714aa68e5e9aa7ced2914e8623e2a92e39b237c6f6036e77d7d247c4/PlaywrightTest.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d6fbc51668b72d5a95d74e899b1f60f243e35ae3cc371aa1fa414e1baba8129/AssertionsBase.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tamagotchi.IntegrationTest/TamagotchiApiShould.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/wolsz/source/repos/Tamagotchi/Tamagotchi.PlaywrightTests/Fixtures/CustomBaseTest.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tamagotchi.PlaywrightTests/Fixtures/CustomBaseTest.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Pages/TamagotchiIndexPage.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/NameDragonSection.cs" root0="FORCE_HIGHLIGHTING" />
@@ -83,34 +90,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.24029304&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.Mappings&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "XThreadsFramesViewSplitterKey": "0.24029304",
+    "ignore.virus.scanning.warn.message": "true",
+    "list.type.of.created.stylesheet": "CSS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.completion",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlserver.localdb&quot;,
-      &quot;sqlserver&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlserver.localdb",
+      "sqlserver"
     ],
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\wolsz\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\wolsz\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\wolsz\\AppData\\Local\\Symbols\\src&quot;
+    "rider.external.source.directories": [
+      "C:\\Users\\wolsz\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\wolsz\\AppData\\Roaming\\JetBrains\\Rider2023.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\wolsz\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Launch Settings Profile.Tamagotchi">
     <configuration name="Tamagotchi" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Tamagotchi/Tamagotchi.csproj" />
@@ -234,7 +241,7 @@
       <workItem from="1690381735240" duration="1626000" />
       <workItem from="1690445084054" duration="20705000" />
       <workItem from="1690534420092" duration="599000" />
-      <workItem from="1690547715809" duration="8619000" />
+      <workItem from="1690547715809" duration="15044000" />
     </task>
     <task id="LOCAL-00001" summary="Fix: Code clean-up">
       <created>1680175039630</created>
@@ -411,7 +418,15 @@
       <option name="project" value="LOCAL" />
       <updated>1690470622544</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Fix: CustomBaseTest.cs refactored that is IDisposable and contains now Playwright setup. TamagotchiIndexPage is now exposed and therefore accessible in UsingFixturesTamagotchiIndexPageShould.cs.">
+      <option name="closed" value="true" />
+      <created>1690900517838</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1690900517838</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -454,7 +469,8 @@
     <MESSAGE value="Feat: In PomTamagotchiIndexPageShould.cs more test added to assert locators from NameDragonSection.cs and GameControlsSection.cs are visible or hidden depending on users actions." />
     <MESSAGE value="Feat: In TopHeadingSection.cs ILocators added for different heading displays and then use in TamagotchiIndexPage.cs to create assertions that they are visible or hidden. In PomTamagotchiIndexPageShould.cs new test created to check if assertions are true after various elements of page are clicked by user." />
     <MESSAGE value="In GameStatusSection.cs ILocator created for the GameStatusTable which is then use in TamagotchiIndexPage.cs to create assertions that is visible or hidden and then in PomTamagotchiIndexPageShould.cs test created to assess after which user actions it's visible or hidden." />
-    <option name="LAST_COMMIT_MESSAGE" value="In GameStatusSection.cs ILocator created for the GameStatusTable which is then use in TamagotchiIndexPage.cs to create assertions that is visible or hidden and then in PomTamagotchiIndexPageShould.cs test created to assess after which user actions it's visible or hidden." />
+    <MESSAGE value="Fix: CustomBaseTest.cs refactored that is IDisposable and contains now Playwright setup. TamagotchiIndexPage is now exposed and therefore accessible in UsingFixturesTamagotchiIndexPageShould.cs." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: CustomBaseTest.cs refactored that is IDisposable and contains now Playwright setup. TamagotchiIndexPage is now exposed and therefore accessible in UsingFixturesTamagotchiIndexPageShould.cs." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -465,32 +481,6 @@
           </properties>
           <option name="timeStamp" value="1" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Tamagotchi.PlaywrightTests/UsingFixturesTamagotchiIndexPageShould.cs</url>
-          <line>12</line>
-          <properties documentPath="C:\Users\wolsz\source\repos\Tamagotchi\Tamagotchi.PlaywrightTests\UsingFixturesTamagotchiIndexPageShould.cs" initialLine="12" containingFunctionPresentation="Method 'HaveNameFieldLabelVisibleOnLaunch'">
-            <startOffsets>
-              <option value="336" />
-            </startOffsets>
-            <endOffsets>
-              <option value="373" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Tamagotchi.PlaywrightTests/UsingFixturesTamagotchiIndexPageShould.cs</url>
-          <line>13</line>
-          <properties documentPath="C:\Users\wolsz\source\repos\Tamagotchi\Tamagotchi.PlaywrightTests\UsingFixturesTamagotchiIndexPageShould.cs" initialLine="13" containingFunctionPresentation="Method 'HaveNameFieldLabelVisibleOnLaunch'">
-            <startOffsets>
-              <option value="382" />
-            </startOffsets>
-            <endOffsets>
-              <option value="442" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

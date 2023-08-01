@@ -10,7 +10,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
-        await indexPage.ExpectWelcomeToTamagotchiHeadingToBeVisible();
+        await indexPage.TopHeadingSection.ExpectWelcomeToTamagotchiHeadingToBeVisible();
     }
 
     [Test]
@@ -19,7 +19,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
-        await indexPage.ExpectWelcomeToTamagotchiHeadingToBeVisible();
+        await indexPage.TopHeadingSection.ExpectWelcomeToTamagotchiHeadingToBeVisible();
     }
     
     [Test]
@@ -29,7 +29,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
         await indexPage.ClickPetButton();
-        await indexPage.ExpectWelcomeToTamagotchiHeadingToBeVisible();
+        await indexPage.TopHeadingSection.ExpectWelcomeToTamagotchiHeadingToBeVisible();
     }
     
     [Test]
@@ -39,7 +39,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
         await indexPage.ClickFeedButton();
-        await indexPage.ExpectWelcomeToTamagotchiHeadingToBeVisible();
+        await indexPage.TopHeadingSection.ExpectWelcomeToTamagotchiHeadingToBeVisible();
     }
     
     [Test]
@@ -49,7 +49,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
         await Task.Delay(50000);
-        await indexPage.ExpectWelcomeToTamagotchiHeadingNotToBeVisible();
+        await indexPage.TopHeadingSection.ExpectWelcomeToTamagotchiHeadingToBeHidden();
     }
     
     [Test]
@@ -57,7 +57,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
-        await indexPage.ExpectDragonJustDiedHeadingNotToBeVisible();
+        await indexPage.TopHeadingSection.ExpectDragonJustDiedHeadingToBeHidden();
     }
     
     [Test]
@@ -66,7 +66,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
-        await indexPage.ExpectDragonJustDiedHeadingNotToBeVisible();
+        await indexPage.TopHeadingSection.ExpectDragonJustDiedHeadingToBeHidden();
     }
     
     [Test]
@@ -76,7 +76,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
         await indexPage.ClickFeedButton();
-        await indexPage.ExpectDragonJustDiedHeadingNotToBeVisible();
+        await indexPage.TopHeadingSection.ExpectDragonJustDiedHeadingToBeHidden();
     }
     
     [Test]
@@ -86,7 +86,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
         await indexPage.ClickPetButton();
-        await indexPage.ExpectDragonJustDiedHeadingNotToBeVisible();
+        await indexPage.TopHeadingSection.ExpectDragonJustDiedHeadingToBeHidden();
     }
     
     [Test]
@@ -96,7 +96,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
         await Task.Delay(50000);
-        await indexPage.ExpectDragonJustDiedHeadingToBeVisible();
+        await indexPage.TopHeadingSection.ExpectDragonJustDiedHeadingToBeVisible();
     }
     
     [Test]
@@ -104,7 +104,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
-        await indexPage.ExpectNameFieldLabelToBeVisible();
+        await indexPage.NameDragonSection.ExpectNameFieldLabelToBeVisible();
     }
 
     [Test]
@@ -112,7 +112,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
-        await indexPage.ExpectNameFieldToBeVisible();
+        await indexPage.NameDragonSection.ExpectNameFieldToBeVisible();
     }
     
     [Test]
@@ -120,7 +120,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
-        await indexPage.ExpectStartGameButtonToBeVisible();
+        await indexPage.NameDragonSection.ExpectStartGameButtonToBeVisible();
     }
 
     [Test]
@@ -129,7 +129,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
-        await indexPage.ExpectNameFieldLabelNotToBeVisible();
+        await indexPage.NameDragonSection.ExpectNameFieldLabelToBeHidden();
     }
 
     [Test]
@@ -138,7 +138,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
-        await indexPage.ExpectNameFieldNotToBeVisible();
+        await indexPage.NameDragonSection.ExpectNameFieldToBeHidden();
     }
     
     [Test]
@@ -147,7 +147,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
-        await indexPage.ExpectStartGameButtonNotToBeVisible();
+        await indexPage.NameDragonSection.ExpectStartGameButtonToBeHidden();
     }
 
     [Test]
@@ -156,7 +156,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
-        await indexPage.ExpectPetButtonToBeVisible();
+        await indexPage.GameControlsSection.ExpectPetButtonToBeVisible();
     }
     
     [Test]
@@ -165,7 +165,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
-        await indexPage.ExpectFeedButtonToBeVisible();
+        await indexPage.GameControlsSection.ExpectFeedButtonToBeVisible();
     }
 
     [Test]
@@ -174,7 +174,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
-        await indexPage.ExpectDragonPictureToBeVisible();
+        await indexPage.GameControlsSection.ExpectDragonPictureToBeVisible();
     }
     
     [Test]
@@ -184,7 +184,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
         await indexPage.ClickPetButton();
-        await indexPage.ExpectILoveYouToastToBeVisible();
+        await indexPage.GameControlsSection.ExpectILoveYouToastToBeVisible();
     }
     
     [Test]
@@ -195,7 +195,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         await indexPage.StartNewGame();
         for (var i = 0; i < 2; i++)
         {await indexPage.ClickPetButton();}
-        await indexPage.ExpectLeaveMeAloneToastToBeVisible();
+        await indexPage.GameControlsSection.ExpectLeaveMeAloneToastToBeVisible();
     }
     
     [Test]
@@ -205,7 +205,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
         await indexPage.ClickFeedButton();
-        await indexPage.ExpectThatWasYummyToastToBeVisible();
+        await indexPage.GameControlsSection.ExpectThatWasYummyToastToBeVisible();
     }
     
     [Test]
@@ -218,7 +218,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         {
             await indexPage.ClickFeedButton();
         }
-        await indexPage.ExpectImNotHungryToastToBeVisible();
+        await indexPage.GameControlsSection.ExpectImNotHungryToastToBeVisible();
     }
     
     [Test]
@@ -226,7 +226,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
-        await indexPage.ExpectPetButtonNotToBeVisible();
+        await indexPage.GameControlsSection.ExpectPetButtonToBeHidden();
     }
     
     [Test]
@@ -234,7 +234,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
-        await indexPage.ExpectFeedButtonNotToBeVisible();
+        await indexPage.GameControlsSection.ExpectFeedButtonToBeHidden();
     }
 
     [Test]
@@ -242,7 +242,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
-        await indexPage.ExpectDragonPictureNotToBeVisible();
+        await indexPage.GameControlsSection.ExpectDragonPictureToBeHidden();
     }
     
     [Test]
@@ -250,7 +250,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
-        await indexPage.ExpectILoveYouToastNotToBeVisible();
+        await indexPage.GameControlsSection.ExpectILoveYouToastToBeHidden();
     }
     
     [Test]
@@ -258,7 +258,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
-        await indexPage.ExpectLeaveMeAloneToastNotToBeVisible();
+        await indexPage.GameControlsSection.ExpectLeaveMeAloneToastToBeHidden();
     }
     
     [Test]
@@ -266,7 +266,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
-        await indexPage.ExpectThatWasYummyToastNotToBeVisible();
+        await indexPage.GameControlsSection.ExpectThatWasYummyToastToBeHidden();
     }
     
     [Test]
@@ -274,7 +274,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
-        await indexPage.ExpectImNotHungryToastNotToBeVisible();
+        await indexPage.GameControlsSection.ExpectImNotHungryToastToBeHidden();
     }
     
     [Test]
@@ -283,7 +283,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
-        await indexPage.ExpectILoveYouToastNotToBeVisible();
+        await indexPage.GameControlsSection.ExpectILoveYouToastToBeHidden();
     }
     
     [Test]
@@ -292,7 +292,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
-        await indexPage.ExpectLeaveMeAloneToastNotToBeVisible();
+        await indexPage.GameControlsSection.ExpectLeaveMeAloneToastToBeHidden();
     }
     
     [Test]
@@ -301,7 +301,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
-        await indexPage.ExpectThatWasYummyToastNotToBeVisible();
+        await indexPage.GameControlsSection.ExpectThatWasYummyToastToBeHidden();
     }
     
     [Test]
@@ -310,7 +310,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
-        await indexPage.ExpectImNotHungryToastNotToBeVisible();
+        await indexPage.GameControlsSection.ExpectImNotHungryToastToBeHidden();
     }
 
     [Test]
@@ -318,7 +318,7 @@ public class PomTamagotchiIndexPageShould : PageTest
     {
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
-        await indexPage.ExpectGameStatusTableToBeHidden();
+        await indexPage.GameStatusSection.ExpectGameStatusTableToBeHidden();
     }
     
     [Test]
@@ -327,7 +327,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         var indexPage = new TamagotchiIndexPage(Page);
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
-        await indexPage.ExpectGameStatusTableToBeVisible();
+        await indexPage.GameStatusSection.ExpectGameStatusTableToBeVisible();
     }
     
     [Test]
@@ -337,7 +337,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
         await indexPage.ClickFeedButton();
-        await indexPage.ExpectGameStatusTableToBeVisible();
+        await indexPage.GameStatusSection.ExpectGameStatusTableToBeVisible();
     }
     
     [Test]
@@ -347,7 +347,7 @@ public class PomTamagotchiIndexPageShould : PageTest
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
         await indexPage.ClickPetButton();
-        await indexPage.ExpectGameStatusTableToBeVisible();
+        await indexPage.GameStatusSection.ExpectGameStatusTableToBeVisible();
     }
     
     [Test]
@@ -357,6 +357,6 @@ public class PomTamagotchiIndexPageShould : PageTest
         await indexPage.GoToPage();
         await indexPage.StartNewGame();
         await Task.Delay(50000);
-        await indexPage.ExpectGameStatusTableToBeHidden();
+        await indexPage.GameStatusSection.ExpectGameStatusTableToBeHidden();
     }
 }
