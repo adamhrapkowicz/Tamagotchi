@@ -12,10 +12,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bb65791-dd6f-4cd7-8092-0d1b52968290" name="Changes" comment="Feat: In TopHeadingSection.cs ILocators added for different heading displays and then use in TamagotchiIndexPage.cs to create assertions that they are visible or hidden. In PomTamagotchiIndexPageShould.cs new test created to check if assertions are true after various elements of page are clicked by user.">
-      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Pages/TamagotchiIndexPage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Pages/TamagotchiIndexPage.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/GameStatusSection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PageObjectModels/Sections/GameStatusSection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PomTamagotchiIndexPageShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/PomTamagotchiIndexPageShould.cs" afterDir="false" />
+    <list default="true" id="3bb65791-dd6f-4cd7-8092-0d1b52968290" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tamagotchi/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tamagotchi/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/Fixtures/CustomBaseTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/Fixtures/CustomBaseTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/UsingFixturesTamagotchiIndexPageShould.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Tamagotchi.PlaywrightTests/UsingFixturesTamagotchiIndexPageShould.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -232,7 +232,9 @@
       <workItem from="1690291410956" duration="23414000" />
       <workItem from="1690381513671" duration="157000" />
       <workItem from="1690381735240" duration="1626000" />
-      <workItem from="1690445084054" duration="19535000" />
+      <workItem from="1690445084054" duration="20705000" />
+      <workItem from="1690534420092" duration="599000" />
+      <workItem from="1690547715809" duration="8619000" />
     </task>
     <task id="LOCAL-00001" summary="Fix: Code clean-up">
       <created>1680175039630</created>
@@ -401,7 +403,15 @@
       <option name="project" value="LOCAL" />
       <updated>1690469211486</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="In GameStatusSection.cs ILocator created for the GameStatusTable which is then use in TamagotchiIndexPage.cs to create assertions that is visible or hidden and then in PomTamagotchiIndexPageShould.cs test created to assess after which user actions it's visible or hidden.">
+      <option name="closed" value="true" />
+      <created>1690470622544</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1690470622544</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -443,7 +453,8 @@
     <MESSAGE value="Feat: In PageObjectModels\Sections new classes added TopBannerSection.cs, GameStatusSection.cs and GameControlsSection.cs. GameControlsSection.cs had public ILocators PetButton, FeedButton, DragonPicture, LoveYouToast, LeaveMeAloneToast, ThatWasYummyToast and ImNotHungryToast created. TamagotchiIndexPage.cs now uses ILocators from GameControlsSection.cs to ClickPetButton, ClickFeedButton and to assert if different locators are visible or hidden when expected." />
     <MESSAGE value="Feat: In PomTamagotchiIndexPageShould.cs more test added to assert locators from NameDragonSection.cs and GameControlsSection.cs are visible or hidden depending on users actions." />
     <MESSAGE value="Feat: In TopHeadingSection.cs ILocators added for different heading displays and then use in TamagotchiIndexPage.cs to create assertions that they are visible or hidden. In PomTamagotchiIndexPageShould.cs new test created to check if assertions are true after various elements of page are clicked by user." />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: In TopHeadingSection.cs ILocators added for different heading displays and then use in TamagotchiIndexPage.cs to create assertions that they are visible or hidden. In PomTamagotchiIndexPageShould.cs new test created to check if assertions are true after various elements of page are clicked by user." />
+    <MESSAGE value="In GameStatusSection.cs ILocator created for the GameStatusTable which is then use in TamagotchiIndexPage.cs to create assertions that is visible or hidden and then in PomTamagotchiIndexPageShould.cs test created to assess after which user actions it's visible or hidden." />
+    <option name="LAST_COMMIT_MESSAGE" value="In GameStatusSection.cs ILocator created for the GameStatusTable which is then use in TamagotchiIndexPage.cs to create assertions that is visible or hidden and then in PomTamagotchiIndexPageShould.cs test created to assess after which user actions it's visible or hidden." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -454,6 +465,32 @@
           </properties>
           <option name="timeStamp" value="1" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Tamagotchi.PlaywrightTests/UsingFixturesTamagotchiIndexPageShould.cs</url>
+          <line>12</line>
+          <properties documentPath="C:\Users\wolsz\source\repos\Tamagotchi\Tamagotchi.PlaywrightTests\UsingFixturesTamagotchiIndexPageShould.cs" initialLine="12" containingFunctionPresentation="Method 'HaveNameFieldLabelVisibleOnLaunch'">
+            <startOffsets>
+              <option value="336" />
+            </startOffsets>
+            <endOffsets>
+              <option value="373" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Tamagotchi.PlaywrightTests/UsingFixturesTamagotchiIndexPageShould.cs</url>
+          <line>13</line>
+          <properties documentPath="C:\Users\wolsz\source\repos\Tamagotchi\Tamagotchi.PlaywrightTests\UsingFixturesTamagotchiIndexPageShould.cs" initialLine="13" containingFunctionPresentation="Method 'HaveNameFieldLabelVisibleOnLaunch'">
+            <startOffsets>
+              <option value="382" />
+            </startOffsets>
+            <endOffsets>
+              <option value="442" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

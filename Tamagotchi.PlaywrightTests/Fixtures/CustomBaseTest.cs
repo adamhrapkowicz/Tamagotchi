@@ -1,20 +1,32 @@
 ﻿using Microsoft.Playwright;
-using Microsoft.Playwright.NUnit;
 using PlaywrightTests.PageObjectModels.Pages;
 
 namespace PlaywrightTests.Fixtures;
 
-public class CustomBaseTest : PlaywrightTest
+public class CustomBaseTest : IDisposable
 {
-    protected async Task<TamagotchiIndexPage> SetupTamagotchiIndexPage()
+    private readonly Task<IPage> _page;
+    private IBrowser? _browser;
+
+    protected CustomBaseTest()
     {
-        await using var browser = await Playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
-        {
-            Headless = false,
-            Channel = "msedge"
-        });
-        await using var context = await browser.NewContextAsync();
-        var page = await context.NewPageAsync();
-        return new TamagotchiIndexPage(page);
+        _page = InitializePage();
     }
+
+    private IPage Page => _page.Result;
+    protected TamagotchiIndexPage TamagotchiIndexPage => SetupTamagotchiIndexPage().Result;
+
+    private async Task<IPage> InitializePage()
+    {
+        var playwright = await Playwright.CreateAsync();
+        _browser = await playwright.Chromium.LaunchAsync(new() { Headless = false });
+        return await _browser.NewPageAsync();
+    }
+
+    private async Task<TamagotchiIndexPage> SetupTamagotchiIndexPage()
+    {
+        return new TamagotchiIndexPage(Page);
+    }
+
+    public void Dispose() => _browser?.CloseAsync();
 }

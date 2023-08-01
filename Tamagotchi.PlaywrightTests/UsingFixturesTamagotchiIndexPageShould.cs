@@ -9,8 +9,7 @@ public class UsingFixturesTamagotchiIndexPageShould : CustomBaseTest
     [Test]
     public async Task HaveNameFieldLabelVisibleOnLaunch()
     {
-        var tamagotchiIndexPage = await SetupTamagotchiIndexPage();
-        await tamagotchiIndexPage.GoToPage();
-        await tamagotchiIndexPage.ExpectNameFieldLabelToBeVisible();
+        await TamagotchiIndexPage.GoToPage();
+        await TamagotchiIndexPage.ExpectNameFieldLabelToBeVisible();
     }
 }
